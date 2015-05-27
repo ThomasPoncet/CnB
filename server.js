@@ -1,12 +1,12 @@
 /**
- * Created by tanguy on 27/05/15.
+ * Created by Tanguy on 27/05/15.
  */
 
 var express = require("express");
 var app = express();
 var http = require("http").createServer(app);
 var bodyParser = require("body-parser");
-var io = require("socket.io").listen(http);;
+var io = require("socket.io").listen(http);
 
 
 
@@ -26,7 +26,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public", __dirname + "/public"));
 
 app.get('/', function(req, res) {
-    res.render("index");
+    res.render("visiteur");
     //res.setHeader('Content-Type', 'text/plain');
     //res.end('Hello World');
 });
