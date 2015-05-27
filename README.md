@@ -12,7 +12,7 @@ views/
 
 controllers/
 
-publics/
+public/
 ├── assets/
 |   └── img/
 ├── css/

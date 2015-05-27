@@ -20,14 +20,15 @@ app.set("port", 8080);
 app.set("views", __dirname + "/views");
 
 //View engine is Jade
-app.set("view engine", "jade");
+app.set("view engine", "ejs");
 
 //Specify where the static content is
 app.use(express.static("public", __dirname + "/public"));
 
 app.get('/', function(req, res) {
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('Hello World');
+    res.render("index");
+    //res.setHeader('Content-Type', 'text/plain');
+    //res.end('Hello World');
 });
 
 app.listen(app.get("port"), app.get("ipaddr"), function() {
