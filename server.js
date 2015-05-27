@@ -7,8 +7,16 @@ var app = express();
 var http = require("http").createServer(app);
 var bodyParser = require("body-parser");
 var io = require("socket.io").listen(http);
+var mysql = require("mysql");
 
+var connection = mysql.createConnection({
+    host : "localhost",
+    user : "root",
+    password : ""
+});
 
+//Example SQL Query
+//connection.query("SELECT * FROM ...");
 
 //Server's IP address
 app.set("ipaddr", "127.0.0.1");
