@@ -26,7 +26,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public", __dirname + "/public"));
 
 app.get('/', function(req, res) {
-    res.render("visiteur");
+    res.render("index");
     //res.setHeader('Content-Type', 'text/plain');
     //res.end('Hello World');
 });
