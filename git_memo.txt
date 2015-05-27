@@ -1,0 +1,47 @@
+
+git branch
+# Affiche les branches existantes sur le dépot local (-a pour avoir aussi celles présentes sur le dépot distant).
+# La branche précédée d'une étoile est celle qui est en cours d'utilisation sur le dépot local.
+# Qu'est-ce qu'une branche ?
+# Chaque fichier a une version dans chaque branche. Le dépot local est sur une, et une seule branche en permanence : QUAND ON MODIFIE UN FICHIER, ON MODIFIE LA VERSION DU FICHIER DE LA BRANCHE SUR LAQUELLE ON EST.
+
+# master : branche principale, on y met que des sources qui compilent.
+# Autres branches : une branche par fonctionnalité en développement
+
+
+git checkout [nom de branche]
+# Changer de branche.
+# Si on change de branche sans avoir commit, problème !
+
+git checkout -b [nom de branche]
+# Créer et changer de branche.
+
+git pull origin [nom de ta branche]
+# Télécharger depuis le dépot distant le dernier commit de la branche en cours.
+# NE PAS FAIRE git pull origin [nom d'une autre branche] !
+
+git fetch origin
+# Télécharger depuis le dépot distant tous les derniers commit de toutes les branches.
+
+git merge origin/[brancheA]
+# Fusionne la branche brancheA dans la branche en cours.
+# NE PAS OUBLIER D'AVOIR UNE BRANCHE À JOUR (git fetch origin) !
+
+git commit -am "[Message de commit]"
+# Ajouter les modifications à la branche en cours. Message de description rapide des modification (fichier, fonction).
+
+git push
+# Télécharger sur le dépot distant le dernier commit de la branche en cours.
+
+
+
+# J'ai commencé à modifier un fichier, sur la mauvaise branche (sans avoir commité) > que faire ?
+git stash
+# Sauvegarde les modifications non commités.
+git checkout [nom de la bonne branche]
+git stash pop
+# Applique les modifications enregistrées précédemment sur la nouvelle branche chargée (il reste encore à commiter).
+
+gitk
+# Visualiser graphiquement les commits de la branche en cours.
+# Aller dans vue/éditer la vue et cocher "toutes les branches de suivi à distance" pour voir toutes les branches.
