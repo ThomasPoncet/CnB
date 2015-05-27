@@ -18,6 +18,10 @@ var connection = mysql.createConnection({
 //Example SQL Query
 //connection.query("SELECT * FROM ...");
 
+var visiteur = require('./controllers/visiteur');
+var admin = require('./controllers/admin');
+var diffusion = require('./controllers/diffusion');
+
 //Server's IP address
 app.set("ipaddr", "127.0.0.1");
 
@@ -34,9 +38,15 @@ app.set("view engine", "ejs");
 app.use(express.static("public", __dirname + "/public"));
 
 app.get('/', function(req, res) {
-    res.render("visiteur");
-    //res.setHeader('Content-Type', 'text/plain');
-    //res.end('Hello World');
+    visiteur.run(req, res, connection);
+});
+
+app.get('/admin', function(req, res) {
+    admin.run(req, res, connection);
+});
+
+app.get('/diffusion', function(req, res) {
+    diffusion.run(req, res, connection);
 });
 
 app.listen(app.get("port"), app.get("ipaddr"), function() {
