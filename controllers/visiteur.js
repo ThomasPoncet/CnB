@@ -2,15 +2,28 @@
  * Created by Tanguy on 27/05/15.
  */
 
-var DAO = require('../models/DAOWidget.js');
+var DAOWidget = require('../models/DAOWidget.js');
 
-exports.run = function (req, res, connection) {
+getWidgetList = function(connection) {
 
-    res.render("visiteur", {name: 'Tanguy'});
+    connection.query('SELECT idWidget, nomWidget FROM cnb.widget', function(err, rows, fields) {
+        if (!err)
+            console.log('The solution is: ', rows);
+        else
+            console.log('Error while performing Query.');
 
-};
-
-getWidgetList = function() {
+        return rows;
+    });
 
 
 }
+
+exports.run = function (req, res, connection) {
+
+    var test = getWidgetList(connection);
+
+    console.log('aaa : ', test);
+    res.render("visiteur", {name: 'Tanguy'});
+
+
+};
