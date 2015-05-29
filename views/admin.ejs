@@ -1,6 +1,5 @@
-<!-- juste pour avoir quelque chose -->
 <!-- Afficher : Liste des Zones Widget (par défaut : Son + écrans)
-	Pour chaque Zone-Widget : Afficher la liste des widgets qui amènera à la page du widget -->
+	http://www.journaldunet.com/developpeur/tutoriel/dht/040421-javascript-remplir-dynamiquement-liste.shtml-->
 
 <html>
 	<head>
@@ -9,16 +8,9 @@
 	</head>
 	<body class="admin">
 		<div class="container">
-			<h1>Enceintes</h1>
-			<div >
-				<%=zoneWidgetSon%>
-			</div>
-
-			<h1>Ecran</h1>
-			<div >
-				<%=zoneWidgetEcran%>
-			</div>
-			<br class="clear" />
+			<%for (i=0; i< listZonesWidget.length; i++) {%>
+			<button type="button"><%=listZonesWidget[i]%></button>
+			<%}%>
 		</div>
 	</body>
 </html>
