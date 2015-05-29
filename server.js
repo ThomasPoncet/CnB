@@ -21,7 +21,7 @@ var connection = mysql.createConnection({
 var visiteur = require('./controllers/visiteur');
 var admin = require('./controllers/admin');
 var diffusion = require('./controllers/diffusion');
-
+var adminZWSound = require('./controllers/adminZWSound');
 //Server's IP address
 app.set("ipaddr", "127.0.0.1");
 
@@ -43,6 +43,10 @@ app.get('/', function(req, res) {
 
 app.get('/admin', function(req, res) {
     admin.run(req, res, connection);
+});
+
+app.get('/adminZWSound', function(req, res) {
+    adminZWSound.run(req, res, connection);
 });
 
 app.get('/diffusion', function(req, res) {
