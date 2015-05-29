@@ -56,3 +56,13 @@ app.get('/diffusion', function(req, res) {
 app.listen(app.get("port"), app.get("ipaddr"), function() {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
 });
+
+io.on("connection", function(socket) {
+    console.log("a voté !")
+    socket.on("vote", function (data) {
+
+        visiteur.actionvote(data.context, data.data);
+        //_.findWhere(participants, {id: socket.id}).name = data.name;
+        //io.sockets.emit("nameChanged", {id: data.id, name: data.name});
+    });
+});
