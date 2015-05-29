@@ -1,5 +1,4 @@
-<!-- Afficher : Liste des Zones Widget (par défaut : Son + écrans)
-	http://www.journaldunet.com/developpeur/tutoriel/dht/040421-javascript-remplir-dynamiquement-liste.shtml-->
+<!-- Afficher : Liste des Zones Widget (par défaut : Son + écrans) -->
 <!DOCTYPE html>
 
 <html>
@@ -15,7 +14,7 @@
 		</div>
 		<div class="btn-group-vertical btn-group-lg col-xs-12" role="group" aria-label="Widget-Zones">
 			<%for (i=0; i< listZonesWidget.length; i++) {%>
-			<button type="button" class="btn btn-primary btn-block"><%=listZonesWidget[i]%></button>
+			<button type="button" class="btn btn-primary btn-block" onclick="location.href='/adminZW<%=listZonesWidget[i]%>'"><%=listZonesWidget[i]%></button>
 			<%}%>
 		</div>
 	</body>

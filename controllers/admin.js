@@ -11,19 +11,13 @@ exports.run=function(req, res, connexion) {
 function getZonesWidgets(){
     var listZonesWidgets = new Array();
 
-    listZonesWidgets[0] = "Sound-System";
+    listZonesWidgets[0] = "Sound";
     listZonesWidgets[1] = "Screen";
 
     return listZonesWidgets;
 }
 
-/*function getWidgetsSound() {
-    var listWidgetsSound = new Array();
-    listWidgetsSound[0] = "Music";
-    listWidgetsSound[1] = "Announcements"
-
-    return listWidgetsSound;
-}
+/*
 
 function getWidgetsScreen() {
     var listWidgetsScreen = new Array();
