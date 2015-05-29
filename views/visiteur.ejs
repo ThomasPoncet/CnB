@@ -1,1 +1,40 @@
-Bonjour <%= name %> !
+<script>
+    // When visitor vote
+    function active(id) {
+        var musics = document.getElementById('music-list').children;
+        for(var k = 0; k < musics.length; k++) {
+            musics[k].className = "list-group-item";
+        }
+
+        document.getElementById(id).className = "list-group-item active";
+    }
+
+</script>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Choose ‘N’ Broadcast</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Choose Music</h1>
+
+<div id="music-list" class="list-group">
+
+    <% for(var i=0; i<listContent.length; i++) { %>
+
+    <a href="#" id=<%=i%> class="list-group-item" Onclick="active(this.id);">
+        <span class="badge"><%=listContent[i].nbVote%></span>
+        <%= listContent[i].nomContent %>
+    </a>
+
+    <% } %>
+
+</div>
+
+</body>
+</html>

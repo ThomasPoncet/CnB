@@ -4,26 +4,31 @@
 
 var DAOWidget = require('../models/DAOWidget.js');
 
-getWidgetList = function(connection) {
+getWidgetList = function(connection, callback) {
 
-    connection.query('SELECT idWidget, nomWidget FROM cnb.widget', function(err, rows, fields) {
-        if (!err)
-            console.log('The solution is: ', rows);
-        else
-            console.log('Error while performing Query.');
-
-        return rows;
+    DAOWidget.getWidgetList(connection, function(list) {
+       callback(list)
     });
 
+};
 
-}
+getContentList = function(connection, callback) {
+
+    DAOWidget.getContentList(connection, function(list) {
+        callback(list)
+    });
+
+};
 
 exports.run = function (req, res, connection) {
 
-    var test = getWidgetList(connection);
+    getWidgetList(connection, function(list) {
 
-    console.log('aaa : ', test);
-    res.render("visiteur", {name: 'Tanguy'});
+        getContentList(connection, function(list2) {
+            res.render("visiteur", {listWidget: list, listContent: list2});
+        });
 
+    });
 
 };
+
