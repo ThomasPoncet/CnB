@@ -21,7 +21,7 @@ var connection = mysql.createConnection({
 var visiteur = require('./controllers/visiteur');
 var admin = require('./controllers/admin');
 var diffusion = require('./controllers/diffusion');
-
+var adminZWSound = require('./controllers/adminZWSound');
 //Server's IP address
 app.set("ipaddr", "127.0.0.1");
 
@@ -45,10 +45,24 @@ app.get('/admin', function(req, res) {
     admin.run(req, res, connection);
 });
 
+app.get('/adminZWSound', function(req, res) {
+    adminZWSound.run(req, res, connection);
+});
+
 app.get('/diffusion', function(req, res) {
     diffusion.run(req, res, connection);
 });
 
 app.listen(app.get("port"), app.get("ipaddr"), function() {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
+});
+
+io.on("connection", function(socket) {
+    console.log("a voté !")
+    socket.on("vote", function (data) {
+
+        visiteur.actionvote(data.context, data.data);
+        //_.findWhere(participants, {id: socket.id}).name = data.name;
+        //io.sockets.emit("nameChanged", {id: data.id, name: data.name});
+    });
 });

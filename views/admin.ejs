@@ -1,24 +1,21 @@
-<!-- juste pour avoir quelque chose -->
-<!-- Afficher : Liste des Zones Widget (par défaut : Son + écrans)
-	Pour chaque Zone-Widget : Afficher la liste des widgets qui amènera à la page du widget -->
+<!-- Afficher : Liste des Zones Widget (par défaut : Son + écrans) -->
+<!DOCTYPE html>
 
 <html>
 	<head>
-		<title>Admin</title>
-		<!--<link rel='stylesheet' href='/public/css/style.css' /> -->
+		<title>Admin</title> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <!-- values ok ?-->
+   		<!--<link rel="stylesheet" href="public/css/style.css" type="text/css">-->
+    	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 	</head>
-	<body class="admin">
-		<div class="container">
-			<h1>Enceintes</h1>
-			<div >
-				<%=zoneWidgetSon%>
-			</div>
 
-			<h1>Ecran</h1>
-			<div >
-				<%=zoneWidgetEcran%>
-			</div>
-			<br class="clear" />
+	<body class="admin">
+		<div class="col-xs-12">
+			<h1><p class="text-center"><Strong>Choose a Zone-Widget</strong></p></h1>
+		</div>
+		<div class="btn-group-vertical btn-group-lg col-xs-12" role="group" aria-label="Widget-Zones">
+			<%for (i=0; i< listZonesWidget.length; i++) {%>
+			<button type="button" class="btn btn-primary btn-block" onclick="location.href='/adminZW<%=listZonesWidget[i]%>'"><%=listZonesWidget[i]%></button>
+			<%}%>
 		</div>
 	</body>
 </html>
