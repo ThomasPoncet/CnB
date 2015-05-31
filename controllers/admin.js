@@ -16,16 +16,3 @@ function getZonesWidgets(){
 
     return listZonesWidgets;
 }
-
-/*
-
-function getWidgetsScreen() {
-    var listWidgetsScreen = new Array();
-    listWidgetsScreen[0] = "Youtube";
-    listWidgetsScreen[1] = "Next Trams";
-    listWidgetsScreen[2] = "Meteo";
-
-    return listWidgetsScreen;
-}
-ANCIENNE VERSION ! A mettre dans le controleur Zone-Widget
-*/
