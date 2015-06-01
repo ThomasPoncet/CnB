@@ -46,7 +46,7 @@ exports.refreshVoteMusic = function(connection, socket) {
     getWidgetList(connection, function(list) {
 
         getContentList(connection, function(list2) {
-            console.log('liste contenu : ',list2);
+            
             getVoteVisitorList(connection, function(list3) {
                 // Refresh for the user who voted
                 socket.emit("voteMusicDone", {listWidget: list, listContent: list2, listVoteVisitor: list3});
@@ -61,45 +61,26 @@ exports.refreshVoteMusic = function(connection, socket) {
 
 exports.actionVoteMusic = function(idVisitor, idContent, idWidget, connection, callback) {
 
-    connection.query('SELECT COUNT(*) AS visitorExist ' +
-        'FROM cnb.visitor ' +
-        'WHERE idVisitor = "' + idVisitor + '"', function(err, rows, fields) {
+    DAOWidget.visitorExists(connection, idVisitor, function(result) {
 
         // visitor not registered -> we add him in database
-        if(rows[0].visitorExist == 0) {
-            connection.query('INSERT INTO cnb.visitor(idVisitor) ' +
-                'VALUES("' + idVisitor + '")', function (err, rows, fields) {
-
-            });
-        }
+            if(!result) {
+                DAOWidget.addVisitor(connection, idVisitor);
+            }
 
         // How much time visitor vote for this widget ?
-        connection.query('SELECT c.idContent, COUNT(*) AS nbVoteVisitor ' +
-            'FROM cnb.content c, cnb.vote_content v ' +
-            'WHERE c.idContent = v.idContent AND idVisitor ="' + idVisitor + '" AND idWidget=' + idWidget +
-            ' GROUP BY c.idContent', function(err, rows, fields) {
+        DAOWidget.nbVote(idVisitor, idWidget, connection, function(oldVote, nbVote) {
 
             // Visitor didn't vote yet -> we add vote
-            if(rows.length == 0) {
-                connection.query('INSERT INTO cnb.vote_content(idVisitor,idContent) ' +
-                    'VALUES("' + idVisitor + '",' + idContent + ')', function (err, rows, fields) {
-
-                    if (err)
-                        console.log('Error while performing Query. ', idVisitor, idContent);
-
+            if(nbVote == 0) {
+                DAOWidget.addVote(idVisitor, idContent, connection, function() {
                     callback();
                 });
             }
             // Visitor already voted -> we update vote
             else {
-                connection.query('UPDATE cnb.vote_content SET ' +
-                    'idContent = '+ idContent +' WHERE idVisitor="' + idVisitor + '" AND idContent =' + rows[0].idContent, function (err, rows, fields) {
-
-                    if (err)
-                        console.log('Error while performing Query. ', idVisitor, idContent);
-
+                DAOWidget.updateVote(idVisitor, idContent, oldVote, connection, function() {
                     callback();
-
                 });
             }
 

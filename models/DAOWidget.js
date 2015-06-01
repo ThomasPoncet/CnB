@@ -55,3 +55,60 @@ exports.getVoteVisitorList = function(idWidget, connection, callback) {
     });
 
 };
+
+exports.visitorExists = function(connection, idVisitor, callback) {
+    connection.query('SELECT COUNT(*) AS visitorExist ' +
+                     'FROM cnb.visitor ' +
+                     'WHERE idVisitor = "' + idVisitor + '"', function(err, rows, fields) {
+
+        callback((rows[0].visitorExist != 0));
+        });
+};
+
+exports.addVisitor = function(connection, idVisitor) {
+    connection.query('INSERT INTO cnb.visitor(idVisitor) ' +
+        'VALUES("' + idVisitor + '")', function (err, rows, fields) {
+
+    });
+};
+
+exports.nbVote = function(idVisitor, idWidget, connection, callback) {
+    connection.query('SELECT c.idContent, COUNT(*) AS nbVoteVisitor ' +
+        'FROM cnb.content c, cnb.vote_content v ' +
+        'WHERE c.idContent = v.idContent AND idVisitor ="' + idVisitor + '" AND idWidget=' + idWidget +
+        ' GROUP BY c.idContent', function(err, rows, fields) {
+
+        var nbVote = rows.length;
+        var oldContent = 0;
+
+        if(nbVote != 0) {
+            oldContent = rows[0].idContent;
+        }
+
+        callback(oldContent, nbVote)
+    })
+
+};
+
+exports.addVote = function(idVisitor, idContent, connection, callback) {
+    connection.query('INSERT INTO cnb.vote_content(idVisitor,idContent) ' +
+        'VALUES("' + idVisitor + '",' + idContent + ')', function (err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. ', idVisitor, idContent);
+
+        callback();
+    })
+};
+
+
+exports.updateVote = function(idVisitor, idContent, oldVote, connection, callback) {
+    connection.query('UPDATE cnb.vote_content SET ' +
+        'idContent = '+ idContent +' WHERE idVisitor="' + idVisitor + '" AND idContent =' + oldVote, function (err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. ', idVisitor, idContent);
+
+        callback();
+    })
+};
