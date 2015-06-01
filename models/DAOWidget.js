@@ -31,34 +31,24 @@ exports.getContentList = function(connection, callback) {
 
 };
 
-exports.vote = function(idContent, idVisitor, connection, callback) {
+exports.getVoteVisitorList = function(idWidget, connection, callback) {
 
-    //connection.query('SELECT COUNT(*) AS nbVoteVisitor ' +
-    //    'FROM cnb.content c, cnb.vote_content v ' +
-    //    'WHERE c.idContent = v.idContent AND idVisitor =' + idVisitor, function(err, rows, fields) {
-    //
-    //    if (err)
-    //        console.log('Error while performing Query.');
+    // vote of each visitor for the widget "idWidget"
 
-        //connection.query('INSERT INTO cnb.vote_content(idVisitor,idContent) ' +
-        //                 'VALUES('+ idVisitor + ',' + idContent + ')', function(err, rows, fields) {
+    connection.query('SELECT v.idVisitor, c.idContent ' +
+        'FROM cnb.content c, cnb.vote_content v ' +
+        'WHERE c.idContent = v.idContent AND c.idWidget=1', function(err, rows, fields) {
 
-            callback(1);
-        //});
+        if (err)
+            console.log('Error while performing Query.');
 
+        var listVoteVisitor = new Object();
 
+        for(var i=0; i<rows.length; i++) {
+            listVoteVisitor[rows[i].idVisitor] = rows[i].idContent;
+        }
 
-        //// Visitor already voted
-        //if(row != 0) {
-        //
-        //    callback(0);
-        //}
-        //// Visitor didn't vote yet
-        //else {
-        //
-        //    callback(1);
-        //}
-
-    //});
+        callback(listVoteVisitor);
+    });
 
 };

@@ -4,9 +4,9 @@
 
 var express = require("express");
 var app = express();
-var http = require("http").createServer(app);
+var server = require('http').Server(app);
 var bodyParser = require("body-parser");
-var io = require("socket.io").listen(http);
+var io = require('socket.io')(server);
 var mysql = require("mysql");
 
 var connection = mysql.createConnection({
@@ -17,27 +17,31 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err){
     if(!err) {
-        console.log("Database is connected ... \n\n");
+        console.log("Database is connected...");
     } else {
-        console.log("Error connecting database ... \n\n");
+        console.log("Error connecting database !");
     }
 });
-
-//Example SQL Query
-//connection.query("SELECT * FROM ...");
 
 var visiteur = require('./controllers/visiteur');
 var admin = require('./controllers/admin');
 var diffusion = require('./controllers/diffusion');
+
 var adminZWSound = require('./controllers/adminZWSound');
 var adminZWScreen = require('./controllers/adminZWScreen');
+
 var adminMusic = require('./widgets/music/controllers/admin');
+
+
+server.listen(8080);
+
+
 
 //Server's IP address
 app.set("ipaddr", "127.0.0.1");
 
-//Server's port number
-app.set("port", 8080);
+////Server's port number
+//app.set("port", 8080);
 
 var arrayViews = [__dirname + "/views", __dirname + "/widgets/music/views"];
 //Specify the views folder
@@ -70,21 +74,25 @@ app.get('/diffusion', function(req, res) {
     diffusion.run(req, res, connection);
 });
 
-
-app.get('/adminMusic', function(req, res) {
+app.get('/adminMusic', function (req, res) {
     adminMusic.run(req, res, connection);
 });
 
-app.listen(app.get("port"), app.get("ipaddr"), function() {
-    console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
-});
+io.on('connection', function(socket) {
+    visiteur.refreshVoteMusic(connection, socket);
 
-io.on("connection", function(socket) {
-    console.log("a voté !")
-    socket.on("vote", function (data) {
+    socket.on('voteMusic', function (data) {
+        visiteur.actionVoteMusic(data.data.id, data.data.idContent, data.context.idWidget, connection, function () {
+            visiteur.refreshVoteMusic(connection, socket);
+        });
 
-        visiteur.actionvote(data.context, data.data);
-        //_.findWhere(participants, {id: socket.id}).name = data.name;
-        //io.sockets.emit("nameChanged", {id: data.id, name: data.name});
+
     });
 });
+
+
+app.listen(app.get("port"), app.get("ipaddr"), function () {
+    console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
+
+});
+

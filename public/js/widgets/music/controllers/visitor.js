@@ -1,12 +1,10 @@
 /**
  * Created by Tanguy on 29/05/15.
  */
-var originalConsole = console;
-originalConsole.log(console.log);
 
-console.log("bonjour")
-var serverBaseUrl = document.domain;
-var socket = io.connect(serverBaseUrl);
+
+
+var socket = io.connect('http://localhost:8080');
 
 var sessionId = '';
 
@@ -15,7 +13,48 @@ socket.on('connect', function () {
     console.log('Connected ' + sessionId);
 });
 
-function vote(idContent, idWidget) {
-    //socket.emit('vote', {context: {idWidget: idWidget}, data: {id: sessionId, idContent: idContent}});
-    socket.emit("vote");
+socket.on('voteMusicDone', function (data) {
+    updateVoteMusic(data.listContent, data.listWidget, data.listVoteVisitor);
+});
+
+function updateVoteMusic(listContent, listWidget, listVoteVisitor) {
+
+
+
+    var string = '';
+    var idWidget = 1; // TODO : idWidget music
+
+    for(var i=0; i<listContent.length; i++) {
+        string += '<a href="#" id=' + listContent[i].idContent + ' class="list-group-item';
+
+        if(listVoteVisitor.hasOwnProperty(sessionId)) {
+            if(listVoteVisitor[sessionId] == listContent[i].idContent)
+                string += ' active';
+        }
+
+        string += '" Onclick="active(this.id, ' + idWidget + ');">' +
+            '<span class="badge">' + listContent[i].nbVote + '</span>' +
+            listContent[i].nomContent + '</a>';
+    }
+
+    document.getElementById('music-list').innerHTML = string;
+
+}
+
+function voteMusic(idContent, idWidget) {
+    socket.emit('voteMusic', {context: {idWidget: idWidget}, data: {id: sessionId, idContent: idContent}});
+}
+
+
+// When visitor vote
+function active(idContent, idWidget) {
+
+    voteMusic(idContent, idWidget);
+
+    // change color list
+    var musics = document.getElementById('music-list').children;
+    for(var k = 0; k < musics.length; k++) {
+        musics[k].className = "list-group-item";
+    }
+
 }
