@@ -1,0 +1,29 @@
+<script src="js/widgets/music/controllers/admin.js"></script>
+<!--TODO : change the path of js file (prefer public/widgets/music/js-->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Choose ‘N’ Broadcast</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Choose Music</h1>
+
+<div id="music-list" class="list-group">
+
+    <% for(var i=0; i<listContent.length; i++) { %>
+
+    <a href="#" id=<%=i%> class="list-group-item" Onclick="active(this.id, 1);">
+        <span class="badge"><%=listContent[i].nbVote%></span>
+        <%= listContent[i].nomContent %>
+    </a>
+
+    <% } %>
+
+</div>
+
+</body>
+</html>
