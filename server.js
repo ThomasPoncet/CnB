@@ -44,7 +44,7 @@ var arrayViews = [__dirname + "/views", __dirname + "/widgets/music/views"];
 //app.set("views", __dirname + "/views");
 app.set("views", arrayViews);
 
-//View engine is Jade
+//View engine is ejs
 app.set("view engine", "ejs");
 
 //Specify where the static content is

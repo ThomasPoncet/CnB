@@ -1,6 +1,7 @@
 /**
- * Created by Tanguy on 27/05/15.
+ * Created by Lucas on 27/05/15.
  */
+
 var DAOZWidget = require('../models/DAOZWidget.js');
 
 getZonesWidgets = function(connection, callback) {
@@ -18,4 +19,4 @@ exports.run=function(req, res, connection) {
         res.render("admin", {'listZonesWidget' : list});
     });
 
-}
+};
