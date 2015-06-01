@@ -2,16 +2,21 @@
  * Created by Lucas on 29/05/15.
  */
 
-exports.run=function(req, res, connexion) {
+var DAOZWSound = require('../models/DAOZWSound.js');
 
-    res.render("adminZWSound", {'listWidgets' : getListWidgets() })
 
-}
+getSoundWidgets = function(connection, callback) {
 
-function getListWidgets() {
-    var listWidgetsSound = new Array();
-    listWidgetsSound[0] = "Music";
-    listWidgetsSound[1] = "Announcements";
+    DAOZWSound.getWidgetList(connection, function(list) {
+        callback(list);
+    });
 
-    return listWidgetsSound;
-}
+};
+
+exports.run=function(req, res, connection) {
+
+    getSoundWidgets(connection, function(list) {
+        res.render("adminZWSound", {listWidgets : list});
+    });
+
+};
