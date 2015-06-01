@@ -64,9 +64,11 @@ exports.actionVoteMusic = function(idVisitor, idContent, idWidget, connection, c
     DAOWidget.visitorExists(connection, idVisitor, function(result) {
 
         // visitor not registered -> we add him in database
-            if(!result) {
-                DAOWidget.addVisitor(connection, idVisitor);
-            }
+
+        if(!result) {
+            DAOWidget.addVisitor(connection, idVisitor);
+        }
+
 
         // How much time visitor vote for this widget ?
         DAOWidget.nbVote(idVisitor, idWidget, connection, function(oldVote, nbVote) {

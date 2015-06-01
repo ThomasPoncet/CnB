@@ -34,6 +34,17 @@ exports.getContentList = function(connection, callback) {
 
 };
 
+exports.addContent = function(connection, data, callback) {
+    connection.query('INSERT INTO cnb.content (nomContent, link, idWidget)' +
+        '   VALUES ("'+data.originalname+'", "'+data.name+'", 1);', // TODO : idWidget
+        function(err, rows, fields) {
+            if (err)
+                console.log('Error while performing Query.');
+
+            callback(rows);
+        });
+};
+
 exports.getVoteVisitorList = function(idWidget, connection, callback) {
 
     // vote of each visitor for the widget "idWidget"
