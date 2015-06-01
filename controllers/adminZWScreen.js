@@ -5,17 +5,22 @@
  * Created by Lucas on 29/05/15.
  */
 
-exports.run=function(req, res, connexion) {
+var DAOZWScreen = require('../models/DAOZWScreen.js');
 
-    res.render("adminZWScreen", {'listWidgets' : getListWidgets() })
 
-}
+getWidgets = function(connection, callback) {
 
-function getListWidgets() {
-    var listWidgetsScreen = new Array();
-    listWidgetsScreen[0] = "Youtube";
-    listWidgetsScreen[1] = "Meteo";
-    listWidgetsScreen[2] = "NextTrams";
+    DAOZWScreen.getWidgetList(connection, function(list) {
+        callback(list);
+    });
 
-    return listWidgetsScreen;
-}
+};
+
+exports.run=function(req, res, connection) {
+
+
+    getWidgets(connection, function(list) {
+        res.render("adminZWScreen", {listWidgets : list});
+    });
+
+};

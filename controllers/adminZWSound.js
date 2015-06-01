@@ -2,12 +2,27 @@
  * Created by Lucas on 29/05/15.
  */
 
-exports.run=function(req, res, connexion) {
+var DAOZWSound = require('../models/DAOZWSound.js');
 
-    res.render("adminZWSound", {'listWidgets' : getListWidgets() })
 
-}
+getWidgets = function(connection, callback) {
 
+    DAOZWSound.getWidgetList(connection, function(list) {
+        callback(list);
+    });
+
+};
+
+exports.run=function(req, res, connection) {
+
+
+    getWidgets(connection, function(list) {
+        res.render("adminZWSound", {listWidgets : list});
+    });
+
+};
+
+/*
 function getListWidgets() {
     var listWidgetsSound = new Array();
     listWidgetsSound[0] = "Music";
@@ -15,3 +30,4 @@ function getListWidgets() {
 
     return listWidgetsSound;
 }
+*/

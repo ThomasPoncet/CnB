@@ -24,11 +24,13 @@
 				<div class="row">
 					<div class="control-group">
 						<div class="checkbox col-xs-2">
-							<label id="<%=listWidgets[i]%>">
+							<label id="<%=listWidgets[i].nomWidget%>">
 								<input type="checkbox">
 							</label>
 						</div>
-						<button type="button" class="btn btn-primary col-xs-10"><%=listWidgets[i]%></button>
+						<button type="button" class="btn btn-primary col-xs-10"
+								onclick="location.href='/widgets/<%=listWidgets[i].nomWidget%>/admin'">
+										<%=listWidgets[i].nomWidget%></button>
 					</div>
 				</div>
 			<%}%>
