@@ -19,8 +19,6 @@ socket.on('voteMusicDone', function (data) {
 
 function updateVoteMusic(listContent, listWidget, listVoteVisitor) {
 
-
-
     var string = '';
     var idWidget = 1; // TODO : idWidget music
 
