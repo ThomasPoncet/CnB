@@ -55,7 +55,9 @@ exports.getFirstContent = function(connection, callback) {
         '    FROM cnb.vote_content ' +
         '    GROUP BY idContent ' +
         '    ) AS v ' +
-        '    ON c.idContent = v.idContent ', function(err, rows, fields) {
+        '    ON c.idContent = v.idContent ' +
+        '   ORDER BY nbVote desc' +
+        '   LIMIT 1', function(err, rows, fields) {
 
         if (err)
             console.log('Error while performing Query.');

@@ -10,6 +10,9 @@ var bodyParser = require("body-parser");
 var io = require('socket.io')(server);
 var mysql = require("mysql");
 
+// To access local files
+var fileSystem = require('fs');
+
 var connection = mysql.createConnection({
     host : "localhost",
     user : "root",
@@ -32,6 +35,7 @@ var adminZWSound = require('./controllers/adminZWSound');
 var adminZWScreen = require('./controllers/adminZWScreen');
 
 var adminMusic = require('./widgets/music/controllers/admin');
+var diffMusic = require('./widgets/music/controllers/diff');
 
 
 server.listen(8080);
@@ -89,6 +93,13 @@ app.post('/widgets/music/admin/upload', function (req, res) {
     adminMusic.upload(req, res, connection);
 });
 
+app.get('/widgets/music/diff', function (req, res) {
+    diffMusic.run(req, res, connection);
+});
+
+app.get('/widgets/music/diff/stream', function (req, res) {
+    diffMusic.nextMusic(req, res, connection);
+});
 
 io.on('connection', function(socket) {
     visiteur.refreshVoteMusic(connection, socket);
