@@ -69,7 +69,7 @@ exports.actionVoteMusic = function(idVisitor, idContent, idWidget, connection, c
         if(rows[0].visitorExist == 0) {
             connection.query('INSERT INTO cnb.visitor(idVisitor) ' +
                 'VALUES("' + idVisitor + '")', function (err, rows, fields) {
-
+// TODO : raise err ?
             });
         }
 
