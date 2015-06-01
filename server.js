@@ -54,6 +54,7 @@ app.set("view engine", "ejs");
 //Specify where the static content is
 app.use(express.static("public", __dirname + "/public"));
 
+//Specify routes
 app.get('/', function(req, res) {
     visiteur.run(req, res, connection);
 });
