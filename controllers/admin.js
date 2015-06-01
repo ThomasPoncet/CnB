@@ -16,7 +16,7 @@ getZonesWidgets = function(connection, callback) {
 exports.run=function(req, res, connection) {
 
     getZonesWidgets(connection, function(list) {
-        res.render("admin", {'listZonesWidget' : list});
+        res.render("admin", {listZonesWidget : list});
     });
 
 };
