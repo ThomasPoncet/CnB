@@ -1,31 +1,22 @@
 /**
- * Created by Tanguy on 27/05/15.
+ * Created by Lucas on 27/05/15.
  */
-//var DAO = require('../models/DAOZoneWidget.js');
 
-exports.run=function(req, res, connexion) {
+var DAOZWidget = require('../models/DAOZWidget.js');
 
-    res.render("admin", {'listZonesWidget' : getZonesWidgets() })
-}
+getZonesWidgets = function(connection, callback) {
 
-function getZonesWidgets(){
-    var listZonesWidgets = new Array();
+    DAOZWidget.getZWidgetList(connection, function(list) {
+        callback(list);
+    });
 
-    listZonesWidgets[0] = "Sound";
-    listZonesWidgets[1] = "Screen";
+};
 
-    return listZonesWidgets;
-}
 
-/*
+exports.run=function(req, res, connection) {
 
-function getWidgetsScreen() {
-    var listWidgetsScreen = new Array();
-    listWidgetsScreen[0] = "Youtube";
-    listWidgetsScreen[1] = "Next Trams";
-    listWidgetsScreen[2] = "Meteo";
+    getZonesWidgets(connection, function(list) {
+        res.render("admin", {'listZonesWidget' : list});
+    });
 
-    return listWidgetsScreen;
-}
-ANCIENNE VERSION ! A mettre dans le controleur Zone-Widget
-*/
+};

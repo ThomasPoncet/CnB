@@ -7,6 +7,12 @@
 --
 -- Table structure for table `content`
 --
+DROP TABLE IF EXISTS `content`;
+DROP TABLE IF EXISTS `visitor`;
+DROP TABLE IF EXISTS `vote_content`;
+DROP TABLE IF EXISTS `vote_widget`;
+DROP TABLE IF EXISTS `widget`;
+DROP TABLE IF EXISTS `widgetzone`;
 
 CREATE TABLE IF NOT EXISTS `content` (
   `idContent` int(11) NOT NULL,

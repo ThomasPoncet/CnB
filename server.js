@@ -15,15 +15,27 @@ var connection = mysql.createConnection({
     password : ""
 });
 
-//Example SQL Query
-//connection.query("SELECT * FROM ...");
+connection.connect(function(err){
+    if(!err) {
+        console.log("Database is connected...");
+    } else {
+        console.log("Error connecting database !");
+    }
+});
 
 var visiteur = require('./controllers/visiteur');
 var admin = require('./controllers/admin');
 var diffusion = require('./controllers/diffusion');
+
 var adminZWSound = require('./controllers/adminZWSound');
+var adminZWScreen = require('./controllers/adminZWScreen');
+
+var adminMusic = require('./widgets/music/controllers/admin');
+
 
 server.listen(8080);
+
+
 
 //Server's IP address
 app.set("ipaddr", "127.0.0.1");
@@ -31,10 +43,12 @@ app.set("ipaddr", "127.0.0.1");
 ////Server's port number
 //app.set("port", 8080);
 
+var arrayViews = [__dirname + "/views", __dirname + "/widgets/music/views"];
 //Specify the views folder
-app.set("views", __dirname + "/views");
+//app.set("views", __dirname + "/views");
+app.set("views", arrayViews);
 
-//View engine is Jade
+//View engine is ejs
 app.set("view engine", "ejs");
 
 //Specify where the static content is
@@ -52,15 +66,23 @@ app.get('/adminZWSound', function(req, res) {
     adminZWSound.run(req, res, connection);
 });
 
+app.get('/adminZWScreen', function(req, res) {
+    adminZWScreen.run(req, res, connection);
+});
+
 app.get('/diffusion', function(req, res) {
     diffusion.run(req, res, connection);
+});
+
+app.get('/adminMusic', function (req, res) {
+    adminMusic.run(req, res, connection);
 });
 
 io.on('connection', function(socket) {
     visiteur.refreshVoteMusic(connection, socket);
 
     socket.on('voteMusic', function (data) {
-        visiteur.actionVoteMusic(data.data.id, data.data.idContent, data.context.idWidget, connection, function() {
+        visiteur.actionVoteMusic(data.data.id, data.data.idContent, data.context.idWidget, connection, function () {
             visiteur.refreshVoteMusic(connection, socket);
         });
 
@@ -68,7 +90,9 @@ io.on('connection', function(socket) {
     });
 });
 
-app.listen(app.get("port"), app.get("ipaddr"), function() {
+
+app.listen(app.get("port"), app.get("ipaddr"), function () {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
+
 });
 
