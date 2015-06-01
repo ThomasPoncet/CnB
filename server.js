@@ -87,7 +87,6 @@ app.post('/widgets/music/admin/upload', function (req, res) {
     adminMusic.run(req, res, connection);
 });
 
->>>>>>> Stashed changes
 
 io.on('connection', function(socket) {
     visiteur.refreshVoteMusic(connection, socket);
