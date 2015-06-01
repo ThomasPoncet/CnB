@@ -12,7 +12,6 @@ var mysql = require("mysql");
 
 // To access local files
 var fileSystem = require('fs');
-var path = require('path');
 
 var connection = mysql.createConnection({
     host : "localhost",
