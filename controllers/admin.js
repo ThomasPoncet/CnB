@@ -1,18 +1,21 @@
 /**
  * Created by Tanguy on 27/05/15.
  */
-//var DAO = require('../models/DAOZoneWidget.js');
+var DAOZWidget = require('../models/DAOZWidget.js');
 
-exports.run=function(req, res, connexion) {
+getZonesWidgets = function(connection, callback) {
 
-    res.render("admin", {'listZonesWidget' : getZonesWidgets() })
-}
+    DAOZWidget.getZWidgetList(connection, function(list) {
+        callback(list);
+    });
 
-function getZonesWidgets(){
-    var listZonesWidgets = new Array();
+};
 
-    listZonesWidgets[0] = "Sound";
-    listZonesWidgets[1] = "Screen";
 
-    return listZonesWidgets;
+exports.run=function(req, res, connection) {
+
+    getZonesWidgets(connection, function(list) {
+        res.render("admin", {'listZonesWidget' : list});
+    });
+
 }
