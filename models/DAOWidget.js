@@ -17,10 +17,11 @@ exports.getWidgetList = function(connection, callback) {
 
 exports.getContentList = function(connection, callback) {
 
+
     // Content list with the number of vote
-    connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, COUNT(*) AS nbVote ' +
-        'FROM cnb.content c, cnb.vote_content v ' +
-        'WHERE c.idContent = v.idContent ' +
+    connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, COUNT(v.idVisitor) AS nbVote ' +
+        'FROM cnb.content c ' +
+        'LEFT JOIN cnb.vote_content v ON c.idContent = v.idContent ' +
         'GROUP BY idContent', function(err, rows, fields) {
 
         if (err)

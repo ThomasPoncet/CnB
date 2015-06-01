@@ -34,6 +34,7 @@ exports.run = function (req, res, connection) {
     getWidgetList(connection, function(list) {
 
         getContentList(connection, function(list2) {
+            console.log(list2);
             res.render("visiteur", {listWidget: list, listContent: list2});
         });
 
@@ -75,7 +76,8 @@ exports.actionVoteMusic = function(idVisitor, idContent, idWidget, connection, c
         // How much time visitor vote for this widget ?
         connection.query('SELECT c.idContent, COUNT(*) AS nbVoteVisitor ' +
             'FROM cnb.content c, cnb.vote_content v ' +
-            'WHERE c.idContent = v.idContent AND idVisitor ="' + idVisitor + '" AND idWidget=' + idWidget + ' GROUP BY c.idContent', function(err, rows, fields) {
+            'WHERE c.idContent = v.idContent AND idVisitor ="' + idVisitor + '" AND idWidget=' + idWidget +
+            ' GROUP BY c.idContent', function(err, rows, fields) {
 
             // Visitor didn't vote yet -> we add vote
             if(rows.length == 0) {
