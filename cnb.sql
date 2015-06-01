@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `visitor` (
 --
 
 CREATE TABLE IF NOT EXISTS `vote_content` (
-  `idVisitor` int(11) NOT NULL,
+  `idVisitor` varchar(255) NOT NULL,
   `idContent` int(11) NOT NULL
 );
 

@@ -75,12 +75,19 @@ app.get('/diffusion', function(req, res) {
     diffusion.run(req, res, connection);
 });
 
+//Doesn't keep the css > why ?
 app.get('/widgets/music/admin', function (req, res) {
     adminMusic.run(req, res, connection);
 });
-//app.get('/adminMusic', function (req, res) {
-//    adminMusic.run(req, res, connection);
-//});
+
+app.get('/adminMusic', function (req, res) {
+    adminMusic.run(req, res, connection);
+});
+
+app.post('/widgets/music/admin/upload', function (req, res) {
+    adminMusic.run(req, res, connection);
+});
+
 
 io.on('connection', function(socket) {
     visiteur.refreshVoteMusic(connection, socket);
