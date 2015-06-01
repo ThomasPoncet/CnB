@@ -2,7 +2,7 @@
  * Created by thomas on 29/05/15.
  */
 
-var DAO = require('../models/DAOAdmin.js');
+var DAO = require('../../../models/DAOWidget.js');
 
 
 getContentList = function(connection, callback) {
@@ -15,9 +15,9 @@ getContentList = function(connection, callback) {
 
 exports.run = function (req, res, connection) {
 
-        getContentList(connection, function(list) {
-            res.render("musicAdmin", {listContent: list});
-        });
+    getContentList(connection, function(list) {
+        res.render("musicAdmin", {listContent: list});
+    });
 
 
 };

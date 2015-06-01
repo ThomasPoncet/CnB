@@ -75,9 +75,12 @@ app.get('/diffusion', function(req, res) {
     diffusion.run(req, res, connection);
 });
 
-app.get('/adminMusic', function (req, res) {
+app.get('/widgets/music/admin', function (req, res) {
     adminMusic.run(req, res, connection);
 });
+//app.get('/adminMusic', function (req, res) {
+//    adminMusic.run(req, res, connection);
+//});
 
 io.on('connection', function(socket) {
     visiteur.refreshVoteMusic(connection, socket);

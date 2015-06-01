@@ -34,7 +34,7 @@ exports.run = function (req, res, connection) {
     getWidgetList(connection, function(list) {
 
         getContentList(connection, function(list2) {
-            console.log(list2);
+
             res.render("visiteur", {listWidget: list, listContent: list2});
         });
 
@@ -46,7 +46,7 @@ exports.refreshVoteMusic = function(connection, socket) {
     getWidgetList(connection, function(list) {
 
         getContentList(connection, function(list2) {
-
+            console.log('liste contenu : ',list2);
             getVoteVisitorList(connection, function(list3) {
                 // Refresh for the user who voted
                 socket.emit("voteMusicDone", {listWidget: list, listContent: list2, listVoteVisitor: list3});
