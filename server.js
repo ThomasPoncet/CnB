@@ -30,6 +30,7 @@ var visiteur = require('./controllers/visiteur');
 var admin = require('./controllers/admin');
 var diffusion = require('./controllers/diffusion');
 var adminZWSound = require('./controllers/adminZWSound');
+var adminZWScreen = require('./controllers/adminZWScreen');
 var adminMusic = require('./widgets/music/controllers/admin');
 
 //Server's IP address
@@ -59,6 +60,10 @@ app.get('/admin', function(req, res) {
 
 app.get('/adminZWSound', function(req, res) {
     adminZWSound.run(req, res, connection);
+});
+
+app.get('/adminZWScreen', function(req, res) {
+    adminZWScreen.run(req, res, connection);
 });
 
 app.get('/diffusion', function(req, res) {
