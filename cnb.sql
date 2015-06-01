@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `content` (
 --
 
 CREATE TABLE IF NOT EXISTS `visitor` (
-  `idVisitor` int(11) NOT NULL
+  `idVisitor` varchar(255) NOT NULL
 );
 
 -- --------------------------------------------------------
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `vote_content` (
 
 CREATE TABLE IF NOT EXISTS `vote_widget` (
   `idWidget` int(11) NOT NULL,
-  `idVisitor` int(11) NOT NULL
+  `idVisitor` varchar(255) NOT NULL
 );
 
 -- --------------------------------------------------------
@@ -119,11 +119,7 @@ ALTER TABLE `widgetzone`
 --
 ALTER TABLE `content`
   MODIFY `idContent` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `visitor`
---
-ALTER TABLE `visitor`
-  MODIFY `idVisitor` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `widget`
 --

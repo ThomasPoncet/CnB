@@ -1,24 +1,5 @@
-
+<script src="socket.io/socket.io.js"></script>
 <script src="js/widgets/music/controllers/visitor.js"></script>
-
-<script>
-    // When visitor vote
-//     TODO : problem id
-    function active(idContent, idWidget) {
-
-
-
-        var musics = document.getElementById('music-list').children;
-        for(var k = 0; k < musics.length; k++) {
-            musics[k].className = "list-group-item";
-        }
-
-        document.getElementById(idContent).className = "list-group-item active";
-
-        vote(idContent, idWidget);
-    }
-
-</script>
 
 <!DOCTYPE html>
 
@@ -34,16 +15,8 @@
 
 <div id="music-list" class="list-group">
 
-    <% for(var i=0; i<listContent.length; i++) { %>
-
-    <a href="#" id=<%=i%> class="list-group-item" Onclick="active(this.id, 1);">
-        <span class="badge"><%=listContent[i].nbVote%></span>
-        <%= listContent[i].nomContent %>
-    </a>
-
-    <% } %>
+    <!-- Filled by function "updateVote" -->
 
 </div>
-
 </body>
 </html>

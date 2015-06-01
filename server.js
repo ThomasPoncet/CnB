@@ -4,9 +4,9 @@
 
 var express = require("express");
 var app = express();
-var http = require("http").createServer(app);
+var server = require('http').Server(app);
 var bodyParser = require("body-parser");
-var io = require("socket.io").listen(http);
+var io = require('socket.io')(server);
 var mysql = require("mysql");
 
 var connection = mysql.createConnection({
@@ -22,11 +22,14 @@ var visiteur = require('./controllers/visiteur');
 var admin = require('./controllers/admin');
 var diffusion = require('./controllers/diffusion');
 var adminZWSound = require('./controllers/adminZWSound');
+
+server.listen(8080);
+
 //Server's IP address
 app.set("ipaddr", "127.0.0.1");
 
-//Server's port number
-app.set("port", 8080);
+////Server's port number
+//app.set("port", 8080);
 
 //Specify the views folder
 app.set("views", __dirname + "/views");
@@ -53,16 +56,19 @@ app.get('/diffusion', function(req, res) {
     diffusion.run(req, res, connection);
 });
 
+io.on('connection', function(socket) {
+    visiteur.refreshVoteMusic(connection, socket);
+
+    socket.on('voteMusic', function (data) {
+        visiteur.actionVoteMusic(data.data.id, data.data.idContent, data.context.idWidget, connection, function() {
+            visiteur.refreshVoteMusic(connection, socket);
+        });
+
+
+    });
+});
+
 app.listen(app.get("port"), app.get("ipaddr"), function() {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
 });
 
-io.on("connection", function(socket) {
-    console.log("a voté !")
-    socket.on("vote", function (data) {
-
-        visiteur.actionvote(data.context, data.data);
-        //_.findWhere(participants, {id: socket.id}).name = data.name;
-        //io.sockets.emit("nameChanged", {id: data.id, name: data.name});
-    });
-});
