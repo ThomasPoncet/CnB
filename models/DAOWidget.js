@@ -24,7 +24,8 @@ exports.getContentList = function(connection, callback) {
         '    FROM cnb.vote_content ' +
         '    GROUP BY idContent ' +
         '    ) AS v ' +
-        '    ON c.idContent = v.idContent ', function(err, rows, fields) {
+        '    ON c.idContent = v.idContent ' +
+        '   ORDER BY nbVote desc', function(err, rows, fields) {
 
         if (err)
             console.log('Error while performing Query.');
@@ -45,6 +46,24 @@ exports.addContent = function(connection, data, callback) {
         });
 };
 
+exports.getFirstContent = function(connection, callback) {
+
+    connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, IFNULL(v.count,0) AS nbVote ' +
+        '    FROM cnb.content AS c ' +
+        '    LEFT JOIN ( ' +
+        '        SELECT idContent, COUNT(idVisitor) AS count ' +
+        '    FROM cnb.vote_content ' +
+        '    GROUP BY idContent ' +
+        '    ) AS v ' +
+        '    ON c.idContent = v.idContent ', function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query.');
+
+        callback(rows);
+    });
+
+};
 exports.getVoteVisitorList = function(idWidget, connection, callback) {
 
     // vote of each visitor for the widget "idWidget"
