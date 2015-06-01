@@ -9,7 +9,7 @@ INSERT INTO vote_content (idVisitor, idContent)
 VALUES (1, 1);
 
 INSERT INTO widgetzone (idWidgetZone, nomWidgetZone)
-VALUES (1, Sound);
+VALUES (1, "Sound");
 
 INSERT INTO widgetzone (idWidgetZone, nomWidgetZone)
-VALUES (2, Screen);
+VALUES (2, "Screen");
