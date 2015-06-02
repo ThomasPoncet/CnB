@@ -29,6 +29,27 @@ exports.getActiveWidgetList = function(connection, callback) {
 
 };
 
+exports.getActiveContentList = function(connection, callback) {
+
+    connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, c.active, IFNULL(v.count,0) AS nbVote ' +
+        '    FROM cnb.content AS c ' +
+        '    LEFT JOIN ( ' +
+        '        SELECT idContent, COUNT(idVisitor) AS count ' +
+        '    FROM cnb.vote_content ' +
+        '    GROUP BY idContent ' +
+        '    ) AS v ' +
+        '    ON c.idContent = v.idContent ' +
+        '    WHERE active = true ' +
+        '    ORDER BY nbVote desc', function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. [2]');
+
+        callback(rows);
+    });
+
+};
+
 exports.getContentList = function(connection, callback) {
 
     connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, c.active, IFNULL(v.count,0) AS nbVote ' +
