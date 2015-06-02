@@ -17,7 +17,7 @@ exports.getWidgetList = function(connection, callback) {
 
 exports.getContentList = function(connection, callback) {
 
-    connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, IFNULL(v.count,0) AS nbVote ' +
+    connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, c.active, IFNULL(v.count,0) AS nbVote ' +
         '    FROM cnb.content AS c ' +
         '    LEFT JOIN ( ' +
         '        SELECT idContent, COUNT(idVisitor) AS count ' +
@@ -36,8 +36,8 @@ exports.getContentList = function(connection, callback) {
 };
 
 exports.addContent = function(connection, data, callback) {
-    connection.query('INSERT INTO cnb.content (nomContent, link, idWidget)' +
-        '   VALUES ("'+data.originalname+'", "'+data.name+'", 1);', // TODO : idWidget
+    connection.query('INSERT INTO cnb.content (nomContent, link, idWidget, active)' +
+        '   VALUES ("'+data.originalname+'", "'+data.name+'", 1, true);', // TODO : idWidget
         function(err, rows, fields) {
             if (err)
                 console.log('Error while performing Query.');
@@ -48,7 +48,7 @@ exports.addContent = function(connection, data, callback) {
 
 exports.getFirstContent = function(connection, callback) {
 
-    connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, IFNULL(v.count,0) AS nbVote ' +
+    connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, c.active, IFNULL(v.count,0) AS nbVote ' +
         '    FROM cnb.content AS c ' +
         '    LEFT JOIN ( ' +
         '        SELECT idContent, COUNT(idVisitor) AS count ' +
