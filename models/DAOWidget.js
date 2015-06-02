@@ -18,7 +18,7 @@ exports.getWidgetList = function(connection, callback) {
 exports.getActiveWidgetList = function(connection, callback) {
 
     connection.query('SELECT idWidget, nomWidget, idWidgetZone FROM cnb.widget ' +
-        'WHERE active=1', function(err, rows, fields) {
+        'WHERE active=true', function(err, rows, fields) {
 
         if (err)
             console.log('Error while performing Query. [1]');
