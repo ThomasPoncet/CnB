@@ -102,6 +102,11 @@ app.get('/widgets/music/diff/stream', function (req, res) {
     diffMusic.nextMusic(req, res, connection);
 });
 
+app.use(function(req, res, next){
+    res.setHeader('Content-Type', 'text/plain');
+    res.status(404).send('ERREUR 404 : PAGE INTROUVABLE !');
+});
+
 io.on('connection', function(socket) {
     visiteur.refreshVoteMusic(connection, socket);
 
