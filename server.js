@@ -118,6 +118,7 @@ app.get('/widgets/music/diff/stream', function (req, res) {
 /* Socket.IO events */
 io.on('connection', function(socket) {
     // For the first connection
+    visitorWidgets.refreshListWidgets(connection, socket);
     visitorMusic.refreshVoteMusic(connection, socket);
     visitor.refreshMenu(connection, socket);
 

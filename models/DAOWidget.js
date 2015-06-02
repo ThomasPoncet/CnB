@@ -4,7 +4,7 @@
 
 exports.getWidgetList = function(connection, callback) {
 
-    connection.query('SELECT idWidget, nomWidget, idWidgetZone FROM cnb.widget', function(err, rows, fields) {
+    connection.query('SELECT idWidget, nomWidget, idWidgetZone, active FROM cnb.widget', function(err, rows, fields) {
 
         if (err)
             console.log('Error while performing Query. [0]');
@@ -17,7 +17,7 @@ exports.getWidgetList = function(connection, callback) {
 
 exports.getActiveWidgetList = function(connection, callback) {
 
-    connection.query('SELECT idWidget, nomWidget, idWidgetZone FROM cnb.widget ' +
+    connection.query('SELECT idWidget, nomWidget, idWidgetZone, active FROM cnb.widget ' +
         'WHERE active=true', function(err, rows, fields) {
 
         if (err)
