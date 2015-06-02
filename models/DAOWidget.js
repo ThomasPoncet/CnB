@@ -144,3 +144,14 @@ exports.updateVote = function(idVisitor, idContent, oldVote, connection, callbac
         callback();
     })
 };
+
+exports.updateContentStatus = function(connection, idContent, active, callback){
+    connection.query('UPDATE cnb.content SET ' +
+        'acitve = '+ active +' WHERE idContent="' + idContent, function (err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query updateContentStatus.');
+
+        callback();
+    })
+};

@@ -101,6 +101,10 @@ app.get('/widgets/music/diff/stream', function (req, res) {
     diffMusic.nextMusic(req, res, connection);
 });
 
+
+
+
+/* Socket.IO events */
 io.on('connection', function(socket) {
     visiteur.refreshVoteMusic(connection, socket);
 
@@ -111,7 +115,20 @@ io.on('connection', function(socket) {
 
 
     });
+
+    /*
+        When the status of a content of a widget
+        is updated by the administrator (the contents can be
+        active or inactive
+     */
+    socket.on('updateContentStatus', function(info){
+        if (info.context.idWidget == 1){
+            adminMusic.updateContentStatus(connection, info.data, socket);
+        }
+    })
 });
+
+
 
 
 app.listen(app.get("port"), app.get("ipaddr"), function () {
