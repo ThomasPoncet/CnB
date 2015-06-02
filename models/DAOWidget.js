@@ -63,7 +63,7 @@ exports.getContentList = function(connection, callback) {
         '   ORDER BY nbVote desc', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. [2]');
+            console.log('Error while performing Query. [3]');
 
         callback(rows);
     });
@@ -75,11 +75,21 @@ exports.addContent = function(connection, data, callback) {
         '   VALUES ("'+data.originalname+'", "'+data.name+'", 1, true);', // TODO : idWidget
         function(err, rows, fields) {
             if (err)
-                console.log('Error while performing Query. [3]');
+                console.log('Error while performing Query. [4]');
 
             callback(rows);
         });
 };
+
+exports.deleteVote = function(connection, idContent, callback) {
+    connection.query('DELETE FROM cnb.vote_content WHERE idContent = ' + idContent, function(err, rows, fields) {
+        if (err)
+            console.log('Error while performing Query. [5]');
+
+        callback();
+    });
+};
+
 
 exports.getFirstContent = function(connection, callback) {
 
@@ -95,7 +105,7 @@ exports.getFirstContent = function(connection, callback) {
         '   LIMIT 1', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. [4]');
+            console.log('Error while performing Query. [6]');
 
         callback(rows);
     });
@@ -110,7 +120,7 @@ exports.getVoteVisitorList = function(idWidget, connection, callback) {
         'WHERE c.idContent = v.idContent AND c.idWidget=1', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. [5]');
+            console.log('Error while performing Query. [7]');
 
         var listVoteVisitor = new Object();
 
@@ -128,13 +138,19 @@ exports.visitorExists = function(connection, idVisitor, callback) {
                      'FROM cnb.visitor ' +
                      'WHERE idVisitor = "' + idVisitor + '"', function(err, rows, fields) {
 
-        callback((rows[0].visitorExist != 0));
+            if (err)
+                console.log('Error while performing Query. [8]');
+
+            callback((rows[0].visitorExist != 0));
         });
 };
 
 exports.addVisitor = function(connection, idVisitor) {
     connection.query('INSERT INTO cnb.visitor(idVisitor) ' +
         'VALUES("' + idVisitor + '")', function (err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. [9]');
 
     });
 };
@@ -144,6 +160,9 @@ exports.nbVote = function(idVisitor, idWidget, connection, callback) {
         'FROM cnb.content c, cnb.vote_content v ' +
         'WHERE c.idContent = v.idContent AND idVisitor ="' + idVisitor + '" AND idWidget=' + idWidget +
         ' GROUP BY c.idContent', function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. [10]');
 
         var nbVote = rows.length;
         var oldContent = 0;
@@ -162,7 +181,7 @@ exports.addVote = function(idVisitor, idContent, connection, callback) {
         'VALUES("' + idVisitor + '",' + idContent + ')', function (err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. [6]', idVisitor, idContent);
+            console.log('Error while performing Query. [11]', idVisitor, idContent);
 
         callback();
     })
@@ -174,7 +193,7 @@ exports.updateVote = function(idVisitor, idContent, oldVote, connection, callbac
         'idContent = '+ idContent +' WHERE idVisitor="' + idVisitor + '" AND idContent =' + oldVote, function (err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. [7]', idVisitor, idContent);
+            console.log('Error while performing Query. [12]', idVisitor, idContent);
 
         callback();
     })
@@ -185,7 +204,7 @@ exports.updateContentStatus = function(connection, idContent, active, callback){
         'acitve = '+ active +' WHERE idContent="' + idContent, function (err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query updateContentStatus.');
+            console.log('Error while performing Query. [13]');
 
         callback();
     })
