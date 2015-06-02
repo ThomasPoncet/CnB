@@ -17,6 +17,8 @@ function updateMenu(listActiveWidget) {
     var widget;
     if(path == '/') {
         widget = 'home';
+    } else if(path == '/widgets/') {
+        widget = 'widgets';
     } else {
         widget = path.substring(9 ,path.lastIndexOf( "/" ) );
     }
@@ -25,6 +27,7 @@ function updateMenu(listActiveWidget) {
     var string = '';
     string += '<ul class="nav nav-tabs">';
 
+    // Tab Home
     if(widget == 'home') {
         string += '<li role="presentation" class="active"><a href="/">Home</a></li>';
     }
@@ -32,6 +35,15 @@ function updateMenu(listActiveWidget) {
         string += '<li role="presentation"><a href="/">Home</a></li>';
     }
 
+    // Tab Widgets
+    if(widget == 'widgets') {
+        string += '<li role="presentation" class="active"><a href="/widgets">Widgets</a></li>';
+    }
+    else {
+        string += '<li role="presentation"><a href="/widgets">Widgets</a></li>';
+    }
+
+    // Others tabs
     for(var i=0; i<listActiveWidget.length; i++) {
         var name = listActiveWidget[i].nomWidget;
 

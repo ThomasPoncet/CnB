@@ -31,6 +31,8 @@ var visitor = require('./controllers/visiteur');
 var admin = require('./controllers/admin');
 var diffusion = require('./controllers/diffusion');
 
+var visitorWidgets = require('./controllers/visitorWidgets');
+
 var adminZWSound = require('./controllers/adminZWSound');
 var adminZWScreen = require('./controllers/adminZWScreen');
 
@@ -84,6 +86,10 @@ app.get('/adminZWScreen', function(req, res) {
 
 app.get('/diffusion', function(req, res) {
     diffusion.run(req, res, connection);
+});
+
+app.get('/widgets', function(req, res) {
+    visitorWidgets.run(req, res, connection);
 });
 
 app.get('/widgets/music/visitor', function(req, res) {
