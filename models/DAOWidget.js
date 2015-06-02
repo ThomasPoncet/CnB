@@ -161,10 +161,10 @@ exports.updateVote = function(idVisitor, idContent, oldVote, connection, callbac
 
 exports.updateContentStatus = function(connection, idContent, active, callback){
     connection.query('UPDATE cnb.content SET ' +
-        'acitve = '+ active +' WHERE idContent="' + idContent, function (err, rows, fields) {
+        'active = '+ active +' WHERE idContent=' + idContent, function (err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query updateContentStatus.');
+            console.log('Error while performing Query updateContentStatus.'+err);
 
         callback();
     })

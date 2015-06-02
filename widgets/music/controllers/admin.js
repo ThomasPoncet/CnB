@@ -16,7 +16,6 @@ getContentList = function(connection, callback) {
 exports.run = function (req, res, connection) {
 
     getContentList(connection, function(list) {
-        console.log((list));
         res.render("musicAdmin", {listContent: list});
     });
 
@@ -33,8 +32,8 @@ exports.upload = function(req, res, connection){
 
 exports.updateContentStatus = function(connection, data, socket){
     DAO.updateContentStatus(connection, data.idContent, data.active, function(){
-        DAO.getContentList(connection, function(contentList){
-            socket.emit('updateContentStatus', {context: {idWidget: 1}, data: {contetList: contentList}}); //TODO idWidget
+        DAO.getContentList(connection, function(listContent){
+            socket.emit('updateContentStatus', {context: {idWidget: 1}, data: {listContent: listContent}}); //TODO idWidget
         })
     })
 };

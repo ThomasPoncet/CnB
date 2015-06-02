@@ -33,24 +33,24 @@ function updateList(listContent) {
                    +        '<div class="btn-group" role="group">'
                    +            '<button type="button" class="btn btn-default btn-sm ';
         if (listContent[i].active) {
-            htmlString +=           'active';
+            htmlString +=           'active"';
         } else {
-            htmlString +=           'onclick="updateContentStatus(' + idWidget + ',' + listContent[i].idContent
-                                    + ',' + true + '"';
+            htmlString +=           '" onclick="updateContentStatus(' + idWidget + ',' + listContent[i].idContent
+                                    + ',' + true + ')"';
         }
-        htmlString +=           '">'
+        htmlString +=           '>'
                    +                '<span class="glyphicon glyphicon-ok"></span>'
                    +            '</button>'
                    +        '</div>'
                    +        '<div class="btn-group" role="group">'
                    +            '<button type="button" class="btn btn-default btn-sm ';
         if (!listContent[i].active) {
-            htmlString +=           'active';
+            htmlString +=           'active"';
         } else {
-            htmlString +=           'onclick="updateContentStatus(' + idWidget + ',' + !listContent[i].idContent
-                                    + ',' + false + '"';
+            htmlString +=           '" onclick="updateContentStatus(' + idWidget + ',' + !listContent[i].idContent
+                                    + ',' + false + ')"';
         }
-        htmlString +=           '">'
+        htmlString +=           '>'
                    +                '<span class="glyphicon glyphicon-remove"></span>'
                    +            '</button>'
                    +        '</div>'
