@@ -17,22 +17,36 @@ socket.on('voteMusicDone', function (data) {
     updateVoteMusic(data.listContent, data.listWidget, data.listVoteVisitor);
 });
 
+socket.on('refreshContent', function(info){
+    updateList(info.data.listContent, votes);
+});
+
+var votes = [];
+
 function updateVoteMusic(listContent, listWidget, listVoteVisitor) {
 
+    votes = listVoteVisitor;
+
+    updateList(listContent, votes);
+}
+
+function updateList(listContent, listVoteVisitor){
     var string = '';
     var idWidget = 1; // TODO : idWidget music
 
     for(var i=0; i<listContent.length; i++) {
-        string += '<a href="#" id=' + listContent[i].idContent + ' class="list-group-item';
+        if (listContent[i].active) {
+            string += '<a href="#" id=' + listContent[i].idContent + ' class="list-group-item';
 
-        if(listVoteVisitor.hasOwnProperty(sessionId)) {
-            if(listVoteVisitor[sessionId] == listContent[i].idContent)
-                string += ' active';
+            if (listVoteVisitor.hasOwnProperty(sessionId)) {
+                if (listVoteVisitor[sessionId] == listContent[i].idContent)
+                    string += ' active';
+            }
+
+            string += '" Onclick="active(this.id, ' + idWidget + ');">' +
+                '<span class="badge">' + listContent[i].nbVote + '</span>' +
+                listContent[i].nomContent + '</a>';
         }
-
-        string += '" Onclick="active(this.id, ' + idWidget + ');">' +
-            '<span class="badge">' + listContent[i].nbVote + '</span>' +
-            listContent[i].nomContent + '</a>';
     }
 
     document.getElementById('music-list').innerHTML = string;

@@ -11,7 +11,7 @@ var sessionId = '';
 //    console.log('Connected ' + sessionId);
 //});
 
-socket.on('updateContentStatus', function(info){
+socket.on('refreshContent', function(info){
     if (info.context.idWidget == 1){ //TODO idWidget
         updateList(info.data.listContent);
     }
