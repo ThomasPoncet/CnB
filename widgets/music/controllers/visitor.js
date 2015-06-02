@@ -34,16 +34,7 @@ getVoteVisitorList = function(connection, callback) {
 };
 
 exports.run = function (req, res, connection) {
-
-    getWidgetList(connection, function(list) {
-
-        getContentList(connection, function(list2) {
-
-            res.render("musicVisitor", {listWidget: list, listContent: list2});
-        });
-
-    });
-
+    res.render("musicVisitor");
 };
 
 exports.refreshVoteMusic = function(connection, socket) {

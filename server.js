@@ -27,7 +27,7 @@ var connection = mysql.createConnection({
 //    }
 //});
 
-var visiteur = require('./controllers/visiteur');
+var visitor = require('./controllers/visiteur');
 var admin = require('./controllers/admin');
 var diffusion = require('./controllers/diffusion');
 
@@ -67,7 +67,7 @@ app.use(multer({ dest: './uploads/'}));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', function(req, res) {
-    visiteur.run(req, res, connection);
+    visitor.run(req, res, connection);
 });
 
 app.get('/admin', function(req, res) {
@@ -109,6 +109,7 @@ app.get('/widgets/music/diff/stream', function (req, res) {
 io.on('connection', function(socket) {
     // For the first connection
     visitorMusic.refreshVoteMusic(connection, socket);
+    visitor.refreshMenu(connection, socket);
 
     // When a visitor vote
     socket.on('voteMusic', function (data) {

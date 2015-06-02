@@ -4,10 +4,24 @@
 
 exports.getWidgetList = function(connection, callback) {
 
-    connection.query('SELECT idWidget, nomWidget FROM cnb.widget', function(err, rows, fields) {
+    connection.query('SELECT idWidget, nomWidget, idWidgetZone FROM cnb.widget', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query.');
+            console.log('Error while performing Query. [0]');
+
+        callback(rows);
+    });
+
+
+};
+
+exports.getActiveWidgetList = function(connection, callback) {
+
+    connection.query('SELECT idWidget, nomWidget, idWidgetZone FROM cnb.widget ' +
+        'WHERE active=1', function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. [1]');
 
         callback(rows);
     });
@@ -28,7 +42,7 @@ exports.getContentList = function(connection, callback) {
         '   ORDER BY nbVote desc', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query.');
+            console.log('Error while performing Query. [2]');
 
         callback(rows);
     });
@@ -40,7 +54,7 @@ exports.addContent = function(connection, data, callback) {
         '   VALUES ("'+data.originalname+'", "'+data.name+'", 1, true);', // TODO : idWidget
         function(err, rows, fields) {
             if (err)
-                console.log('Error while performing Query.');
+                console.log('Error while performing Query. [3]');
 
             callback(rows);
         });
@@ -60,7 +74,7 @@ exports.getFirstContent = function(connection, callback) {
         '   LIMIT 1', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query.');
+            console.log('Error while performing Query. [4]');
 
         callback(rows);
     });
@@ -75,7 +89,7 @@ exports.getVoteVisitorList = function(idWidget, connection, callback) {
         'WHERE c.idContent = v.idContent AND c.idWidget=1', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query.');
+            console.log('Error while performing Query. [5]');
 
         var listVoteVisitor = new Object();
 
@@ -127,7 +141,7 @@ exports.addVote = function(idVisitor, idContent, connection, callback) {
         'VALUES("' + idVisitor + '",' + idContent + ')', function (err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. ', idVisitor, idContent);
+            console.log('Error while performing Query. [6]', idVisitor, idContent);
 
         callback();
     })
@@ -139,7 +153,7 @@ exports.updateVote = function(idVisitor, idContent, oldVote, connection, callbac
         'idContent = '+ idContent +' WHERE idVisitor="' + idVisitor + '" AND idContent =' + oldVote, function (err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. ', idVisitor, idContent);
+            console.log('Error while performing Query. [7]', idVisitor, idContent);
 
         callback();
     })
