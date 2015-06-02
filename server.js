@@ -68,6 +68,7 @@ app.use(multer({ dest: './uploads/'}));
 // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//Specify routes
 app.get('/', function(req, res) {
     visitor.run(req, res, connection);
 });
@@ -110,6 +111,11 @@ app.get('/widgets/music/diff', function (req, res) {
 
 app.get('/widgets/music/diff/stream', function (req, res) {
     diffMusic.nextMusic(req, res, connection);
+});
+
+app.use(function(req, res, next){
+    res.setHeader('Content-Type', 'text/plain');
+    res.status(404).send('ERREUR 404 : PAGE INTROUVABLE !');
 });
 
 
