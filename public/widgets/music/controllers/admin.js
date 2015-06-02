@@ -2,6 +2,7 @@
  * Created by thomas on 30/05/15.
  */
 
+var serverBaseUrl = document.domain;
 var socket = io.connect('http://localhost:8080');
 var sessionId = '';
 
@@ -25,38 +26,38 @@ function updateList(listContent) {
     var idWidget = 1; // TODO : idWidget
 
     for (var i=0; i<listContent.length; i++){
-        htmlString += '<li id=' + listContent[i].idContent + ' class="list-group-item">';
-        htmlString +=   '<span class="badge">'+listContent[i].nbVote+'</span>';
-        htmlString +=   listContent[i].nomContent;
-        htmlString +=   '<div class="btn-group" role="group" aria-label="...">';
-        htmlString +=       '<div class="btn-group" role="group">';
-        htmlString +=           '<button type="button" class="btn btn-default btn-sm ';
+        htmlString += '<li id=' + listContent[i].idContent + ' class="list-group-item">'
+                   +  '<span class="badge">'+listContent[i].nbVote+'</span>'
+                   +    listContent[i].nomContent
+                   +    '<div class="btn-group" role="group" aria-label="...">'
+                   +        '<div class="btn-group" role="group">'
+                   +            '<button type="button" class="btn btn-default btn-sm ';
         if (listContent[i].active) {
             htmlString +=           'active';
         } else {
             htmlString +=           'onclick="updateContentStatus(' + idWidget + ',' + listContent[i].idContent
                                     + ',' + true + '"';
         }
-        htmlString +=           '>';
-        htmlString +=               '<span class="glyphicon glyphicon-ok"></span>';
-        htmlString +=           '</button>';
-        htmlString +=       '</div>';
-        htmlString +=       '<div class="btn-group" role="group">';
-        htmlString +=           '<button type="button" class="btn btn-default btn-sm ';
+        htmlString +=           '">'
+                   +                '<span class="glyphicon glyphicon-ok"></span>'
+                   +            '</button>'
+                   +        '</div>'
+                   +        '<div class="btn-group" role="group">'
+                   +            '<button type="button" class="btn btn-default btn-sm ';
         if (!listContent[i].active) {
             htmlString +=           'active';
         } else {
             htmlString +=           'onclick="updateContentStatus(' + idWidget + ',' + !listContent[i].idContent
                                     + ',' + false + '"';
         }
-        htmlString +=           '>';
-        htmlString +=               '<span class="glyphicon glyphicon-remove"></span>';
-        htmlString +=           '</button>';
-        htmlString +=       '</div>';
-        htmlString +=   '</div>';
-        htmlString += '</li>';
+        htmlString +=           '">'
+                   +                '<span class="glyphicon glyphicon-remove"></span>'
+                   +            '</button>'
+                   +        '</div>'
+                   +    '</div>'
+                   +  '</li>';
     }
-    document.getElementsByName('musicList');
+    document.getElementById('musicList').innerHTML = htmlString;
 }
 
 function updateContentStatus(idWidget, idContent, active){

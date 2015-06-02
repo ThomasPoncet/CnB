@@ -16,6 +16,7 @@ getContentList = function(connection, callback) {
 exports.run = function (req, res, connection) {
 
     getContentList(connection, function(list) {
+        console.log((list));
         res.render("musicAdmin", {listContent: list});
     });
 

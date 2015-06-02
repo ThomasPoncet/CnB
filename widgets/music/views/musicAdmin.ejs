@@ -22,30 +22,32 @@
 
 <ul id="musicList" class="list-group">
 
-    <% for(var i=0; i<listContent.length; i++) { %>
+    <!-- Filled by function "updateList" -->
 
-    <li id=<%=i%> class="list-group-item">
-        <span class="badge"><%=listContent[i].nbVote%></span>
-        <%= listContent[i].nomContent %>
-        <div class="btn-group" role="group" aria-label="...">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default btn-sm <%if (listContent[i].active) {%>active<%}%>">
-                    <span class="glyphicon glyphicon-ok"></span>
-                </button>
-            </div>
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default btn-sm <%if (!listContent[i].active) {%>active<%}%>">
-                    <span class="glyphicon glyphicon-remove"></span>
-                </button>
-            </div>
-        </div>
-    </li>
+    <!--<% for(var i=0; i<listContent.length; i++) { %>-->
 
-    <% } %>
+    <!--<li id=<%=i%> class="list-group-item">-->
+        <!--<span class="badge"><%=listContent[i].nbVote%></span>-->
+        <!--<%= listContent[i].nomContent %>-->
+        <!--<div class="btn-group" role="group" aria-label="...">-->
+            <!--<div class="btn-group" role="group">-->
+                <!--<button type="button" class="btn btn-default btn-sm <%if (listContent[i].active) {%>active<%}%>">-->
+                    <!--<span class="glyphicon glyphicon-ok"></span>-->
+                <!--</button>-->
+            <!--</div>-->
+            <!--<div class="btn-group" role="group">-->
+                <!--<button type="button" class="btn btn-default btn-sm <%if (!listContent[i].active) {%>active<%}%>">-->
+                    <!--<span class="glyphicon glyphicon-remove"></span>-->
+                <!--</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</li>-->
 
+    <!--<% } %>-->
 </ul>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/widgets/music/controllers/admin.js"></script>
+<script type="text/javascript">updateList(<%-JSON.stringify(listContent)%>)</script>
 </body>
 </html>
