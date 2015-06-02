@@ -47,7 +47,7 @@ function updateList(listContent) {
         if (!listContent[i].active) {
             htmlString +=           'active"';
         } else {
-            htmlString +=           '" onclick="updateContentStatus(' + idWidget + ',' + !listContent[i].idContent
+            htmlString +=           '" onclick="updateContentStatus(' + idWidget + ',' + listContent[i].idContent
                                     + ',' + false + ')"';
         }
         htmlString +=           '>'
