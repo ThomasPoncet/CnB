@@ -5,7 +5,8 @@
 // To play the next song given by diff/stream
 var player = document.getElementById("player");
 player.addEventListener("ended", function(){
-    player.src = "diff/stream";
+    player.src = "/widgets/music/diff/stream";
     player.currentTime = 0;
     player.play();
 }, false);
+// TODO : Fix the issue of cache (issue with firefox)
