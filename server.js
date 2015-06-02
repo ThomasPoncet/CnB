@@ -27,15 +27,18 @@ var connection = mysql.createConnection({
 //    }
 //});
 
-var visiteur = require('./controllers/visiteur');
+var visitor = require('./controllers/visiteur');
 var admin = require('./controllers/admin');
 var diffusion = require('./controllers/diffusion');
+
+var visitorWidgets = require('./controllers/visitorWidgets');
 
 var adminZWSound = require('./controllers/adminZWSound');
 var adminZWScreen = require('./controllers/adminZWScreen');
 
 var adminMusic = require('./widgets/music/controllers/admin');
 var diffMusic = require('./widgets/music/controllers/diff');
+var visitorMusic = require('./widgets/music/controllers/visitor');
 
 
 server.listen(8080);
@@ -67,7 +70,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //Specify routes
 app.get('/', function(req, res) {
-    visiteur.run(req, res, connection);
+    visitor.run(req, res, connection);
 });
 
 app.get('/admin', function(req, res) {
@@ -84,6 +87,14 @@ app.get('/adminZWScreen', function(req, res) {
 
 app.get('/diffusion', function(req, res) {
     diffusion.run(req, res, connection);
+});
+
+app.get('/widgets', function(req, res) {
+    visitorWidgets.run(req, res, connection);
+});
+
+app.get('/widgets/music/visitor', function(req, res) {
+    visitorMusic.run(req, res, connection);
 });
 
 app.get('/widgets/music/admin', function (req, res) {
@@ -107,17 +118,35 @@ app.use(function(req, res, next){
     res.status(404).send('ERREUR 404 : PAGE INTROUVABLE !');
 });
 
+
+
+
+/* Socket.IO events */
 io.on('connection', function(socket) {
-    visiteur.refreshVoteMusic(connection, socket);
+    // For the first connection
+    visitorMusic.refreshVoteMusic(connection, socket);
+    visitor.refreshMenu(connection, socket);
 
+    // When a visitor vote
     socket.on('voteMusic', function (data) {
-        visiteur.actionVoteMusic(data.data.id, data.data.idContent, data.context.idWidget, connection, function () {
-            visiteur.refreshVoteMusic(connection, socket);
+        visitorMusic.actionVoteMusic(data.data.id, data.data.idContent, data.context.idWidget, connection, function () {
+            visitorMusic.refreshVoteMusic(connection, socket);
         });
-
-
     });
+
+    /*
+        When the status of a content of a widget
+        is updated by the administrator (the contents can be
+        active or inactive
+     */
+    socket.on('updateContentStatus', function(info){
+        if (info.context.idWidget == 1){
+            adminMusic.updateContentStatus(connection, info.data, socket);
+        }
+    })
 });
+
+
 
 
 app.listen(app.get("port"), app.get("ipaddr"), function () {

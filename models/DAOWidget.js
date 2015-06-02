@@ -4,10 +4,10 @@
 
 exports.getWidgetList = function(connection, callback) {
 
-    connection.query('SELECT idWidget, nomWidget FROM cnb.widget', function(err, rows, fields) {
+    connection.query('SELECT idWidget, nomWidget, idWidgetZone FROM cnb.widget', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query.');
+            console.log('Error while performing Query. [0]');
 
         callback(rows);
     });
@@ -15,9 +15,44 @@ exports.getWidgetList = function(connection, callback) {
 
 };
 
+exports.getActiveWidgetList = function(connection, callback) {
+
+    connection.query('SELECT idWidget, nomWidget, idWidgetZone FROM cnb.widget ' +
+        'WHERE active=true', function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. [1]');
+
+        callback(rows);
+    });
+
+
+};
+
+exports.getActiveContentList = function(connection, callback) {
+
+    connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, c.active, IFNULL(v.count,0) AS nbVote ' +
+        '    FROM cnb.content AS c ' +
+        '    LEFT JOIN ( ' +
+        '        SELECT idContent, COUNT(idVisitor) AS count ' +
+        '    FROM cnb.vote_content ' +
+        '    GROUP BY idContent ' +
+        '    ) AS v ' +
+        '    ON c.idContent = v.idContent ' +
+        '    WHERE active = true ' +
+        '    ORDER BY nbVote desc', function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. [2]');
+
+        callback(rows);
+    });
+
+};
+
 exports.getContentList = function(connection, callback) {
 
-    connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, IFNULL(v.count,0) AS nbVote ' +
+    connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, c.active, IFNULL(v.count,0) AS nbVote ' +
         '    FROM cnb.content AS c ' +
         '    LEFT JOIN ( ' +
         '        SELECT idContent, COUNT(idVisitor) AS count ' +
@@ -28,7 +63,7 @@ exports.getContentList = function(connection, callback) {
         '   ORDER BY nbVote desc', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query.');
+            console.log('Error while performing Query. [3]');
 
         callback(rows);
     });
@@ -36,19 +71,29 @@ exports.getContentList = function(connection, callback) {
 };
 
 exports.addContent = function(connection, data, callback) {
-    connection.query('INSERT INTO cnb.content (nomContent, link, idWidget)' +
-        '   VALUES ("'+data.originalname+'", "'+data.name+'", 1);', // TODO : idWidget
+    connection.query('INSERT INTO cnb.content (nomContent, link, idWidget, active)' +
+        '   VALUES ("'+data.originalname+'", "'+data.name+'", 1, true);', // TODO : idWidget
         function(err, rows, fields) {
             if (err)
-                console.log('Error while performing Query.');
+                console.log('Error while performing Query. [4]');
 
             callback(rows);
         });
 };
 
+exports.deleteVote = function(connection, idContent, callback) {
+    connection.query('DELETE FROM cnb.vote_content WHERE idContent = ' + idContent, function(err, rows, fields) {
+        if (err)
+            console.log('Error while performing Query. [5]');
+
+        callback();
+    });
+};
+
+
 exports.getFirstContent = function(connection, callback) {
 
-    connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, IFNULL(v.count,0) AS nbVote ' +
+    connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, c.active, IFNULL(v.count,0) AS nbVote ' +
         '    FROM cnb.content AS c ' +
         '    LEFT JOIN ( ' +
         '        SELECT idContent, COUNT(idVisitor) AS count ' +
@@ -60,7 +105,7 @@ exports.getFirstContent = function(connection, callback) {
         '   LIMIT 1', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query.');
+            console.log('Error while performing Query. [6]');
 
         callback(rows);
     });
@@ -75,7 +120,7 @@ exports.getVoteVisitorList = function(idWidget, connection, callback) {
         'WHERE c.idContent = v.idContent AND c.idWidget=1', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query.');
+            console.log('Error while performing Query. [7]');
 
         var listVoteVisitor = new Object();
 
@@ -93,13 +138,19 @@ exports.visitorExists = function(connection, idVisitor, callback) {
                      'FROM cnb.visitor ' +
                      'WHERE idVisitor = "' + idVisitor + '"', function(err, rows, fields) {
 
-        callback((rows[0].visitorExist != 0));
+            if (err)
+                console.log('Error while performing Query. [8]');
+
+            callback((rows[0].visitorExist != 0));
         });
 };
 
 exports.addVisitor = function(connection, idVisitor) {
     connection.query('INSERT INTO cnb.visitor(idVisitor) ' +
         'VALUES("' + idVisitor + '")', function (err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. [9]');
 
     });
 };
@@ -109,6 +160,9 @@ exports.nbVote = function(idVisitor, idWidget, connection, callback) {
         'FROM cnb.content c, cnb.vote_content v ' +
         'WHERE c.idContent = v.idContent AND idVisitor ="' + idVisitor + '" AND idWidget=' + idWidget +
         ' GROUP BY c.idContent', function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. [10]');
 
         var nbVote = rows.length;
         var oldContent = 0;
@@ -127,7 +181,7 @@ exports.addVote = function(idVisitor, idContent, connection, callback) {
         'VALUES("' + idVisitor + '",' + idContent + ')', function (err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. ', idVisitor, idContent);
+            console.log('Error while performing Query. [11]', idVisitor, idContent);
 
         callback();
     })
@@ -139,7 +193,18 @@ exports.updateVote = function(idVisitor, idContent, oldVote, connection, callbac
         'idContent = '+ idContent +' WHERE idVisitor="' + idVisitor + '" AND idContent =' + oldVote, function (err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. ', idVisitor, idContent);
+            console.log('Error while performing Query. [12]', idVisitor, idContent);
+
+        callback();
+    })
+};
+
+exports.updateContentStatus = function(connection, idContent, active, callback){
+    connection.query('UPDATE cnb.content SET ' +
+        'acitve = '+ active +' WHERE idContent="' + idContent, function (err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. [13]');
 
         callback();
     })

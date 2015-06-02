@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS `content` (
   `idContent` int(11) NOT NULL,
   `nomContent` varchar(255) NOT NULL,
   `link` varchar(255) NOT NULL,
-  `idWidget` int(11) NOT NULL
+  `idWidget` int(11) NOT NULL,
+  `active` bool NOT NULL
 );
 
 -- --------------------------------------------------------
@@ -62,7 +63,8 @@ CREATE TABLE IF NOT EXISTS `vote_widget` (
 CREATE TABLE IF NOT EXISTS `widget` (
   `idWidget` int(11) NOT NULL,
   `nomWidget` varchar(255) NOT NULL,
-  `idWidgetZone` int(11) NOT NULL
+  `idWidgetZone` int(11) NOT NULL,
+  `active` bool NOT NULL
 );
 
 -- --------------------------------------------------------

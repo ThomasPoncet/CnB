@@ -28,9 +28,12 @@ exports.upload = function(req, res, connection){
             res.render("musicAdmin", {listContent: list});
         })
     });
+};
 
-    //run(req, res, connection);
-    //getContentList(connection, function(list) {
-    //    res.render("musicAdmin", {listContent: list});
-    //});
-}
+exports.updateContentStatus = function(connection, data, socket){
+    DAO.updateContentStatus(connection, data.idContent, data.active, function(){
+        DAO.getContentList(connection, function(contentList){
+            socket.emit('updateContentStatus', {context: {idWidget: 1}, data: {contetList: contentList}}); //TODO idWidget
+        })
+    })
+};
