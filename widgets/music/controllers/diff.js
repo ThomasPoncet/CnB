@@ -11,7 +11,7 @@ exports.run = function(req, res, connection){
     res.render("musicDiff", connection);
 };
 
-exports.nextMusic = function(req, res, connection){
+exports.nextMusic = function(req, res, connection, io){
     DAO.getFirstContent(connection, function(rows){
         var filePath = './uploads/'+rows[0].link;
         var stat = fileSystem.statSync(filePath);
@@ -22,5 +22,15 @@ exports.nextMusic = function(req, res, connection){
 
         var readStream = fileSystem.createReadStream(filePath);
         readStream.pipe(res);
-    });
+
+        // To delete this song from the playlist
+        DAO.deleteVote(connection, rows[0].idContent, function(){
+            DAO.updateContentStatus(connection, rows[0].idContent, false, function(){
+                DAO.getContentList(connection, function(listContent) {
+                    // TODO : idWidget
+                    io.sockets.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
+                })
+            })
+        })
+    })
 };

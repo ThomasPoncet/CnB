@@ -101,9 +101,10 @@ exports.getFirstContent = function(connection, callback) {
         '    GROUP BY idContent ' +
         '    ) AS v ' +
         '    ON c.idContent = v.idContent ' +
+        '   WHERE active = true ' +
         '   ORDER BY nbVote desc' +
         '   LIMIT 1', function(err, rows, fields) {
-
+        // TODO : If there is no content !
         if (err)
             console.log('Error while performing Query. [6]');
 

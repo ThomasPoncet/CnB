@@ -110,7 +110,7 @@ app.get('/widgets/music/diff', function (req, res) {
 });
 
 app.get('/widgets/music/diff/stream', function (req, res) {
-    diffMusic.nextMusic(req, res, connection);
+    diffMusic.nextMusic(req, res, connection, io);
 });
 
 app.use(function(req, res, next){
