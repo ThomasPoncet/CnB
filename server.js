@@ -36,6 +36,7 @@ var adminZWScreen = require('./controllers/adminZWScreen');
 
 var adminMusic = require('./widgets/music/controllers/admin');
 var diffMusic = require('./widgets/music/controllers/diff');
+var visitorMusic = require('./widgets/music/controllers/visitor');
 
 
 server.listen(8080);
@@ -85,6 +86,10 @@ app.get('/diffusion', function(req, res) {
     diffusion.run(req, res, connection);
 });
 
+app.get('/widgets/music/visitor', function(req, res) {
+    visitorMusic.run(req, res, connection);
+});
+
 app.get('/widgets/music/admin', function (req, res) {
     adminMusic.run(req, res, connection);
 });
@@ -102,17 +107,16 @@ app.get('/widgets/music/diff/stream', function (req, res) {
 });
 
 io.on('connection', function(socket) {
-    visiteur.refreshVoteMusic(connection, socket);
+    // For the first connection
+    visitorMusic.refreshVoteMusic(connection, socket);
 
+    // When a visitor vote
     socket.on('voteMusic', function (data) {
-        visiteur.actionVoteMusic(data.data.id, data.data.idContent, data.context.idWidget, connection, function () {
-            visiteur.refreshVoteMusic(connection, socket);
+        visitorMusic.actionVoteMusic(data.data.id, data.data.idContent, data.context.idWidget, connection, function () {
+            visitorMusic.refreshVoteMusic(connection, socket);
         });
-
-
     });
 });
-
 
 app.listen(app.get("port"), app.get("ipaddr"), function () {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
