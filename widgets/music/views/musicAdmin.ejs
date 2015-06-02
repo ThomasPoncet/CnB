@@ -1,36 +1,24 @@
-<script src="js/widgets/music/controllers/admin.js"></script>
-<!--TODO : change the path of js file (prefer public/widgets/music/js-->
+<script src="widgets/music/controllers/admin.js"></script>
 <!DOCTYPE html>
 
 <html>
 <head>
     <title>Choose ‘N’ Broadcast</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 <h1>Manage Music</h1>
 
-
-<button type="button" class="btn btn-default btn-lg" onclick="location.href='/widgets/music/admin/upload'">
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Music
-</button>
-
-<form action="widgets/music/upload" method="POST">
+<form action="/widgets/music/admin/upload" method="POST" enctype="multipart/form-data">
     <div class="form-group">
-        <label for="InputTitle">Title</label>
-        <input type="text" class="form-control" id="InputTitle" placeholder="Enter title">
+        <label for="InputFile">File input</label>
+        <input type="file" id="InputFile" name="file">
     </div>
-    <div class="form-group">
-        <label for="InputLink">Link</label>
-        <input type="text" class="form-control" id="InputLink" placeholder="Enter link">
-    </div>
-    <!--<div class="form-group">-->
-        <!--<label for="InputFile">File input</label>-->
-        <!--<input type="file" id="InputFile">-->
-    <!--</div>-->
-    <button type="submit" class="btn btn-default" onclick="">Submit music</button>
+    <button type="submit" class="btn btn-default btn-lg">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Music
+    </button>
 </form>
 
 <ul id="music-list" class="list-group">

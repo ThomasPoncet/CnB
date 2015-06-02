@@ -3,11 +3,15 @@
  */
 
 var express = require("express");
+var multer  = require('multer');
 var app = express();
 var server = require('http').Server(app);
 var bodyParser = require("body-parser");
 var io = require('socket.io')(server);
 var mysql = require("mysql");
+
+// To access local files
+var fileSystem = require('fs');
 
 var connection = mysql.createConnection({
     host : "localhost",
@@ -15,13 +19,13 @@ var connection = mysql.createConnection({
     password : ""
 });
 
-connection.connect(function(err){
-    if(!err) {
-        console.log("Database is connected...");
-    } else {
-        console.log("Error connecting database !");
-    }
-});
+//connection.connect(function(err){
+//    if(!err) {
+//        console.log("Database is connected...");
+//    } else {
+//        console.log("Error connecting database !");
+//    }
+//});
 
 var visiteur = require('./controllers/visiteur');
 var admin = require('./controllers/admin');
@@ -31,6 +35,7 @@ var adminZWSound = require('./controllers/adminZWSound');
 var adminZWScreen = require('./controllers/adminZWScreen');
 
 var adminMusic = require('./widgets/music/controllers/admin');
+var diffMusic = require('./widgets/music/controllers/diff');
 
 
 server.listen(8080);
@@ -54,6 +59,12 @@ app.set("view engine", "ejs");
 //Specify where the static content is
 app.use(express.static("public", __dirname + "/public"));
 
+// to handle multipart/form-data
+app.use(multer({ dest: './uploads/'}));
+
+// for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
 //Specify routes
 app.get('/', function(req, res) {
     visiteur.run(req, res, connection);
@@ -75,19 +86,21 @@ app.get('/diffusion', function(req, res) {
     diffusion.run(req, res, connection);
 });
 
-//Doesn't keep the css > why ?
 app.get('/widgets/music/admin', function (req, res) {
     adminMusic.run(req, res, connection);
 });
 
-app.get('/adminMusic', function (req, res) {
-    adminMusic.run(req, res, connection);
-});
-
 app.post('/widgets/music/admin/upload', function (req, res) {
-    adminMusic.run(req, res, connection);
+    adminMusic.upload(req, res, connection);
 });
 
+app.get('/widgets/music/diff', function (req, res) {
+    diffMusic.run(req, res, connection);
+});
+
+app.get('/widgets/music/diff/stream', function (req, res) {
+    diffMusic.nextMusic(req, res, connection);
+});
 
 io.on('connection', function(socket) {
     visiteur.refreshVoteMusic(connection, socket);

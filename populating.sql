@@ -1,11 +1,11 @@
-INSERT INTO content (idContent, nomContent, link, idWidget)
-VALUES (1, "Daft Punk - Aerodynamic", "lien1", 1);
-
-INSERT INTO content (idContent, nomContent, link, idWidget)
-VALUES (2, "Django Reinhardt - Nuages", "lien2", 1);
-
-INSERT INTO content (idContent, nomContent, link, idWidget)
-VALUES (3, "Pitt Poule - Tears", "lien3", 1);
+-- INSERT INTO content (idContent, nomContent, link, idWidget)
+-- VALUES (1, "Daft Punk - Aerodynamic", "lien1", 1);
+--
+-- INSERT INTO content (idContent, nomContent, link, idWidget)
+-- VALUES (2, "Django Reinhardt - Nuages", "lien2", 1);
+--
+-- INSERT INTO content (idContent, nomContent, link, idWidget)
+-- VALUES (3, "Pitt Poule - Tears", "lien3", 1);
 
 
 INSERT INTO widgetzone (idWidgetZone, nomWidgetZone)

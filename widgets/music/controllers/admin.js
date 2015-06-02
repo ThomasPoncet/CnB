@@ -21,3 +21,16 @@ exports.run = function (req, res, connection) {
 
 
 };
+
+exports.upload = function(req, res, connection){
+    DAO.addContent(connection, req.files.file, function () {
+        getContentList(connection, function(list) {
+            res.render("musicAdmin", {listContent: list});
+        })
+    });
+
+    //run(req, res, connection);
+    //getContentList(connection, function(list) {
+    //    res.render("musicAdmin", {listContent: list});
+    //});
+}
