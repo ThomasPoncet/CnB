@@ -2,15 +2,7 @@
  * Created by Tanguy on 29/05/15.
  */
 
-
 var socket = io.connect(document.domain+':8080');
-
-var sessionId = '';
-
-socket.on('connect', function () {
-    sessionId = socket.io.engine.id;
-    console.log('Connected ' + sessionId);
-});
 
 socket.on('voteMusicDone', function (data) {
     updateVoteMusic(data.listContent, data.listWidget, data.listVoteVisitor);

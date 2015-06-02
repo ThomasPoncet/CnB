@@ -41,6 +41,7 @@ var adminMusic = require('./widgets/music/controllers/admin');
 var diffMusic = require('./widgets/music/controllers/diff');
 var visitorMusic = require('./widgets/music/controllers/visitor');
 
+var session = require('client-sessions');
 
 var ipAddr = "127.0.0.1";
 
@@ -67,8 +68,21 @@ app.use(multer({ dest: './uploads/'}));
 // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(session({
+    cookieName: 'visitorSession',
+    secret: 'T4MFNkeL0Wx014mtK8Cr', // random string for security
+    duration: 5 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000
+}));
+
 //Specify routes
 app.get('/', function(req, res) {
+
+    // if session doesn't exist
+    if (!req.visitorSession.idSession) {
+        req.visitorSession.idSession = visitor.makeId();
+    }
+
     visitor.run(req, res, connection);
 });
 
@@ -122,6 +136,10 @@ app.use(function(req, res, next){
 
 /* Socket.IO events */
 io.on('connection', function(socket) {
+
+    socket.on('connection', function(data) {
+
+    })
     // For the first connection
     visitorWidgets.refreshListWidgets(connection, socket);
     visitorMusic.refreshVoteMusic(connection, socket);

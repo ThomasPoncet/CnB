@@ -34,7 +34,8 @@ getVoteVisitorList = function(connection, callback) {
 };
 
 exports.run = function (req, res, connection) {
-    res.render("musicVisitor");
+    // We pass the visitor's idSession to the view
+    res.render("musicVisitor", {sessionId: req.visitorSession.idSession});
 };
 
 exports.refreshVoteMusic = function(connection, socket) {
