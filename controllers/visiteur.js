@@ -25,8 +25,8 @@ getActiveWidgetList = function(connection, callback) {
 
 exports.refreshMenu = function(connection, socket) {
     getActiveWidgetList(connection, function(list) {
-        socket.emit("refresh", {listActiveWidget: list});
-        socket.broadcast.emit("refresh", {listActiveWidget: list});
+        socket.emit("refreshMenu", {listActiveWidget: list});
+        socket.broadcast.emit("refreshMenu", {listActiveWidget: list});
     });
 };
 

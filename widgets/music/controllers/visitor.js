@@ -34,25 +34,28 @@ getVoteVisitorList = function(connection, callback) {
 };
 
 exports.run = function (req, res, connection) {
-    // We pass the visitor's idSession to the view
-    res.render("musicVisitor", {sessionId: req.visitorSession.idSession});
+
+    getContentList(connection, function(list) {
+        getVoteVisitorList(connection, function(list2) {
+            // We pass also the visitor's idSession to the view
+            res.render("musicVisitor", {listContent: list, listVoteVisitor: list2,
+                                        sessionId: req.visitorSession.idSession});
+        });
+    });
+
 };
 
 exports.refreshVoteMusic = function(connection, socket) {
-    getWidgetList(connection, function(list) {
+    getContentList(connection, function(list) {
 
-        getContentList(connection, function(list2) {
-
-            getVoteVisitorList(connection, function(list3) {
+            getVoteVisitorList(connection, function(list2) {
                 // Refresh for the user who voted
-                socket.emit("voteMusicDone", {listWidget: list, listContent: list2, listVoteVisitor: list3});
+                socket.emit("voteMusicDone", {listContent: list, listVoteVisitor: list2});
 
                 // Refresh for the others
-                socket.broadcast.emit("voteMusicDone", {listWidget: list, listContent: list2, listVoteVisitor: list3});
+                socket.broadcast.emit("voteMusicDone", {listContent: list, listVoteVisitor: list2});
             });
         });
-
-    });
 }
 
 exports.actionVoteMusic = function(idVisitor, idContent, idWidget, connection, callback) {

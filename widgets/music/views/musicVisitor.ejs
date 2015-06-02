@@ -1,5 +1,8 @@
 <script>
+    // Tip to pass variable to javascript
     var sessionId = <%- JSON.stringify(sessionId) %>;
+    var listContent = <%- JSON.stringify(listContent) %>;
+    var listVoteVisitor = <%- JSON.stringify(listVoteVisitor) %>;
 </script>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -15,7 +18,7 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
 
-<body>
+<body onload="updateList(listContent, listVoteVisitor);">
 <h1>Choose Music</h1>
 
 <div id="widget-list" class="list-group"></div>

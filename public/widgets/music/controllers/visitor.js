@@ -2,6 +2,10 @@
  * Created by Tanguy on 29/05/15.
  */
 
+// if sessionId doesn't exist
+if(typeof sessionId == undefined)
+    var sessionId = '';
+
 var socket = io.connect(document.domain+':8080');
 
 socket.on('voteMusicDone', function (data) {

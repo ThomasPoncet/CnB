@@ -19,6 +19,8 @@ exports.refreshListWidgets = function(connection, socket) {
     });
 };
 
-exports.run=function(req, res, connection) {
-    res.render("visitorWidgets");
+exports.run = function(req, res, connection) {
+    getWidgetList(connection, function(list) {
+        res.render("visitorWidgets", {listWidget: list});
+    });
 };

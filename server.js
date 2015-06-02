@@ -9,6 +9,7 @@ var server = require('http').Server(app);
 var bodyParser = require("body-parser");
 var io = require('socket.io')(server);
 var mysql = require("mysql");
+var session = require('client-sessions');
 
 // To access local files
 var fileSystem = require('fs');
@@ -40,8 +41,6 @@ var adminZWScreen = require('./controllers/adminZWScreen');
 var adminMusic = require('./widgets/music/controllers/admin');
 var diffMusic = require('./widgets/music/controllers/diff');
 var visitorMusic = require('./widgets/music/controllers/visitor');
-
-var session = require('client-sessions');
 
 var ipAddr = "127.0.0.1";
 
@@ -131,18 +130,9 @@ app.use(function(req, res, next){
     res.status(404).send('ERREUR 404 : PAGE INTROUVABLE !');
 });
 
-
-
-
 /* Socket.IO events */
 io.on('connection', function(socket) {
 
-    socket.on('connection', function(data) {
-
-    })
-    // For the first connection
-    visitorWidgets.refreshListWidgets(connection, socket);
-    visitorMusic.refreshVoteMusic(connection, socket);
     visitor.refreshMenu(connection, socket);
 
     // When a visitor vote
