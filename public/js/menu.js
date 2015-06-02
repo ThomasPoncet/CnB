@@ -2,7 +2,7 @@
  * Created by Tanguy on 02/06/15.
  */
 
-var socket = io.connect('http://localhost:8080');
+var socket = io.connect(document.domain+':8080');
 
 socket.on('refresh', function (data) {
     updateMenu(data.listActiveWidget);

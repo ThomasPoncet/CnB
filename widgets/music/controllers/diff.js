@@ -29,8 +29,9 @@ exports.nextMusic = function(req, res, connection, io){
                 DAO.getContentList(connection, function(listContent) {
                     // TODO : idWidget
                     io.sockets.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
-                })
-            })
-        })
-    })
+                    // TODO : We have to refresh local variable vote (in client side musicVisitor) !!!
+                });
+            });
+        });
+    });
 };

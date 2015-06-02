@@ -27,6 +27,7 @@ var connection = mysql.createConnection({
 //    }
 //});
 
+
 var visitor = require('./controllers/visiteur');
 var admin = require('./controllers/admin');
 var diffusion = require('./controllers/diffusion');
@@ -41,15 +42,13 @@ var diffMusic = require('./widgets/music/controllers/diff');
 var visitorMusic = require('./widgets/music/controllers/visitor');
 
 
-server.listen(8080);
-
-
+var ipAddr = "127.0.0.1";
 
 //Server's IP address
-app.set("ipaddr", "127.0.0.1");
+app.set("ipaddr", ipAddr);
 
 ////Server's port number
-//app.set("port", 8080);
+app.set("port", 8080);
 
 var arrayViews = [__dirname + "/views", __dirname + "/widgets/music/views"];
 //Specify the views folder
@@ -150,7 +149,8 @@ io.on('connection', function(socket) {
 
 
 
-app.listen(app.get("port"), app.get("ipaddr"), function () {
+
+server.listen(app.get("port"), app.get("ipaddr"), function () {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
 
 });

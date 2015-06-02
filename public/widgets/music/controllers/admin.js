@@ -2,14 +2,14 @@
  * Created by thomas on 30/05/15.
  */
 
-var serverBaseUrl = document.domain;
-var socket = io.connect('http://localhost:8080');
+//var serverBaseUrl = document.domain;
+var socket = io.connect(document.domain+':8080');
 var sessionId = '';
 
-//socket.on('connect', function () {
-//    sessionId = socket.io.engine.id;
-//    console.log('Connected ' + sessionId);
-//});
+socket.on('connect', function () {
+    sessionId = socket.io.engine.id;
+    console.log('Connected ' + sessionId);
+});
 
 socket.on('refreshContent', function(info){
     if (info.context.idWidget == 1){ //TODO idWidget
@@ -56,7 +56,7 @@ function updateList(listContent) {
                    +        '</div>'
                    +    '</div>'
                    +  '</li>';
-    }
+    } // TODO : add button delete
     document.getElementById('musicList').innerHTML = htmlString;
 }
 
