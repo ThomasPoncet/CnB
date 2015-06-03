@@ -39,3 +39,13 @@ exports.updateContentStatus = function(connection, data, socket){
         })
     })
 };
+
+exports.deleteContent = function(connection, data, socket){
+    DAO.deleteContent(connection, data.idContent, function(){
+        DAO.getContentList(connection, function(listContent){
+            //TODO idWidget
+            socket.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
+            socket.broadcast.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
+        })
+    })
+};

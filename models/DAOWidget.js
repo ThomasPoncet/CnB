@@ -202,11 +202,30 @@ exports.updateVote = function(idVisitor, idContent, oldVote, connection, callbac
 
 exports.updateContentStatus = function(connection, idContent, active, callback){
     connection.query('UPDATE cnb.content SET ' +
-        'active = '+ active +' WHERE idContent=' + idContent, function (err, rows, fields) {
+        'active = '+ active +' WHERE idContent=' + idContent, function (err) {
 
         if (err)
             console.log('Error while performing Query updateContentStatus. [13]');
 
         callback();
     })
+};
+
+exports.deleteContent = function(connection, idContent, callback){
+    // TODO : transaction
+    connection.query('DELETE FROM cnb.content ' +
+        'WHERE idContent=' + idContent, function (err) {
+
+        if (err)
+            console.log('Error while performing Query deleteContent in content. [14-1]');
+
+        connection.query('DELETE FROM cnb.vote_content ' +
+            'WHERE idContent=' + idContent, function (err) {
+
+            if (err)
+                console.log('Error while performing Query deleteContent in vote-content. [14-2]');
+
+            callback();
+        });
+    });
 };

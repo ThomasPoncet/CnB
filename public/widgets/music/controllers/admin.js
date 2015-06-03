@@ -70,10 +70,8 @@ function updateContentStatus(idWidget, idContent, active){
 }
 
 function deleteContent(idWidget, idContent){
-    if (confirm("Are you sure to delete this content ("+idContent.name)) {
-        alert("suppression");
-    } else {
-        alert("pas de suppression");
+    if (confirm("Are you sure you want to delete this content ("+idContent.name+") ?")) {
+        socket.emit('deleteContent', {context: {idWidget: idWidget}, data: {idContent: idContent}});
     }
 }
 

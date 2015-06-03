@@ -143,7 +143,13 @@ io.on('connection', function(socket) {
         if (info.context.idWidget == 1){
             adminMusic.updateContentStatus(connection, info.data, socket);
         }
-    })
+    });
+
+    socket.on('deleteContent', function(info){
+        if (info.context.idWidget == 1){
+            adminMusic.deleteContent(connection, info.data, socket);
+        }
+    });
 });
 
 
