@@ -142,6 +142,9 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on('updateVisibility', function(data) {
+        adminZWSound.updateVisibility(connection,data);
+    });
     /*
         When the status of a content of a widget
         is updated by the administrator (the contents can be
