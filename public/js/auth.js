@@ -19,7 +19,7 @@ if (!req.session.admin) {*/
         alert("Mot de passe incorrect!", "Erreur");
         //redirection to the home page
         document.location.href = "/..";
-    } else {
-        req.session.admin = true;
-    }
+    } //else {
+       // req.session.admin = true;
+    //}
 //}

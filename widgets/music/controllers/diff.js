@@ -3,7 +3,7 @@
  */
 
 // To access local files
-var fileSystem = require('fs');
+var fs = require('fs');
 
 var DAO = require('../../../models/DAOWidget.js');
 
@@ -14,13 +14,13 @@ exports.run = function(req, res, connection){
 exports.nextMusic = function(req, res, connection, io){
     DAO.getFirstContent(connection, function(rows){
         var filePath = './uploads/'+rows[0].link;
-        var stat = fileSystem.statSync(filePath);
+        var stat = fs.statSync(filePath);
         res.writeHead(200, {
             'Content-Type': 'audio/mpeg',
             'Content-Length': stat.size
         });
 
-        var readStream = fileSystem.createReadStream(filePath);
+        var readStream = fs.createReadStream(filePath);
         readStream.pipe(res);
 
         // To delete this song from the playlist

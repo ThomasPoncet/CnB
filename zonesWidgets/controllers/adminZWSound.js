@@ -3,8 +3,6 @@
  */
 
 var DAOZWSound = require('../models/DAOZWSound.js');
-
-
 getSoundWidgets = function(connection, callback) {
 
     DAOZWSound.getWidgetList(connection, function(list) {
@@ -19,4 +17,8 @@ exports.run=function(req, res, connection) {
         res.render("adminZWSound", {listWidgets : list});
     });
 
+};
+
+exports.updateVisibility=function(connection, data) {
+    DAOZWSound.updateVisibleZones(connection, data);
 };

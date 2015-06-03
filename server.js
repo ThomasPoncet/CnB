@@ -153,21 +153,33 @@ io.on('connection', function(socket) {
         visitorWidgets.actionSuggest(data.idZoneWidget, connection, function () {
             visitorWidgets.refreshListWidgets(connection, socket);
         });
+
+        socket.on('updateVisibility', function (data) {
+            adminZWSound.updateVisibility(connection, data);
+
+        });
+        /*
+         When the status of a content of a widget
+         is updated by the administrator (the contents can be
+         active or inactive
+         */
+        socket.on('updateContentStatus', function (info) {
+            if (info.context.idWidget == 1) {
+                adminMusic.updateContentStatus(connection, info.data, socket);
+            }
+        });
+
+        socket.on('deleteContent', function (info) {
+            if (info.context.idWidget == 1) {
+                adminMusic.deleteContent(connection, info.data, socket);
+            }
+        });
     });
-    /*
-        When the status of a content of a widget
-        is updated by the administrator (the contents can be
-        active or inactive
-     */
-    socket.on('updateContentStatus', function(info){
-        if (info.context.idWidget == 1){
-            adminMusic.updateContentStatus(connection, info.data, socket);
-        }
-    })
 });
 
 server.listen(app.get("port"), app.get("ipaddr"), function () {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
 
 });
+
 
