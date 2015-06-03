@@ -55,6 +55,11 @@ function updateList(listContent) {
                    +            '</button>'
                    +        '</div>'
                    +    '</div>'
+                   +    '<button type="button" class="btn btn-default btn-sm" onclick="deleteContent(1,'
+                   +    listContent[i].idContent
+                   +    ')">'
+                   +        '<span class="glyphicon glyphicon-trash"></span>'
+                   +    '</button>'
                    +  '</li>';
     } // TODO : add button delete
     document.getElementById('musicList').innerHTML = htmlString;
@@ -62,5 +67,13 @@ function updateList(listContent) {
 
 function updateContentStatus(idWidget, idContent, active){
     socket.emit('updateContentStatus', {context: {idWidget: idWidget}, data: {idContent: idContent, active: active}});
+}
+
+function deleteContent(idWidget, idContent){
+    if (confirm("Are you sure to delete this content ("+idContent.name)) {
+        alert("suppression");
+    } else {
+        alert("pas de suppression");
+    }
 }
 

@@ -4,9 +4,11 @@
 
 var socket = io.connect(document.domain+':8080');
 
-socket.on('refresh', function (data) {
+socket.on('refreshMenu', function (data) {
+
     updateMenu(data.listActiveWidget);
 });
+
 
 function updateMenu(listActiveWidget) {
 
