@@ -35,8 +35,8 @@ var diffusion = require('./controllers/diffusion');
 
 var visitorWidgets = require('./controllers/visitorWidgets');
 
-var adminZWSound = require('./controllers/adminZWSound');
-var adminZWScreen = require('./controllers/adminZWScreen');
+var adminZWSound = require('./zonesWidgets/controllers/adminZWSound');
+var adminZWScreen = require('./zonesWidgets/controllers/adminZWScreen');
 
 var adminMusic = require('./widgets/music/controllers/admin');
 var diffMusic = require('./widgets/music/controllers/diff');
@@ -50,7 +50,7 @@ app.set("ipaddr", ipAddr);
 ////Server's port number
 app.set("port", 8080);
 
-var arrayViews = [__dirname + "/views", __dirname + "/widgets/music/views"];
+var arrayViews = [__dirname + "/views", __dirname + "/widgets/music/views", __dirname + "/zonesWidgets/views"];
 //Specify the views folder
 //app.set("views", __dirname + "/views");
 app.set("views", arrayViews);
@@ -142,6 +142,9 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on('updateVisibility', function(data) {
+        adminZWSound.updateVisibility(connection,data);
+    });
     /*
         When the status of a content of a widget
         is updated by the administrator (the contents can be
@@ -153,10 +156,6 @@ io.on('connection', function(socket) {
         }
     })
 });
-
-
-
-
 
 server.listen(app.get("port"), app.get("ipaddr"), function () {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));

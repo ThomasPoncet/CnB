@@ -1,6 +1,16 @@
-<!-- Afficher : Liste des Widgets sons -->
-<!DOCTYPE html>
+<script language="JavaScript" src="/js/md5.js"></script>
+<script type="text/javascript" src="/js/auth.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/zonesWidgets/controllers/adminZWSound.js"></script>
+<script type="text/javascript">
+	function update(idWidget, nom) {
 
+		var active = document.getElementById(nom.id).checked;
+		updateVisibleZones(idWidget, active);
+
+	}
+</script>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Admin zone-widget sound</title> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <!-- values ok ?-->
@@ -24,8 +34,10 @@
 				<div class="row">
 					<div class="control-group">
 						<div class="checkbox col-xs-2">
-							<label id="<%=listWidgets[i].nomWidget%>">
-								<input type="checkbox">
+							<label>
+								<input type="checkbox" id="<%=listWidgets[i].nomWidget%>"
+									   <%if (listWidgets[i].active) {%>checked="true"<%}%>
+									   onclick="update(<%=listWidgets[i].idWidget%>, <%=listWidgets[i].nomWidget.toString()%>)">
 							</label>
 						</div>
 						<button type="button" class="btn btn-primary col-xs-10"
@@ -35,5 +47,6 @@
 				</div>
 			<%}%>
 		</div>
+
 	</body>
 </html>
