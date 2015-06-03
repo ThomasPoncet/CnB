@@ -6,7 +6,7 @@ var DAO = require('../../../models/DAOWidget.js');
 var fs = require('fs');
 
 
-getContentList = function(connection, callback) {
+var getContentList = function(connection, callback) {
 
     DAO.getContentList(connection, function(list) {
         callback(list)
@@ -24,10 +24,15 @@ exports.run = function (req, res, connection) {
 };
 
 exports.upload = function(req, res, connection){
-    DAO.addContent(connection, req.files.file, function () {
+    // TODO multiple file upload
+    var i = 0;
+    for (i; i < req.files.file.length-1; i++){
+        DAO.addContent(connection, req.files.file[i], function () {});
+    }
+    DAO.addContent(connection, req.files.file[i], function () {
         getContentList(connection, function(list) {
             res.render("musicAdmin", {listContent: list});
-        })
+        });
     });
 };
 
