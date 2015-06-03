@@ -8,6 +8,7 @@ socket.on('refreshMenu', function (data) {
     updateMenu(data.listActiveWidget);
 });
 
+
 function updateMenu(listActiveWidget) {
 
     // get widget name with a URL
