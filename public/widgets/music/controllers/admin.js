@@ -27,9 +27,10 @@ function updateList(listContent) {
 
     for (var i=0; i<listContent.length; i++){
         htmlString += '<li id=' + listContent[i].idContent + ' class="list-group-item">'
-                   +  '<span class="badge">'+listContent[i].nbVote+'</span>'
+                   +    '<span class="badge">'+listContent[i].nbVote+'</span>'
                    +    listContent[i].nomContent
-                   +    '<div class="btn-group" role="group" aria-label="...">'
+                   +    '<div style="float:right; margin: 0 10px">'
+                   +    '<div class="btn-group" role="group" aria-label="..." style="margin: 0 10px">'
                    +        '<div class="btn-group" role="group">'
                    +            '<button type="button" class="btn btn-default btn-sm ';
         if (listContent[i].active) {
@@ -60,6 +61,7 @@ function updateList(listContent) {
                    +    ')">'
                    +        '<span class="glyphicon glyphicon-trash"></span>'
                    +    '</button>'
+                   +    '</div>'
                    +  '</li>';
     } // TODO : add button delete
     document.getElementById('musicList').innerHTML = htmlString;
