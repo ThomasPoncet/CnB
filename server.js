@@ -9,6 +9,7 @@ var server = require('http').Server(app);
 var bodyParser = require("body-parser");
 var io = require('socket.io')(server);
 var mysql = require("mysql");
+var session = require("cookie-session");
 
 // To access local files
 var fileSystem = require('fs');
@@ -145,9 +146,6 @@ io.on('connection', function(socket) {
         }
     })
 });
-
-
-
 
 app.listen(app.get("port"), app.get("ipaddr"), function () {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
