@@ -56,7 +56,7 @@ function updateList(listContent) {
                    +        '</div>'
                    +    '</div>'
                    +    '<button type="button" class="btn btn-default btn-sm" onclick="deleteContent(1,'
-                   +    listContent[i].idContent
+                   +    listContent[i].idContent+', \''+listContent[i].link+'\''
                    +    ')">'
                    +        '<span class="glyphicon glyphicon-trash"></span>'
                    +    '</button>'
@@ -69,9 +69,9 @@ function updateContentStatus(idWidget, idContent, active){
     socket.emit('updateContentStatus', {context: {idWidget: idWidget}, data: {idContent: idContent, active: active}});
 }
 
-function deleteContent(idWidget, idContent){
-    if (confirm("Are you sure you want to delete this content ("+idContent.name+") ?")) {
-        socket.emit('deleteContent', {context: {idWidget: idWidget}, data: {idContent: idContent}});
+function deleteContent(idWidget, idContent, link){
+    if (confirm("Are you sure you want to delete this content ?")) {
+        socket.emit('deleteContent', {context: {idWidget: idWidget}, data: {idContent: idContent, link: link}});
     }
 }
 

@@ -3,6 +3,7 @@
  */
 
 var DAO = require('../../../models/DAOWidget.js');
+var fs = require('fs');
 
 
 getContentList = function(connection, callback) {
@@ -43,6 +44,9 @@ exports.updateContentStatus = function(connection, data, socket){
 exports.deleteContent = function(connection, data, socket){
     DAO.deleteContent(connection, data.idContent, function(){
         DAO.getContentList(connection, function(listContent){
+            fs.unlink('./uploads/'+data.link, function (err) {
+                if (err) throw err;
+            });
             //TODO idWidget
             socket.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
             socket.broadcast.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
