@@ -1,12 +1,32 @@
-<script>
-    // Tip to pass variable to javascript
-    var listWidget = <%- JSON.stringify(listWidget) %>;
-</script>
+<!--<script>-->
+    <!--// Tip to pass variable to javascript-->
+    <!--var listWidget = <%- JSON.stringify(listWidget) %>;-->
+<!--</script>-->
 
-<script src="/socket.io/socket.io.js"></script>
-<script src="/widgets/music/controllers/visitor.js"></script>
-<script src="/js/menu.js"></script>
-<script src="/js/widgetsList.js"></script>
+<!--<script src="/socket.io/socket.io.js"></script>-->
+<!--<script src="/widgets/music/controllers/visitor.js"></script>-->
+<!--<script src="/js/menu.js"></script>-->
+<!--<script src="/js/widgetsList.js"></script>-->
+
+<!--<!DOCTYPE html>-->
+
+<!--<html>-->
+<!--<head>-->
+    <!--<title>Choose ‘N’ Broadcast</title>-->
+    <!--<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">-->
+    <!--<link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">-->
+<!--</head>-->
+
+<!--<body onload="updateListWidgets(listWidget)">-->
+<!--<h1>Widgets list</h1>-->
+
+<!--&lt;!&ndash; Menu &ndash;&gt;-->
+<!--<div id="widget-list" class="list-group"></div>-->
+
+<!--<div id="widgetList" class="list-group"></div>-->
+
+<!--</body>-->
+<!--</html>-->
 
 <!DOCTYPE html>
 
@@ -17,13 +37,40 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
 
-<body onload="updateListWidgets(listWidget)">
+<body>
 <h1>Widgets list</h1>
 
-<!-- Menu -->
-<div id="widget-list" class="list-group"></div>
+<ul class="nav nav-tabs">
+    <li role="presentation"><a href="#">Home</a></li>
+    <li role="presentation" class="active"><a href="#">Widgets</a></li>
+    <li role="presentation"><a href="#">Music</a></li>
+    <li role="presentation"><a href="#">Video</a></li>
+</ul>
 
-<div id="widgetList" class="list-group"></div>
+<h3>Sound</h3>
+<ul class="list-group">
+    <li class="list-group-item list-group-item-success">Music</li>
+    <li class="list-group-item">Youtube(Only music)
+        <button type="button" id="myButton" class="btn btn-primary">
+            Suggest
+        </button>
+    </li>
+</ul>
+<h3>Screen</h3>
+<ul class="list-group">
+    <li class="list-group-item list-group-item-success">Video</li>
+    <li class="list-group-item">Youtube(Only video)
+        <button type="button" id="myButton" class="btn btn-success">
+            7
+        </button>
 
+        <button type="button" id="myButton" class="btn btn-danger">
+            1
+        </button>
+    </li>
+
+</ul>
+
+<br />Time to vote ! (31s left)
 </body>
 </html>
