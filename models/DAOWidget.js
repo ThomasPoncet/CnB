@@ -4,7 +4,7 @@
 
 exports.getWidgetList = function(connection, callback) {
 
-    connection.query('SELECT idWidget, nomWidget, idWidgetZone FROM cnb.widget', function(err, rows, fields) {
+    connection.query('SELECT idWidget, nomWidget, idWidgetZone, active FROM cnb.widget', function(err, rows, fields) {
 
         if (err)
             console.log('Error while performing Query. [0]');
@@ -17,7 +17,7 @@ exports.getWidgetList = function(connection, callback) {
 
 exports.getActiveWidgetList = function(connection, callback) {
 
-    connection.query('SELECT idWidget, nomWidget, idWidgetZone FROM cnb.widget ' +
+    connection.query('SELECT idWidget, nomWidget, idWidgetZone, active FROM cnb.widget ' +
         'WHERE active=true', function(err, rows, fields) {
 
         if (err)
@@ -101,9 +101,10 @@ exports.getFirstContent = function(connection, callback) {
         '    GROUP BY idContent ' +
         '    ) AS v ' +
         '    ON c.idContent = v.idContent ' +
+        '   WHERE active = true ' +
         '   ORDER BY nbVote desc' +
         '   LIMIT 1', function(err, rows, fields) {
-
+        // TODO : If there is no content !
         if (err)
             console.log('Error while performing Query. [6]');
 
@@ -201,10 +202,10 @@ exports.updateVote = function(idVisitor, idContent, oldVote, connection, callbac
 
 exports.updateContentStatus = function(connection, idContent, active, callback){
     connection.query('UPDATE cnb.content SET ' +
-        'acitve = '+ active +' WHERE idContent="' + idContent, function (err, rows, fields) {
+        'active = '+ active +' WHERE idContent=' + idContent, function (err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. [13]');
+            console.log('Error while performing Query updateContentStatus. [13]');
 
         callback();
     })

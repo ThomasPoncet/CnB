@@ -4,6 +4,23 @@
 
 var DAOWidget = require('../models/DAOWidget.js');
 
-exports.run=function(req, res, connection) {
-    res.render("visitorWidgets");
+getWidgetList = function(connection, callback) {
+
+    DAOWidget.getWidgetList(connection, function(list) {
+        callback(list)
+    });
+
+};
+
+exports.refreshListWidgets = function(connection, socket) {
+    getWidgetList(connection, function(list) {
+        socket.emit("refreshListWidgets", {listWidget: list});
+        socket.broadcast.emit("refreshListWidgets", {listWidget: list});
+    });
+};
+
+exports.run = function(req, res, connection) {
+    getWidgetList(connection, function(list) {
+        res.render("visitorWidgets", {listWidget: list});
+    });
 };

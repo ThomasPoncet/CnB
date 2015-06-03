@@ -32,8 +32,10 @@ exports.upload = function(req, res, connection){
 
 exports.updateContentStatus = function(connection, data, socket){
     DAO.updateContentStatus(connection, data.idContent, data.active, function(){
-        DAO.getContentList(connection, function(contentList){
-            socket.emit('updateContentStatus', {context: {idWidget: 1}, data: {contetList: contentList}}); //TODO idWidget
+        DAO.getContentList(connection, function(listContent){
+            //TODO idWidget
+            socket.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
+            socket.broadcast.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
         })
     })
 };

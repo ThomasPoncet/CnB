@@ -9,7 +9,7 @@ var server = require('http').Server(app);
 var bodyParser = require("body-parser");
 var io = require('socket.io')(server);
 var mysql = require("mysql");
-var session = require("cookie-session");
+var session = require('client-sessions');
 
 // To access local files
 var fileSystem = require('fs');
@@ -28,6 +28,7 @@ var connection = mysql.createConnection({
 //    }
 //});
 
+
 var visitor = require('./controllers/visiteur');
 var admin = require('./controllers/admin');
 var diffusion = require('./controllers/diffusion');
@@ -41,16 +42,13 @@ var adminMusic = require('./widgets/music/controllers/admin');
 var diffMusic = require('./widgets/music/controllers/diff');
 var visitorMusic = require('./widgets/music/controllers/visitor');
 
-
-server.listen(8080);
-
-
+var ipAddr = "127.0.0.1";
 
 //Server's IP address
-app.set("ipaddr", "127.0.0.1");
+app.set("ipaddr", ipAddr);
 
 ////Server's port number
-//app.set("port", 8080);
+app.set("port", 8080);
 
 var arrayViews = [__dirname + "/views", __dirname + "/widgets/music/views"];
 //Specify the views folder
@@ -69,8 +67,21 @@ app.use(multer({ dest: './uploads/'}));
 // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(session({
+    cookieName: 'visitorSession',
+    secret: 'T4MFNkeL0Wx014mtK8Cr', // random string for security
+    duration: 5 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000
+}));
+
 //Specify routes
 app.get('/', function(req, res) {
+
+    // if session doesn't exist
+    if (!req.visitorSession.idSession) {
+        req.visitorSession.idSession = visitor.makeId();
+    }
+
     visitor.run(req, res, connection);
 });
 
@@ -111,7 +122,7 @@ app.get('/widgets/music/diff', function (req, res) {
 });
 
 app.get('/widgets/music/diff/stream', function (req, res) {
-    diffMusic.nextMusic(req, res, connection);
+    diffMusic.nextMusic(req, res, connection, io);
 });
 
 app.use(function(req, res, next){
@@ -119,13 +130,9 @@ app.use(function(req, res, next){
     res.status(404).send('ERREUR 404 : PAGE INTROUVABLE !');
 });
 
-
-
-
 /* Socket.IO events */
 io.on('connection', function(socket) {
-    // For the first connection
-    visitorMusic.refreshVoteMusic(connection, socket);
+
     visitor.refreshMenu(connection, socket);
 
     // When a visitor vote
@@ -147,7 +154,7 @@ io.on('connection', function(socket) {
     })
 });
 
-app.listen(app.get("port"), app.get("ipaddr"), function () {
+server.listen(app.get("port"), app.get("ipaddr"), function () {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
 
 });
