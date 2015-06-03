@@ -142,6 +142,18 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on('voteWidget', function (data) {
+        visitorWidgets.actionVoteWidget(data.data.id, data.data.idWidget, data.context.idWidgetZone, connection, function () {
+            visitorWidgets.refreshListWidgets(connection, socket);
+        });
+    });
+
+    // When a visitor suggest a vote for a widget zone
+    socket.on('suggest', function (data) {
+        visitorWidgets.actionSuggest(data.idZoneWidget, connection, function () {
+            visitorWidgets.refreshListWidgets(connection, socket);
+        });
+    });
     /*
         When the status of a content of a widget
         is updated by the administrator (the contents can be

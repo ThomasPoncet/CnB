@@ -75,7 +75,8 @@ CREATE TABLE IF NOT EXISTS `widget` (
 
 CREATE TABLE IF NOT EXISTS `widgetzone` (
   `idWidgetZone` int(11) NOT NULL,
-  `nomWidgetZone` varchar(255) NOT NULL
+  `nomWidgetZone` varchar(255) NOT NULL,
+  `endVote` datetime DEFAULT NULL
 );
 
 --
