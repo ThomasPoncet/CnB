@@ -35,8 +35,8 @@ var diffusion = require('./controllers/diffusion');
 
 var visitorWidgets = require('./controllers/visitorWidgets');
 
-var adminZWSound = require('./controllers/adminZWSound');
-var adminZWScreen = require('./controllers/adminZWScreen');
+var adminZWSound = require('./zonesWidgets/controllers/adminZWSound');
+var adminZWScreen = require('./zonesWidgets/controllers/adminZWScreen');
 
 var adminMusic = require('./widgets/music/controllers/admin');
 var diffMusic = require('./widgets/music/controllers/diff');
@@ -50,7 +50,7 @@ app.set("ipaddr", ipAddr);
 ////Server's port number
 app.set("port", 8080);
 
-var arrayViews = [__dirname + "/views", __dirname + "/widgets/music/views"];
+var arrayViews = [__dirname + "/views", __dirname + "/widgets/music/views", __dirname + "/zonesWidgets/views"];
 //Specify the views folder
 //app.set("views", __dirname + "/views");
 app.set("views", arrayViews);
