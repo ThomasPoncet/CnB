@@ -37,8 +37,6 @@ var visitorWidgets = require('./controllers/visitorWidgets');
 var adminZWSound = require('./controllers/adminZWSound');
 var adminZWScreen = require('./controllers/adminZWScreen');
 
-var widgetAdmin = require('./controllers/widgetAdmin.js');
-
 var adminMusic = require('./widgets/music/controllers/admin');
 var diffMusic = require('./widgets/music/controllers/diff');
 var visitorMusic = require('./widgets/music/controllers/visitor');
@@ -142,11 +140,15 @@ io.on('connection', function(socket) {
         active or inactive
      */
     socket.on('updateContentStatus', function(info){
-        widgetAdmin.updateContentStatus(connection, info, socket);
+        if (info.context.idWidget == 1){
+            adminMusic.updateContentStatus(connection, info, socket);
+        }
     });
 
     socket.on('deleteContent', function(info){
-        widgetAdmin.deleteContent(connection, info, socket);
+        if (info.context.idWidget == 1){
+            adminMusic.deleteContent(connection, info, socket);
+        }
     });
 });
 

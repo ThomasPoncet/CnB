@@ -2,6 +2,7 @@
  * Created by thomas on 29/05/15.
  */
 
+var fs = require('fs');
 var DAO = require('../../../models/DAOWidget.js');
 var widgetAdmin = require('../../../controllers/widgetAdmin.js');
 
@@ -34,4 +35,18 @@ exports.addContent = function(req, res, connection, io){
     widgetAdmin.addContent(connection, newContentList, 0, function(listContent){
         res.redirect('/widgets/music/admin');
     }, io);
+};
+
+
+
+exports.updateContentStatus = function(connection, info, socket){
+    widgetAdmin.updateContentStatus(connection, info, socket, function(){});
+};
+
+exports.deleteContent = function(connection, info, socket){
+    widgetAdmin.deleteContent(connection, info, socket, function(){
+        fs.unlink('./uploads/'+info.data.link, function (err) {
+            if (err) throw err;
+        });
+    });
 };

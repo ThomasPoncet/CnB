@@ -2,7 +2,6 @@
  * Created by thomas on 04/06/15.
  */
 var DAO = require('../models/DAOWidget.js');
-var fs = require('fs');
 
 
 exports.run = function (req, res, connection, callback) {
@@ -25,21 +24,20 @@ exports.addContent = function addContent(connection, newContentList, startIndex,
     });
 };
 
-exports.updateContentStatus = function(connection, info, socket){
+exports.updateContentStatus = function(connection, info, socket, callback){
     DAO.updateContentStatus(connection, info.data.idContent, info.data.active, function(){
         DAO.getContentList(connection, function(listContent){
+            callback();
             socket.emit('refreshContent', {context: {idWidget: info.context.idWidget}, data: {listContent: listContent}});
             socket.broadcast.emit('refreshContent', {context: {idWidget: info.context.idWidget}, data: {listContent: listContent}});
         })
     })
 };
 
-exports.deleteContent = function(connection, info, socket){
+exports.deleteContent = function(connection, info, socket, callback){
     DAO.deleteContent(connection, info.data.idContent, function(){
         DAO.getContentList(connection, function(listContent){
-            fs.unlink('./uploads/'+info.data.link, function (err) {
-                if (err) throw err;
-            });
+            callback();
             socket.emit('refreshContent', {context: {idWidget: info.context.idWidget}, data: {listContent: listContent}});
             socket.broadcast.emit('refreshContent', {context: {idWidget: info.context.idWidget}, data: {listContent: listContent}});
         })
