@@ -59,7 +59,7 @@ exports.actionVoteWidget = function(idSession, idWidget, idWidgetZone, connectio
 
 
         // How much time visitor vote for this zone widget ?
-        DAOWidget.nbVoteWidget(idSession, idWidgetZone, connection, function(oldVote, nbVote) {
+        DAOWidget.nbVoteWidgetVisitor(idSession, idWidgetZone, connection, function(oldVote, nbVote) {
 
             // Visitor didn't vote yet -> we add vote
             if(nbVote == 0) {
@@ -77,7 +77,20 @@ exports.actionVoteWidget = function(idSession, idWidget, idWidgetZone, connectio
         });
 
     });
-}
+};
+
+exports.updateWidgets = function(idZoneWidget, connection, socket, callback) {
+
+    DAOWidget.resetTimer(idZoneWidget, connection, function() {
+        DAOWidget.maxVoteWidget(idZoneWidget, connection, function(idWidgetMax) {
+            DAOWidget.changeActivatedWidget(idZoneWidget, idWidgetMax, connection, function() {
+                DAOWidget.resetVoteWidget(idZoneWidget, connection, function() {
+                    callback();
+                })
+            })
+        })
+    })
+};
 
 exports.run = function(req, res, connection) {
     getWidgetList(connection, function(list) {

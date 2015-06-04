@@ -171,6 +171,14 @@ io.on('connection', function(socket) {
 
     // When a visitor suggest a vote for a widget zone
     socket.on('suggest', function (data) {
+
+        // When vote is finished, we activate/deactivate widgets
+        setTimeout(function() {
+            visitorWidgets.updateWidgets(data.idZoneWidget, connection, socket, function() {
+                visitorWidgets.refreshListWidgets(connection, socket);
+            });
+        }, 60000);
+
         visitorWidgets.actionSuggest(data.idZoneWidget, connection, function () {
             visitorWidgets.refreshListWidgets(connection, socket);
         });

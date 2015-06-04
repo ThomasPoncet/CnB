@@ -38,7 +38,7 @@ exports.getZoneWidgetList = function(connection, callback) {
 exports.changeEndVote = function(idZoneWidget, connection, callback)
 {
     // The vote finish into "actual time + 5 minutes"
-    connection.query('UPDATE cnb.widgetzone SET endVote = DATE_ADD(NOW(), INTERVAL 5 MINUTE) ' +
+    connection.query('UPDATE cnb.widgetzone SET endVote = DATE_ADD(NOW(), INTERVAL 1 MINUTE) ' +
                      'WHERE idWidgetZone=' + idZoneWidget, function (err, rows, fields) {
 
         if (err)
@@ -258,7 +258,7 @@ exports.updateVote = function(idVisitor, idContent, oldVote, connection, callbac
     })
 };
 
-exports.nbVoteWidget = function(idVisitor, idWidgetZone, connection, callback) {
+exports.nbVoteWidgetVisitor = function(idVisitor, idWidgetZone, connection, callback) {
 
     connection.query('SELECT w.idWidget, COUNT(*) AS nbVoteVisitor ' +
     'FROM cnb.widget w, cnb.vote_widget v ' +
@@ -335,3 +335,77 @@ exports.deleteContent = function(connection, idContent, callback){
         });
     });
 };
+
+exports.resetTimer = function(idZoneWidget, connection, callback) {
+    connection.query('UPDATE cnb.widgetzone SET endVote = NULL ' +
+                     'WHERE idWidgetZone=' + idZoneWidget, function (err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. resetTimer [15]',idVisitor, idWidget, oldVote);
+
+        callback();
+    })
+
+
+};
+
+exports.maxVoteWidget = function(idZoneWidget, connection, callback) {
+
+
+    connection.query('SELECT w.idWidget, COUNT(*) AS nbVote ' +
+                     'FROM cnb.widget w, cnb.vote_widget v ' +
+                     'WHERE w.idWidget = v.idWidget AND w.idWidgetZone=' + idZoneWidget +
+                     ' GROUP BY w.idWidget ORDER BY nbVote DESC LIMIT 1', function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. maxVoteWidget [16]');
+
+        callback(rows[0].idWidget)
+    })
+
+
+}
+
+exports.changeActivatedWidget = function(idZoneWidget, idWidgetMax, connection, callback) {
+    connection.query('SELECT idWidget FROM cnb.widget ' +
+                     'WHERE idWidgetZone='+ idZoneWidget +' AND active=true', function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. changeActivatedWidget [17-1]');
+
+        connection.query('UPDATE cnb.widget SET active=false ' +
+                         'WHERE idWidget=' + rows[0].idWidget, function(err, rows, fields) {
+            if (err)
+                console.log('Error while performing Query. changeActivatedWidget [17-2]');
+
+            connection.query('UPDATE cnb.widget SET active=true ' +
+                'WHERE idWidget=' + idWidgetMax, function(err, rows, fields) {
+                if (err)
+                    console.log('Error while performing Query. changeActivatedWidget [17-3]');
+
+                callback();
+
+            });
+
+        });
+
+    })
+}
+
+exports.resetVoteWidget = function(idZoneWidget, connection, callback) {
+    connection.query('SELECT idWidget FROM cnb.widget ' +
+        'WHERE idWidgetZone='+ idZoneWidget, function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. resetVoteWidget [18-1]');
+
+        for(var i=0; i<rows.length; i++) {
+            connection.query('DELETE FROM cnb.vote_widget WHERE idWidget='+rows[i].idWidget, function(err, rows, fields) {
+                if (err)
+                    console.log('Error while performing Query. resetVoteWidget [18-2]');
+            })
+
+        }
+        callback();
+    })
+}
