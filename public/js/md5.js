@@ -82,7 +82,7 @@ function ii(a, b, c, d, x, s, t)
 /*
  * Take a string and return the hex representation of its MD5.
  */
-function calcMD5(str)
+exports.calcMD5 = function calcMD5(str)
 {
     x = str2blks_MD5(str);
     a =  1732584193;

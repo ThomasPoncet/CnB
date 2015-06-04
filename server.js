@@ -10,7 +10,10 @@ var bodyParser = require("body-parser");
 var io = require('socket.io')(server);
 var mysql = require("mysql");
 var session = require('client-sessions');
-
+var basicAuth = require('basic-auth');
+var adminAuth = {
+    'admin': {password: '21232f297a57a5a743894a0e4a801fc3'},
+};
 // To access local files
 var fileSystem = require('fs');
 
@@ -41,6 +44,20 @@ var adminZWScreen = require('./zonesWidgets/controllers/adminZWScreen');
 var adminMusic = require('./widgets/music/controllers/admin');
 var diffMusic = require('./widgets/music/controllers/diff');
 var visitorMusic = require('./widgets/music/controllers/visitor');
+
+var hash = require('./public/js/md5');
+
+var auth = function(req, res, next){
+    var user = basicAuth(req);
+
+    if (!user || !adminAuth[user.name] || adminAuth[user.name].password !== hash.calcMD5(user.pass)){
+
+
+        res.set('WWW-Authenticate', 'Basic realm="admin"');
+        return res.status(401).send();
+    }
+    return next();
+};
 
 var ipAddr = "127.0.0.1";
 
@@ -85,15 +102,15 @@ app.get('/', function(req, res) {
     visitor.run(req, res, connection);
 });
 
-app.get('/admin', function(req, res) {
+app.get('/admin', auth, function(req, res) {
     admin.run(req, res, connection);
 });
 
-app.get('/adminZWSound', function(req, res) {
+app.get('/adminZWSound', auth, function(req, res) {
     adminZWSound.run(req, res, connection);
 });
 
-app.get('/adminZWScreen', function(req, res) {
+app.get('/adminZWScreen', auth, function(req, res) {
     adminZWScreen.run(req, res, connection);
 });
 
@@ -109,11 +126,11 @@ app.get('/widgets/music/visitor', function(req, res) {
     visitorMusic.run(req, res, connection);
 });
 
-app.get('/widgets/music/admin', function (req, res) {
+app.get('/widgets/music/admin', auth, function (req, res) {
     adminMusic.run(req, res, connection);
 });
 
-app.post('/widgets/music/admin/upload', function (req, res) {
+app.post('/widgets/music/admin/upload', auth, function (req, res) {
     adminMusic.upload(req, res, connection);
 });
 

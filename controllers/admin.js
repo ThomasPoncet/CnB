@@ -3,8 +3,6 @@
  */
 
 var DAOZWidget = require('../models/DAOZWidget.js');
-//var auth = require('../public/js/auth.js');
-
 getZonesWidgets = function(connection, callback) {
 
     DAOZWidget.getZWidgetList(connection, function(list) {
@@ -12,11 +10,9 @@ getZonesWidgets = function(connection, callback) {
     });
 };
 
-/*authentification = function(req, res, connection, callback){
-    auth.setBool(req, res, connection, callback);
-}*/
 
 exports.run=function(req, res, connection) {
+
 
     getZonesWidgets(connection, function(list) {
         res.render("admin", {listZonesWidget : list});

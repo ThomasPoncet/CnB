@@ -11,7 +11,8 @@
         "client-sessions": "~0.7.0",
         "body-parser": "~1.12.4",
         "mysql": "~2.6.2",
-        "multer":"~0.1.6"
+        "multer":"~0.1.6",
+        "basic-auth":"~1.0.1"
     },
     
 
