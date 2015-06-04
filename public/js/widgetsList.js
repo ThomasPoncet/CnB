@@ -33,6 +33,20 @@ function voteWidget(id, idWidget, idWidgetZone, suggested) {
     }
 }
 
+function refreshTime(idZoneWidget, endTime){
+
+    var time = Math.round((endTime - Date.now()) / 1000);
+    if(time > 0) {
+        var button = document.getElementById("buttonWidgetZone"+ idZoneWidget.toString());
+
+        if(button != undefined)
+            button.innerHTML = 'Vote in progress (' + time + 's left)';
+
+        setTimeout("refreshTime("+idZoneWidget+", "+endTime+")",1000);
+    }
+
+}
+
 function updateListWidgets(listWidgets, listZoneWidgets, listVoteVisitorWidget) {
 
     var string = '';
@@ -46,11 +60,11 @@ function updateListWidgets(listWidgets, listZoneWidgets, listVoteVisitorWidget) 
             var date = new Date(listZoneWidgets[i].endVote);
             var time = Math.round((date.getTime() - Date.now()) / 1000);
 
-            if (time > 0)
+            if (time > 0) {
                 suggested = true;
+            }
 
         }
-
 
         var nameZoneWidget = listZoneWidgets[i].nomWidgetZone.charAt(0).toUpperCase() +
             listZoneWidgets[i].nomWidgetZone.substring(1).toLowerCase();
@@ -63,7 +77,7 @@ function updateListWidgets(listWidgets, listZoneWidgets, listVoteVisitorWidget) 
             string += '<button type="button" class="btn btn-primary">Suggest a change</button>';
         }
         else {
-            string += '<button type="button" class="btn btn-primary disabled">Vote in progress (' + time + 's left)</button>';
+            string += '<button type="button" id="buttonWidgetZone'+ listZoneWidgets[i].idWidgetZone +'" class="btn btn-primary disabled">Vote in progress (' + time + 's left)</button>';
         }
 
         string += '</div></h3><div id="widgetzone' + listZoneWidgets[i].idWidgetZone + '" class="list-group">';
@@ -88,11 +102,13 @@ function updateListWidgets(listWidgets, listZoneWidgets, listVoteVisitorWidget) 
                 }
 
                 string += '" onclick="voteWidget(this.id,' + listWidgets[j].idWidget +
-                    ', ' + listWidgets[j].idWidgetZone + ',' + suggested + ');">' + nameWidget;
+                    ', ' + listWidgets[j].idWidgetZone + ',' + suggested + ');">';
 
                 // To show active widgets
                 if (listWidgets[j].active)
-                    string += ' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>';
+                    string += ' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ';
+
+                string += nameWidget;
 
                 if (suggested) {
                     string += '<span class="badge">' + listWidgets[j].nbVote + '</span>';
@@ -105,6 +121,9 @@ function updateListWidgets(listWidgets, listZoneWidgets, listVoteVisitorWidget) 
         }
 
         string += '</div><br />';
+
+        if(suggested)
+            refreshTime(listZoneWidgets[i].idWidgetZone, date.getTime());
 
     }
 
