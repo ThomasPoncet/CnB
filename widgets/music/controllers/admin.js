@@ -24,7 +24,6 @@ exports.run = function (req, res, connection) {
 };
 
 exports.upload = function(req, res, connection){
-    // TODO multiple file upload
     var i = 0;
     for (i; i < req.files.file.length-1; i++){
         DAO.addContent(connection, req.files.file[i], function () {});
