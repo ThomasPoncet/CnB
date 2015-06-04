@@ -148,16 +148,17 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on('updateVisibility', function (data) {
+        adminZWSound.updateVisibility(connection, data);
+    });
+
     // When a visitor suggest a vote for a widget zone
     socket.on('suggest', function (data) {
         visitorWidgets.actionSuggest(data.idZoneWidget, connection, function () {
             visitorWidgets.refreshListWidgets(connection, socket);
         });
 
-        socket.on('updateVisibility', function (data) {
-            adminZWSound.updateVisibility(connection, data);
 
-        });
         /*
          When the status of a content of a widget
          is updated by the administrator (the contents can be

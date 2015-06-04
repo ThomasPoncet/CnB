@@ -4,7 +4,7 @@
 
 exports.getWidgetList = function(connection, callback) {
 
-    connection.query('SELECT widget.nomWidget ' +
+    connection.query('SELECT widget.nomWidget, widget.idWidget, widget.active ' +
         'FROM cnb.widget INNER JOIN cnb.widgetzone ' +
         'ON widget.idWidgetZone = widgetzone.idWidgetZone ' +
         'WHERE widgetzone.nomWidgetZone = "Screen"', function(err, rows, fields) {

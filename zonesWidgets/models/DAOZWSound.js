@@ -29,14 +29,3 @@ exports.updateVisibleZones = function(connection, data) {
 
     });
 };
-/*
-getActiveFromId = function(connection, idWidget, active){
-    connection.query('SELECT active FROM cnb.widget WHERE idWidget=' + idWidget,
-        function(err, row, fields) {
-            if (err)
-                console.log('Error while performing Query. [tralalalala tralalalala]');
-
-        return(row);
-        });
-
-};*/
