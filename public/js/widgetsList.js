@@ -102,11 +102,13 @@ function updateListWidgets(listWidgets, listZoneWidgets, listVoteVisitorWidget) 
                 }
 
                 string += '" onclick="voteWidget(this.id,' + listWidgets[j].idWidget +
-                    ', ' + listWidgets[j].idWidgetZone + ',' + suggested + ');">' + nameWidget;
+                    ', ' + listWidgets[j].idWidgetZone + ',' + suggested + ');">';
 
                 // To show active widgets
                 if (listWidgets[j].active)
-                    string += ' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>';
+                    string += ' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ';
+
+                string += nameWidget;
 
                 if (suggested) {
                     string += '<span class="badge">' + listWidgets[j].nbVote + '</span>';
