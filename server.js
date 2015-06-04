@@ -37,6 +37,8 @@ var visitorWidgets = require('./controllers/visitorWidgets');
 var adminZWSound = require('./controllers/adminZWSound');
 var adminZWScreen = require('./controllers/adminZWScreen');
 
+var widgetAdmin = require('./controllers/widgetAdmin.js');
+
 var adminMusic = require('./widgets/music/controllers/admin');
 var diffMusic = require('./widgets/music/controllers/diff');
 var visitorMusic = require('./widgets/music/controllers/visitor');
@@ -100,8 +102,8 @@ app.get('/widgets/music/admin', function (req, res) {
     adminMusic.run(req, res, connection);
 });
 
-app.post('/widgets/music/admin/upload', function (req, res) {
-    adminMusic.upload(req, res, connection);
+app.post('/widgets/music/admin/addContent', function (req, res) {
+    adminMusic.addContent(req, res, connection, io);
 });
 
 app.get('/widgets/music/diff', function (req, res) {
@@ -140,15 +142,11 @@ io.on('connection', function(socket) {
         active or inactive
      */
     socket.on('updateContentStatus', function(info){
-        if (info.context.idWidget == 1){
-            adminMusic.updateContentStatus(connection, info.data, socket);
-        }
+        widgetAdmin.updateContentStatus(connection, info, socket);
     });
 
     socket.on('deleteContent', function(info){
-        if (info.context.idWidget == 1){
-            adminMusic.deleteContent(connection, info.data, socket);
-        }
+        widgetAdmin.deleteContent(connection, info, socket);
     });
 });
 

@@ -1,59 +1,47 @@
 /**
  * Created by thomas on 04/06/15.
  */
-var DAO = require('/models/DAOWidget.js');
-var musicAdmin = require('/widgets/music/controllers/admin');
+var DAO = require('../models/DAOWidget.js');
 var fs = require('fs');
 
 
-exports.run = function (req, res, connection) {
-    //TODO idWidget
-    //if (req.widget == 1){
-        musicAdmin.run(req, res, connection);
-    //}
-
-    //DAO.getContentList(connection, function(list) {
-    //    res.render("musicAdmin", {listContent: list});
-    //});
-
-
-};
-
-exports.addContent = function (req, res, connection){
-
-};
-
-exports.upload = function(req, res, connection){
-    var i = 0;
-    for (i; i < req.files.file.length-1; i++){
-        DAO.addContent(connection, req.files.file[i], function () {});
-    }
-    DAO.addContent(connection, req.files.file[i], function () {
-        getContentList(connection, function(list) {
-            res.render("musicAdmin", {listContent: list});
-        });
+exports.run = function (req, res, connection, callback) {
+    DAO.getContentList(connection, function(listContent) {
+        callback({listContent: listContent});
     });
 };
 
-exports.updateContentStatus = function(connection, data, socket){
-    DAO.updateContentStatus(connection, data.idContent, data.active, function(){
-        DAO.getContentList(connection, function(listContent){
+exports.addContent = function addContent(connection, newContentList, startIndex, callback, io){
+    DAO.addContent(connection, newContentList[startIndex], function(){
+        if (startIndex == newContentList.length-1){
             //TODO idWidget
-            socket.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
-            socket.broadcast.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
+            DAO.getContentList(connection, function(listContent){
+                io.sockets.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
+                callback();
+            });
+        } else {
+            addContent(connection, newContentList, startIndex+1, callback, io);
+        }
+    });
+};
+
+exports.updateContentStatus = function(connection, info, socket){
+    DAO.updateContentStatus(connection, info.data.idContent, info.data.active, function(){
+        DAO.getContentList(connection, function(listContent){
+            socket.emit('refreshContent', {context: {idWidget: info.context.idWidget}, data: {listContent: listContent}});
+            socket.broadcast.emit('refreshContent', {context: {idWidget: info.context.idWidget}, data: {listContent: listContent}});
         })
     })
 };
 
-exports.deleteContent = function(connection, data, socket){
-    DAO.deleteContent(connection, data.idContent, function(){
+exports.deleteContent = function(connection, info, socket){
+    DAO.deleteContent(connection, info.data.idContent, function(){
         DAO.getContentList(connection, function(listContent){
-            fs.unlink('./uploads/'+data.link, function (err) {
+            fs.unlink('./uploads/'+info.data.link, function (err) {
                 if (err) throw err;
             });
-            //TODO idWidget
-            socket.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
-            socket.broadcast.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
+            socket.emit('refreshContent', {context: {idWidget: info.context.idWidget}, data: {listContent: listContent}});
+            socket.broadcast.emit('refreshContent', {context: {idWidget: info.context.idWidget}, data: {listContent: listContent}});
         })
     })
 };

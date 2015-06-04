@@ -72,12 +72,12 @@ exports.getContentList = function(connection, callback) {
 
 exports.addContent = function(connection, data, callback) {
     connection.query('INSERT INTO cnb.content (nomContent, link, idWidget, active)' +
-        '   VALUES ("'+data.originalname+'", "'+data.name+'", 1, true);', // TODO : idWidget
-        function(err, rows, fields) {
-            if (err)
-                console.log('Error while performing Query. [4]');
-
-            callback(rows);
+        '   VALUES ("'+data.name+'", "'+data.link+'", '+data.idWidget+', '+data.active+');',
+        function(err) {
+            if (err) {
+                console.log('Error while performing Query addContent. [4]');
+            }
+            callback();
         });
 };
 

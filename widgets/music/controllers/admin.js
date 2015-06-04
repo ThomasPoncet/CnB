@@ -3,57 +3,35 @@
  */
 
 var DAO = require('../../../models/DAOWidget.js');
-var fs = require('fs');
-
-
-var getContentList = function(connection, callback) {
-
-    DAO.getContentList(connection, function(list) {
-        callback(list)
-    });
-
-};
+var widgetAdmin = require('../../../controllers/widgetAdmin.js');
 
 exports.run = function (req, res, connection) {
-
-    getContentList(connection, function(list) {
-        res.render("musicAdmin", {listContent: list});
+    widgetAdmin.run(req, res, connection, function(data){
+        // TODO : idWidget
+        res.render("musicAdmin", {context: {idWidget: 1}, data: data})
     });
-
-
 };
 
-exports.upload = function(req, res, connection){
-    var i = 0;
-    for (i; i < req.files.file.length-1; i++){
-        DAO.addContent(connection, req.files.file[i], function () {});
+exports.addContent = function(req, res, connection, io){
+    var newContentList = new Array();
+    if (Array.isArray(req.files.file)){
+        for (var i = 0; i < req.files.file.length; i++){
+            newContentList[i] = {
+                name: req.files.file[i].originalname,
+                link: req.files.file[i].name,
+                idWidget: 1,    // TODO : idWidget
+                active: true
+            };
+        }
+    } else {
+        newContentList[0] = {
+            name: req.files.file.originalname,
+            link: req.files.file.name,
+            idWidget: 1,    // TODO : idWidget
+            active: true
+        };
     }
-    DAO.addContent(connection, req.files.file[i], function () {
-        getContentList(connection, function(list) {
-            res.render("musicAdmin", {listContent: list});
-        });
-    });
-};
-
-exports.updateContentStatus = function(connection, data, socket){
-    DAO.updateContentStatus(connection, data.idContent, data.active, function(){
-        DAO.getContentList(connection, function(listContent){
-            //TODO idWidget
-            socket.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
-            socket.broadcast.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
-        })
-    })
-};
-
-exports.deleteContent = function(connection, data, socket){
-    DAO.deleteContent(connection, data.idContent, function(){
-        DAO.getContentList(connection, function(listContent){
-            fs.unlink('./uploads/'+data.link, function (err) {
-                if (err) throw err;
-            });
-            //TODO idWidget
-            socket.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
-            socket.broadcast.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
-        })
-    })
+    widgetAdmin.addContent(connection, newContentList, 0, function(listContent){
+        res.redirect('/widgets/music/admin');
+    }, io);
 };
