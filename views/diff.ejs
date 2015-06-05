@@ -1,3 +1,6 @@
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/diffGlobal.js"></script>
+
 <!DOCTYPE html>
 
 <html>
@@ -5,10 +8,18 @@
     <title>Choose ‘N’ Broadcast</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        .notification {
+            position:absolute;
+            top:0;
+            right:0;
+        }
+    </style>
 </head>
 
 <body>
 <h1>Diffuse</h1>
 
+<div id="notification" onclick="fadeout(this);" role="alert"></div>
 </body>
 </html>

@@ -154,6 +154,7 @@ io.on('connection', function(socket) {
 
     // When a visitor vote
     socket.on('voteMusic', function (data) {
+        diff.refreshNotification(data.data.idContent, connection, socket);
         visitorMusic.actionVoteMusic(data.data.id, data.data.idContent, data.context.idWidget, connection, function () {
             visitorMusic.refreshVoteMusic(connection, socket);
         });
