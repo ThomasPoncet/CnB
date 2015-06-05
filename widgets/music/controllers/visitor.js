@@ -33,6 +33,12 @@ getVoteVisitorList = function(connection, callback) {
 
 };
 
+exports.getNameFromIdContent = function(idContent, connection, callback) {
+    DAOWidget.getNameFromIdContent(idContent, connection, function(name) {
+        callback(name);
+    })
+};
+
 exports.run = function (req, res, connection) {
 
     getContentList(connection, function(list) {

@@ -409,3 +409,14 @@ exports.resetVoteWidget = function(idZoneWidget, connection, callback) {
         callback();
     })
 }
+
+exports.getNameFromIdContent = function(idContent, connection, callback) {
+    connection.query('SELECT nomContent FROM cnb.content ' +
+        'WHERE idContent='+ idContent, function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. getNameFromIdContent [19]');
+
+        callback(rows[0].nomContent);
+    })
+};

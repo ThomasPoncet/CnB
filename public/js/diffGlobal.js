@@ -5,7 +5,7 @@
 var socket = io.connect(document.domain+':8080');
 
 socket.on('notification', function (data) {
-    console.log('pouet');
+    console.log('notification');
     updateNotification(data.message, data.color, data.thumb);
 });
 
