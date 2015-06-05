@@ -1,3 +1,5 @@
+<script src="/js/widgetAdmin.js"></script>
+
 <!DOCTYPE html>
 
 <html>
@@ -10,13 +12,13 @@
 <body>
 <h1>Manage Music</h1>
 
-<form action="/widgets/music/admin/addContent" method="POST" enctype="multipart/form-data">
+<form action="/widgets/music/admin/addContent" method="POST" enctype="multipart/form-data" onsubmit="return verif_input('InputFiles', 'Please add a file first !')">
     <div class="form-group">
-        <label for="InputFile">Fichier mp3 à ajouter</label>
+        <label for="InputFile">Mp3 file to add</label>
         <input type="file" id="InputFiles" name="file" multiple="multiple">
     </div>
     <button type="submit" class="btn btn-default btn-lg">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Music
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Confirm
     </button>
 </form>
 
@@ -25,7 +27,7 @@
 
 <div class="container">
 			<button type="button" class="btn btn-default"
-					onclick="location.href='/adminZWSound'">Retour</button>
+					onclick="location.href='/adminZWSound'">Return</button>
 </div>
 </body>
 </html>
