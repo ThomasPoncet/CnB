@@ -1,10 +1,10 @@
--- INSERT INTO content (idContent, nomContent, link, idWidget)
+-- INSERT INTO content (idContent, nomContent, link, idWidget, active)
 -- VALUES (1, "Daft Punk - Aerodynamic", "lien1", 1, true);
 
--- INSERT INTO content (idContent, nomContent, link, idWidget)
+-- INSERT INTO content (idContent, nomContent, link, idWidget, active)
 -- VALUES (2, "Django Reinhardt - Nuages", "lien2", 1, true);
 
--- INSERT INTO content (idContent, nomContent, link, idWidget)
+-- INSERT INTO content (idContent, nomContent, link, idWidget, active)
 -- VALUES (3, "Pitt Poule - Tears", "lien3", 1, true);
 
 

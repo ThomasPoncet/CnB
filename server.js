@@ -12,7 +12,7 @@ var mysql = require("mysql");
 var session = require('client-sessions');
 var basicAuth = require('basic-auth');
 var adminAuth = {
-    'admin': {password: '21232f297a57a5a743894a0e4a801fc3'},
+    'admin': {password: '21232f297a57a5a743894a0e4a801fc3'}
 };
 // To access local files
 var fileSystem = require('fs');
@@ -130,16 +130,16 @@ app.get('/widgets/music/admin', auth, function (req, res) {
     adminMusic.run(req, res, connection);
 });
 
-app.post('/widgets/music/admin/upload', auth, function (req, res) {
-    adminMusic.upload(req, res, connection);
+app.post('/widgets/music/admin/addContent', auth, function (req, res) {
+    adminMusic.addContent(req, res, connection, io);
 });
 
 app.get('/widgets/music/diff', function (req, res) {
     diffMusic.run(req, res, connection);
 });
 
-app.get('/widgets/music/diff/stream', function (req, res) {
-    diffMusic.nextMusic(req, res, connection, io);
+app.get('/widgets/music/diff/stream/:timestamp', function (req, res) {
+    diffMusic.nextContent(req, res, connection, io);
 });
 
 app.use(function(req, res, next){
@@ -173,8 +173,8 @@ io.on('connection', function(socket) {
     socket.on('suggest', function (data) {
 
         // When vote is finished, we activate/deactivate widgets
-        setTimeout(function() {
-            visitorWidgets.updateWidgets(data.idZoneWidget, connection, socket, function() {
+        setTimeout(function () {
+            visitorWidgets.updateWidgets(data.idZoneWidget, connection, socket, function () {
                 visitorWidgets.refreshListWidgets(connection, socket);
             });
         }, 60000);
@@ -182,30 +182,30 @@ io.on('connection', function(socket) {
         visitorWidgets.actionSuggest(data.idZoneWidget, connection, function () {
             visitorWidgets.refreshListWidgets(connection, socket);
         });
+    });
 
 
-        /*
-         When the status of a content of a widget
-         is updated by the administrator (the contents can be
-         active or inactive
-         */
-        socket.on('updateContentStatus', function (info) {
-            if (info.context.idWidget == 1) {
-                adminMusic.updateContentStatus(connection, info.data, socket);
-            }
-        });
 
-        socket.on('deleteContent', function (info) {
-            if (info.context.idWidget == 1) {
-                adminMusic.deleteContent(connection, info.data, socket);
-            }
-        });
+    /*
+     When the status of a content of a widget
+     is updated by the administrator (the contents can be
+     active or inactive
+     */
+    socket.on('updateContentStatus', function(info){
+        if (info.context.idWidget == 1){
+            adminMusic.updateContentStatus(connection, info, socket);
+        }
+    });
+
+    socket.on('deleteContent', function(info){
+        if (info.context.idWidget == 1){
+            adminMusic.deleteContent(connection, info, socket);
+        }
     });
 });
 
 server.listen(app.get("port"), app.get("ipaddr"), function () {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
-
 });
 
 
