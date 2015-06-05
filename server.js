@@ -34,7 +34,7 @@ var connection = mysql.createConnection({
 
 var visitor = require('./controllers/visiteur');
 var admin = require('./controllers/admin');
-var diffusion = require('./controllers/diffusion');
+var diff= require('./controllers/diff');
 
 var visitorWidgets = require('./controllers/visitorWidgets');
 
@@ -114,8 +114,8 @@ app.get('/adminZWScreen', auth, function(req, res) {
     adminZWScreen.run(req, res, connection);
 });
 
-app.get('/diffusion', function(req, res) {
-    diffusion.run(req, res, connection);
+app.get('/diff', function(req, res) {
+    diff.run(req, res, connection);
 });
 
 app.get('/widgets', function(req, res) {
