@@ -10,7 +10,7 @@
 <body>
 <h1>Manage Music</h1>
 
-<form action="/widgets/music/admin/upload" method="POST" enctype="multipart/form-data">
+<form action="/widgets/music/admin/addContent" method="POST" enctype="multipart/form-data">
     <div class="form-group">
         <label for="InputFile">Fichier mp3 à ajouter</label>
         <input type="file" id="InputFiles" name="file" multiple="multiple">
@@ -20,15 +20,12 @@
     </button>
 </form>
 
-<ul id="musicList" class="list-group">
+<!-- List of contents added widgetListContentAdmin-->
+<%- include('../../../views/widgetListContentAdmin', {listContent: data.listContent})%>
 
-    <!-- Filled by function "updateList" -->
-
-
-</ul>
-
-<script src="/socket.io/socket.io.js"></script>
-<script src="/widgets/music/controllers/admin.js"></script>
-<script type="text/javascript">updateList(<%-JSON.stringify(listContent)%>)</script>
+<div class="container">
+			<button type="button" class="btn btn-default"
+					onclick="location.href='/adminZWSound'">Retour</button>
+</div>
 </body>
 </html>

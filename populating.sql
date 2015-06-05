@@ -1,10 +1,10 @@
--- INSERT INTO content (idContent, nomContent, link, idWidget)
+-- INSERT INTO content (idContent, nomContent, link, idWidget, active)
 -- VALUES (1, "Daft Punk - Aerodynamic", "lien1", 1, true);
---
--- INSERT INTO content (idContent, nomContent, link, idWidget)
+
+-- INSERT INTO content (idContent, nomContent, link, idWidget, active)
 -- VALUES (2, "Django Reinhardt - Nuages", "lien2", 1, true);
---
--- INSERT INTO content (idContent, nomContent, link, idWidget)
+
+-- INSERT INTO content (idContent, nomContent, link, idWidget, active)
 -- VALUES (3, "Pitt Poule - Tears", "lien3", 1, true);
 
 
@@ -42,8 +42,8 @@ VALUES ("3", 1);
 INSERT INTO vote_content (idVisitor, idContent)
 VALUES ("4", 2);
 
--- INSERT INTO widgetzone (idWidgetZone, nomWidgetZone)
--- VALUES (1, Sound);
--- 
--- INSERT INTO widgetzone (idWidgetZone, nomWidgetZone)
--- VALUES (2, Screen);
+--INSERT INTO widgetzone (idWidgetZone, nomWidgetZone)
+--VALUES (1, "Sound");
+
+--INSERT INTO widgetzone (idWidgetZone, nomWidgetZone)
+--VALUES (2, "Screen");
