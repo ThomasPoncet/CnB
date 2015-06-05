@@ -31,6 +31,10 @@ function updateNotification(message, color, thumb) {
         className = 'alert alert-success notification';
     else if(color == 'blue')
         className = 'alert alert-info notification';
+    else if(color == 'orange')
+        className = 'alert alert-warning notification';
+    else if(color == 'red')
+        className = 'alert alert-danger notification';
 
     var notificationDiv = document.getElementById("notification");
 

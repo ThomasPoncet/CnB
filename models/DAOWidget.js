@@ -420,3 +420,25 @@ exports.getNameFromIdContent = function(idContent, connection, callback) {
         callback(rows[0].nomContent);
     })
 };
+
+exports.getNameFromIdWidget = function(idWidget, connection, callback) {
+    connection.query('SELECT nomWidget FROM cnb.widget ' +
+        'WHERE idWidget='+ idWidget, function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. getNameFromIdWidget [20]', idWidget);
+
+        callback(rows[0].nomWidget);
+    })
+}
+
+exports.getNameFromIdWidgetZone = function(idZoneWidget, connection, callback) {
+    connection.query('SELECT nomWidgetZone FROM cnb.widgetzone ' +
+        'WHERE idWidgetZone='+ idZoneWidget, function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. getNameFromIdWidgetZone [21]');
+
+        callback(rows[0].nomWidgetZone);
+    })
+}
