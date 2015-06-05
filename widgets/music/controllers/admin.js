@@ -3,7 +3,6 @@
  */
 
 var fs = require('fs');
-var DAO = require('../../../models/DAOWidget.js');
 var widgetAdmin = require('../../../controllers/widgetAdmin.js');
 
 exports.run = function (req, res, connection) {

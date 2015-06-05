@@ -4,34 +4,24 @@
 
 // To access local files
 var fs = require('fs');
+var widgetDiff = require('../../../controllers/widgetDiff.js');
 
-var DAO = require('../../../models/DAOWidget.js');
-
+// Maybe useless in the future [TODO]
 exports.run = function(req, res, connection){
-    res.render("musicDiff", connection);
+    widgetDiff.run(req, res, connection, function(data){
+        res.render("musicDiff", {context: {idWidget: 1}, data: data}); // TODO : idWidget
+    });
 };
 
-exports.nextMusic = function(req, res, connection, io){
-    DAO.getFirstContent(connection, function(rows){
-        var filePath = './uploads/'+rows[0].link;
+exports.nextContent = function(req, res, connection, io){
+    widgetDiff.nextContent(req, res, connection, io, function(firstContent){
+        var filePath = './uploads/'+firstContent.link;
         var stat = fs.statSync(filePath);
         res.writeHead(200, {
             'Content-Type': 'audio/mpeg',
             'Content-Length': stat.size
         });
-
         var readStream = fs.createReadStream(filePath);
         readStream.pipe(res);
-
-        // To delete this song from the playlist
-        DAO.deleteVote(connection, rows[0].idContent, function(){
-            DAO.updateContentStatus(connection, rows[0].idContent, false, function(){
-                DAO.getContentList(connection, function(listContent) {
-                    // TODO : idWidget
-                    io.sockets.emit('refreshContent', {context: {idWidget: 1}, data: {listContent: listContent}});
-                    // TODO : We have to refresh local variable vote (in client side musicVisitor) !!!
-                });
-            });
-        });
     });
 };

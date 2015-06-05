@@ -108,8 +108,8 @@ app.get('/widgets/music/diff', function (req, res) {
     diffMusic.run(req, res, connection);
 });
 
-app.get('/widgets/music/diff/stream', function (req, res) {
-    diffMusic.nextMusic(req, res, connection, io);
+app.get('/widgets/music/diff/stream/:timestamp', function (req, res) {
+    diffMusic.nextContent(req, res, connection, io);
 });
 
 app.use(function(req, res, next){
