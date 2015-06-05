@@ -6,8 +6,8 @@ var fs = require('fs');
 var widgetAdmin = require('../../../controllers/widgetAdmin.js');
 
 exports.run = function (req, res, connection) {
-    widgetAdmin.run(req, res, connection, function(data){
-        // TODO : idWidget
+    // TODO : idWidget
+    widgetAdmin.run(connection, {idWidget: 1}, function(data){
         res.render("musicAdmin", {context: {idWidget: 1}, data: data})
     });
 };
@@ -31,7 +31,8 @@ exports.addContent = function(req, res, connection, io){
             active: true
         };
     }
-    widgetAdmin.addContent(connection, newContentList, 0, function(listContent){
+    widgetAdmin.addContent(connection, {context: {idWidget: 1},
+        data: {newContentList: newContentList}}, 0, function(){
         res.redirect('/widgets/music/admin');
     }, io);
 };

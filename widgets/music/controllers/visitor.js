@@ -7,41 +7,48 @@
  */
 
 var DAOWidget = require('../../../models/DAOWidget.js');
+var widgetVisitor = require('../../../controllers/widgetVisitor.js');
 
-getWidgetList = function(connection, callback) {
-
-    DAOWidget.getWidgetList(connection, function(list) {
-        callback(list)
-    });
-
-};
-
-getContentList = function(connection, callback) {
-
-    DAOWidget.getContentList(connection, function(list) {
-        callback(list)
-    });
-
-};
-
-getVoteVisitorList = function(connection, callback) {
-
-    // TODO idWidget
-    DAOWidget.getVoteVisitorList(1, connection, function(list) {
-        callback(list)
-    });
-
-};
+//getWidgetList = function(connection, callback) {
+//
+//    DAOWidget.getWidgetList(connection, function(list) {
+//        callback(list)
+//    });
+//
+//};
+//
+//getContentList = function(connection, callback) {
+//
+//    DAOWidget.getContentList(connection, function(list) {
+//        callback(list)
+//    });
+//
+//};
+//
+//getVoteVisitorList = function(connection, callback) {
+//
+//    // TODO idWidget
+//    DAOWidget.getVoteVisitorList(1, connection, function(list) {
+//        callback(list)
+//    });
+//
+//};
 
 exports.run = function (req, res, connection) {
-
-    getContentList(connection, function(list) {
-        getVoteVisitorList(connection, function(list2) {
-            // We pass also the visitor's idSession to the view
-            res.render("musicVisitor", {listContent: list, listVoteVisitor: list2,
-                                        sessionId: req.visitorSession.idSession});
-        });
+    // TODO idWidget
+    widgetVisitor.run(connection, {idWidget: 1}, function(data){
+        res.render("musicVisitor", {context: {sessionId: req.visitorSession.idSession, idWidget: 1},
+                                    data: data});
     });
+
+
+    //getContentList(connection, function(list) {
+    //    getVoteVisitorList(connection, function(list2) {
+    //        // We pass also the visitor's idSession to the view
+    //        res.render("musicVisitor", {listContent: list, listVoteVisitor: list2,
+    //                                    sessionId: req.visitorSession.idSession});
+    //    });
+    //});
 
 };
 

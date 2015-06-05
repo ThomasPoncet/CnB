@@ -1,8 +1,8 @@
 <script>
     // Tip to pass variable to javascript
-    var sessionId = <%- JSON.stringify(sessionId) %>;
-    var listContent = <%- JSON.stringify(listContent) %>;
-    var listVoteVisitor = <%- JSON.stringify(listVoteVisitor) %>;
+    //var sessionId = <%- JSON.stringify(context.sessionId) %>;
+    //var listContent = <%- JSON.stringify(data.listContent) %>;
+    //var listVote = <%- JSON.stringify(data.listVotes) %>;
 </script>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -18,15 +18,17 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
 
-<body onload="updateList(listContent, listVoteVisitor);">
+<!--<body onload="updateList(listContent, listVote);">-->
 <h1>Choose Music</h1>
 
 <div id="widget-list" class="list-group"></div>
 
-<div id="music-list" class="list-group">
+<!-- List of contents added widgetListContentVisitor-->
+<%- include('../../../views/widgetListContentVisitor', {context: context, data: data})%>
 
-    <!-- Filled by function "updateVote" -->
+<!--<div id="music-list" class="list-group">-->
+      <!--&lt;!&ndash; Filled by function "updateVote" &ndash;&gt;-->
+<!--</div>-->
 
-</div>
 </body>
 </html>

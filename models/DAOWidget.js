@@ -83,7 +83,7 @@ exports.getActiveContentList = function(connection, callback) {
 
 };
 
-exports.getContentList = function(connection, callback) {
+exports.getContentList = function(connection, data, callback) {
 
     connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, c.active, IFNULL(v.count,0) AS nbVote ' +
         '    FROM cnb.content AS c ' +
@@ -93,10 +93,11 @@ exports.getContentList = function(connection, callback) {
         '    GROUP BY idContent ' +
         '    ) AS v ' +
         '    ON c.idContent = v.idContent ' +
+        '   WHERE c.idWidget = '+data.idWidget +
         '   ORDER BY nbVote desc', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. [3]');
+            console.log('Error while performing Query. [3]'+err);
 
         callback(rows);
     });
@@ -146,13 +147,13 @@ exports.getFirstContent = function(connection, callback) {
 
 };
 
-exports.getVoteVisitorList = function(idWidget, connection, callback) {
+exports.getVoteVisitorList = function(connection, data, callback) {
 
-    // vote of each visitor for the widget "idWidget"
+    // vote of each visitor for the widget "data.idWidget"
 
     connection.query('SELECT v.idVisitor, c.idContent ' +
         'FROM cnb.content c, cnb.vote_content v ' +
-        'WHERE c.idContent = v.idContent AND c.idWidget=1', function(err, rows, fields) {
+        'WHERE c.idContent = v.idContent AND c.idWidget='+data.idWidget, function(err, rows, fields) {
 
         if (err)
             console.log('Error while performing Query. [7]');
@@ -364,7 +365,7 @@ exports.maxVoteWidget = function(idZoneWidget, connection, callback) {
     })
 
 
-}
+};
 
 exports.changeActivatedWidget = function(idZoneWidget, idWidgetMax, connection, callback) {
     connection.query('SELECT idWidget FROM cnb.widget ' +
@@ -390,7 +391,7 @@ exports.changeActivatedWidget = function(idZoneWidget, idWidgetMax, connection, 
         });
 
     })
-}
+};
 
 exports.resetVoteWidget = function(idZoneWidget, connection, callback) {
     connection.query('SELECT idWidget FROM cnb.widget ' +
