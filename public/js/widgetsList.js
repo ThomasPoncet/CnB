@@ -49,6 +49,7 @@ function refreshTime(idZoneWidget, endTime){
 
 function updateListWidgets(listWidgets, listZoneWidgets, listVoteVisitorWidget) {
 
+    console.log(listVoteVisitorWidget);
     var string = '';
 
     // Widget zone list

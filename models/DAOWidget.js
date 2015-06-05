@@ -409,3 +409,36 @@ exports.resetVoteWidget = function(idZoneWidget, connection, callback) {
         callback();
     })
 }
+
+exports.getNameFromIdContent = function(idContent, connection, callback) {
+    connection.query('SELECT nomContent FROM cnb.content ' +
+        'WHERE idContent='+ idContent, function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. getNameFromIdContent [19]');
+
+        callback(rows[0].nomContent);
+    })
+};
+
+exports.getNameFromIdWidget = function(idWidget, connection, callback) {
+    connection.query('SELECT nomWidget FROM cnb.widget ' +
+        'WHERE idWidget='+ idWidget, function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. getNameFromIdWidget [20]', idWidget);
+
+        callback(rows[0].nomWidget);
+    })
+}
+
+exports.getNameFromIdWidgetZone = function(idZoneWidget, connection, callback) {
+    connection.query('SELECT nomWidgetZone FROM cnb.widgetzone ' +
+        'WHERE idWidgetZone='+ idZoneWidget, function(err, rows, fields) {
+
+        if (err)
+            console.log('Error while performing Query. getNameFromIdWidgetZone [21]');
+
+        callback(rows[0].nomWidgetZone);
+    })
+}

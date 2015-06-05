@@ -41,9 +41,3 @@ INSERT INTO vote_content (idVisitor, idContent)
 VALUES ("3", 1);
 INSERT INTO vote_content (idVisitor, idContent)
 VALUES ("4", 2);
-
---INSERT INTO widgetzone (idWidgetZone, nomWidgetZone)
---VALUES (1, "Sound");
-
---INSERT INTO widgetzone (idWidgetZone, nomWidgetZone)
---VALUES (2, "Screen");
