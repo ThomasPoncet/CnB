@@ -75,3 +75,13 @@ function deleteContent(idWidget, idContent, link) {
         socket.emit('deleteContent', {context: {idWidget: idWidget}, data: {idContent: idContent, link: link}});
     }
 }
+
+function verif_input(name, message){
+    var val = document.getElementById(name);
+    if (!val.value) {
+        alert(message);
+        return false;
+    } else {
+        return true;
+    }
+}
