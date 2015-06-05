@@ -11,7 +11,7 @@ exports.getWidgetList = function(connection, callback) {
         'FROM cnb.vote_widget ' +
         'GROUP BY idWidget ' +
         ') AS v ' +
-        'ON w.idWidget = v.idWidget', function(err, rows, fields) {
+        'ON w.idWidget = v.idWidget ORDER BY w.idWidget', function(err, rows, fields) {
 
         if (err)
             console.log('Error while performing Query. [0]');

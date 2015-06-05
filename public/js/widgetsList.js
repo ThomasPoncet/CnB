@@ -49,7 +49,7 @@ function refreshTime(idZoneWidget, endTime){
 
 function updateListWidgets(listWidgets, listZoneWidgets, listVoteVisitorWidget) {
 
-    console.log(listVoteVisitorWidget);
+    console.log(listWidgets);
     var string = '';
 
     // Widget zone list
@@ -91,7 +91,7 @@ function updateListWidgets(listWidgets, listZoneWidgets, listVoteVisitorWidget) 
                 var nameWidget = listWidgets[j].nomWidget.charAt(0).toUpperCase() +
                     listWidgets[j].nomWidget.substring(1).toLowerCase();
 
-                string += '<a href="#" id="widget' + listWidgets[j].idWidget + '" class="list-group-item';
+                string += '<a href="javascript:return false;" id="widget' + listWidgets[j].idWidget + '" class="list-group-item';
 
                 if (listVoteVisitorWidget.hasOwnProperty(sessionId)) {
                     for (var k = 0; k < listVoteVisitorWidget[sessionId].length; k++) {
