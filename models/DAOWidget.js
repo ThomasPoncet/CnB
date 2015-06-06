@@ -97,7 +97,7 @@ exports.getContentList = function(connection, data, callback) {
         '   ORDER BY nbVote desc', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. [3]'+err);
+            console.log('Error while performing Query getContentList. [3] - '+err);
 
         callback(rows);
     });
@@ -156,7 +156,7 @@ exports.getVoteVisitorList = function(connection, data, callback) {
         'WHERE c.idContent = v.idContent AND c.idWidget='+data.idWidget, function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. [7]');
+            console.log('Error while performing Query. [7] getVoteVisitorList');
 
         var listVoteVisitor = new Object();
 
@@ -222,7 +222,7 @@ exports.nbVote = function(idVisitor, idWidget, connection, callback) {
         ' GROUP BY c.idContent', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. [10]');
+            console.log('Error while performing Query nbVote. [10]');
 
         var nbVote = rows.length;
         var oldContent = 0;

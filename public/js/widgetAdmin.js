@@ -3,6 +3,7 @@
  */
 
 var socket = io.connect(document.domain+':8080');
+//TODO : useless ?
 var sessionId = '';
 
 socket.on('connect', function () {

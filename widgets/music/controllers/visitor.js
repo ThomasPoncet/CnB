@@ -52,48 +52,53 @@ exports.run = function (req, res, connection) {
 
 };
 
-exports.refreshVoteMusic = function(connection, socket) {
-    getContentList(connection, function(list) {
-
-            getVoteVisitorList(connection, function(list2) {
-                // Refresh for the user who voted
-                socket.emit("voteMusicDone", {listContent: list, listVoteVisitor: list2});
-
-                // Refresh for the others
-                socket.broadcast.emit("voteMusicDone", {listContent: list, listVoteVisitor: list2});
-            });
-        });
-}
-
-exports.actionVoteMusic = function(idVisitor, idContent, idWidget, connection, callback) {
-
-    DAOWidget.visitorExists(connection, idVisitor, function(result) {
-
-        // visitor not registered -> we add him in database
-
-        if(!result) {
-            DAOWidget.addVisitor(connection, idVisitor);
-        }
+//exports.refreshVoteMusic = function(connection, socket) {
+//    getContentList(connection, function(list) {
+//
+//            getVoteVisitorList(connection, function(list2) {
+//                // Refresh for the user who voted
+//                socket.emit("voteMusicDone", {listContent: list, listVoteVisitor: list2});
+//
+//                // Refresh for the others
+//                socket.broadcast.emit("voteMusicDone", {listContent: list, listVoteVisitor: list2});
+//            });
+//        });
+//};
 
 
-        // How much time visitor vote for this widget ?
-        DAOWidget.nbVote(idVisitor, idWidget, connection, function(oldVote, nbVote) {
-
-            // Visitor didn't vote yet -> we add vote
-            if(nbVote == 0) {
-                DAOWidget.addVote(idVisitor, idContent, connection, function() {
-                    callback();
-                });
-            }
-            // Visitor already voted -> we update vote
-            else {
-                DAOWidget.updateVote(idVisitor, idContent, oldVote, connection, function() {
-                    callback();
-                });
-            }
-
-        });
-
-    });
-
+exports.voteContent = function(connection, info, io){
+    widgetVisitor.voteContent(connection, info, io, function(){});
 };
+
+//exports.actionVoteMusic = function(idVisitor, idContent, idWidget, connection, callback) {
+//
+//    DAOWidget.visitorExists(connection, idVisitor, function(result) {
+//
+//        // visitor not registered -> we add him in database
+//
+//        if(!result) {
+//            DAOWidget.addVisitor(connection, idVisitor);
+//        }
+//
+//
+//        // How much time visitor vote for this widget ?
+//        DAOWidget.nbVote(idVisitor, idWidget, connection, function(oldVote, nbVote) {
+//
+//            // Visitor didn't vote yet -> we add vote
+//            if(nbVote == 0) {
+//                DAOWidget.addVote(idVisitor, idContent, connection, function() {
+//                    callback();
+//                });
+//            }
+//            // Visitor already voted -> we update vote
+//            else {
+//                DAOWidget.updateVote(idVisitor, idContent, oldVote, connection, function() {
+//                    callback();
+//                });
+//            }
+//
+//        });
+//
+//    });
+//
+//};

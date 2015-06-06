@@ -10,11 +10,22 @@ if(typeof sessionId == undefined)
     var sessionId = '';
 
 var socket = io.connect(document.domain+':8080');
-
-socket.on('voteMusicDone', function (info) {
-    refreshVote(info.data.listVote);
-    refreshList(info.data.listContent, votes, info.context.idWidget);
+socket.on('connect', function () {
+    sessionId = socket.io.engine.id;
+    console.log('Connected ' + sessionId);
 });
+
+//socket.on('voteMusicDone', function (info) {
+//    refreshVote(info.data.listVote);
+//    refreshList(info.data.listContent, votes, info.context.idWidget);
+//});
+
+socket.on('refreshContentVotes', function(info){
+    if(info.context.idWidget == 1){ //TODO idWidget
+        refreshListAndVotes(info.data.contentList, info.data.votesList, info.context.idWidget);
+    }
+});
+
 
 socket.on('refreshContent', function(info){
     refreshList(info.data.listContent, votes);
@@ -22,24 +33,24 @@ socket.on('refreshContent', function(info){
 
 var votes = new Object();
 
-function refreshVotes(listVote) {
-    votes = listVote;
+function refreshVotes(votesList) {
+    votes = votesList;
 }
 
-function refreshList(listContent, listVotes, idWidget){
+function refreshList(contentList, votesList, idWidget){
     var string = '';
-    for(var i=0; i<listContent.length; i++) {
-        if (listContent[i].active) {
-            string += '<a href="#" id=' + listContent[i].idContent + ' class="list-group-item';
+    for(var i=0; i<contentList.length; i++) {
+        if (contentList[i].active) {
+            string += '<a href="#" id=' + contentList[i].idContent + ' class="list-group-item';
 
-            if (listVotes.hasOwnProperty(sessionId)) {
-                if (listVotes[sessionId] == listContent[i].idContent)
+            if (votesList.hasOwnProperty(sessionId)) {
+                if (votesList[sessionId] == contentList[i].idContent)
                     string += ' active';
             }
 
             string += '" Onclick="active(this.id, ' + idWidget + ');">' +
-                '<span class="badge">' + listContent[i].nbVote + '</span>' +
-                listContent[i].nomContent + '</a>';
+                '<span class="badge">' + contentList[i].nbVote + '</span>' +
+                contentList[i].nomContent + '</a>';
         }
     }
 
@@ -47,24 +58,30 @@ function refreshList(listContent, listVotes, idWidget){
 
 }
 
-function refreshListAndVotes(listContent, listVote, idWidget){
-    refreshVotes(listVote);
-    refreshList(listContent, listVote, idWidget);
+function refreshListAndVotes(contentList, votesList, idWidget){
+    refreshVotes(votesList);
+    refreshList(contentList, votesList, idWidget);
 }
 
 function voteMusic(idContent, idWidget) {
     socket.emit('voteMusic', {context: {idWidget: idWidget}, data: {id: sessionId, idContent: idContent}});
 }
 
+function voteContent(idContent, idWidget) {
+
+    console.log(sessionId);
+    socket.emit('voteContent', {context: {idWidget: idWidget}, data: {id: sessionId, idContent: idContent}});
+}
+
 
 // When visitor vote
 function active(idContent, idWidget) {
 
-    voteMusic(idContent, idWidget);
+    voteContent(idContent, idWidget);
 
     // TODO Really necessary ?!
     // change color list
-    var musics = document.getElementById('music-list').children;
+    var musics = document.getElementById('content-list').children;
     for(var k = 0; k < musics.length; k++) {
         musics[k].className = "list-group-item";
     }
