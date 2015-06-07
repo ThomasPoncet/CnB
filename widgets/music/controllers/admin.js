@@ -7,7 +7,7 @@ var widgetAdmin = require('../../../controllers/widgetAdmin.js');
 
 exports.run = function (req, res, connection) {
     // TODO : idWidget
-    widgetAdmin.run(connection, {idWidget: 1}, function(data){
+    widgetAdmin.run(connection, {context: {idWidget: 1}}, function(data){
         res.render("musicAdmin", {context: {idWidget: 1}, data: data})
     });
 };
@@ -32,19 +32,19 @@ exports.addContent = function(req, res, connection, io){
         };
     }
     widgetAdmin.addContent(connection, {context: {idWidget: 1},
-        data: {newContentList: newContentList}}, 0, function(){
+        data: {newContentList: newContentList}}, 0, io, function(){
         res.redirect('/widgets/music/admin');
-    }, io);
+    });
 };
 
 
 
-exports.updateContentStatus = function(connection, info, socket){
-    widgetAdmin.updateContentStatus(connection, info, socket, function(){});
+exports.updateContentStatus = function(connection, info, io){
+    widgetAdmin.updateContentStatus(connection, info, io, function(){});
 };
 
-exports.deleteContent = function(connection, info, socket){
-    widgetAdmin.deleteContent(connection, info, socket, function(){
+exports.deleteContent = function(connection, info, io){
+    widgetAdmin.deleteContent(connection, info, io, function(){
         fs.unlink('./uploads/'+info.data.link, function (err) {
             if (err) throw err;
         });

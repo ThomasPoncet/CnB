@@ -15,10 +15,6 @@ socket.on('connect', function () {
     console.log('Connected ' + sessionId);
 });
 
-//socket.on('voteMusicDone', function (info) {
-//    refreshVote(info.data.listVote);
-//    refreshList(info.data.listContent, votes, info.context.idWidget);
-//});
 
 socket.on('refreshContentVotes', function(info){
     if(info.context.idWidget == 1){ //TODO idWidget
@@ -28,7 +24,7 @@ socket.on('refreshContentVotes', function(info){
 
 
 socket.on('refreshContent', function(info){
-    refreshList(info.data.listContent, votes);
+    refreshList(info.data.contentList, votes);
 });
 
 var votes = new Object();
@@ -44,6 +40,7 @@ function refreshList(contentList, votesList, idWidget){
             string += '<a href="#" id=' + contentList[i].idContent + ' class="list-group-item';
 
             if (votesList.hasOwnProperty(sessionId)) {
+                console.log(votesList);
                 if (votesList[sessionId] == contentList[i].idContent)
                     string += ' active';
             }
@@ -63,14 +60,8 @@ function refreshListAndVotes(contentList, votesList, idWidget){
     refreshList(contentList, votesList, idWidget);
 }
 
-function voteMusic(idContent, idWidget) {
-    socket.emit('voteMusic', {context: {idWidget: idWidget}, data: {id: sessionId, idContent: idContent}});
-}
-
 function voteContent(idContent, idWidget) {
-
-    console.log(sessionId);
-    socket.emit('voteContent', {context: {idWidget: idWidget}, data: {id: sessionId, idContent: idContent}});
+    socket.emit('voteContent', {context: {idWidget: idWidget}, data: {idVisitor: sessionId, idContent: idContent}});
 }
 
 

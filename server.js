@@ -152,20 +152,11 @@ io.on('connection', function(socket) {
 
     visitor.refreshMenu(connection, socket);
 
-    //// When a visitor vote
-    //socket.on('voteMusic', function (data) {
-    //    visitorMusic.actionVoteMusic(data.data.id, data.data.idContent, data.context.idWidget, connection, function () {
-    //        visitorMusic.refreshVoteMusic(connection, socket);
-    //    });
-    //});
-
     // When a visitor vote for a content
     socket.on('voteContent', function (info) {
         if (info.context.idWidget == 1){
             visitorMusic.voteContent(connection, info, io);
         }
-        //    visitorMusic.refreshVoteMusic(connection, socket);
-        //});
     });
 
     socket.on('voteWidget', function (data) {
@@ -202,13 +193,13 @@ io.on('connection', function(socket) {
      */
     socket.on('updateContentStatus', function(info){
         if (info.context.idWidget == 1){
-            adminMusic.updateContentStatus(connection, info, socket);
+            adminMusic.updateContentStatus(connection, info, io);
         }
     });
 
     socket.on('deleteContent', function(info){
         if (info.context.idWidget == 1){
-            adminMusic.deleteContent(connection, info, socket);
+            adminMusic.deleteContent(connection, info, io);
         }
     });
 

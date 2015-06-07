@@ -7,9 +7,9 @@ var widgetContent = require('./widgetContent.js');
 
 exports.run = function (connection, info, callback) {
     // TODO : idWidget
-    DAOWidget.getContentList(connection, {idWidget: info.idWidget}, function(listContent) {
+    DAOWidget.getContentList(connection, {idWidget: info.idWidget}, function(contentList) {
         DAOWidget.getVoteVisitorList(connection, {idWidget: info.idWidget}, function(listVotes){
-            callback({listContent: listContent, listVotes: listVotes});
+            callback({contentList: contentList, listVotes: listVotes});
         });
     });
 };
@@ -25,15 +25,13 @@ exports.voteContent = function(connection, info, io, callback){
             // Visitor didn't vote yet -> we add vote
             if(nbVote == 0) {
                 DAOWidget.addVote(info.data.idVisitor, info.data.idContent, connection, function() {
-                    widgetContent.refreshContentVotes(connection, info, io);
-                    callback();
+                    widgetContent.refreshContentVotes(connection, info, io, callback);
                 });
             }
             // Visitor already voted -> we update vote
             else {
                 DAOWidget.updateVote(info.data.idVisitor, info.data.idContent, oldVote, connection, function() {
-                    widgetContent.refreshContentVotes(connection, info, io);
-                    callback();
+                    widgetContent.refreshContentVotes(connection, info, io, callback);
                 });
             }
         })

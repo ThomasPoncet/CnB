@@ -13,30 +13,36 @@ socket.on('connect', function () {
 
 socket.on('refreshContent', function(info){
     if (info.context.idWidget == 1){ //TODO idWidget
-        refreshList(info.data.listContent);
+        refreshList(info.data.contentList);
+    }
+});
+
+socket.on('refreshContentVotes', function(info){
+    if (info.context.idWidget == 1){ //TODO idWidget
+        refreshList(info.data.contentList);
     }
 });
 
 socket.on('voteMusicDone', function (data) {
-    refreshList(data.listContent);
+    refreshList(data.contentList);
 });
 
-function refreshList(listContent) {
+function refreshList(contentList) {
     var htmlString = '';
     var idWidget = 1; // TODO : idWidget
 
-    for (var i=0; i<listContent.length; i++){
-        htmlString += '<li id=' + listContent[i].idContent + ' class="list-group-item">'
-            +    '<span class="badge">'+listContent[i].nbVote+'</span>'
-            +    listContent[i].nomContent
+    for (var i=0; i<contentList.length; i++){
+        htmlString += '<li id=' + contentList[i].idContent + ' class="list-group-item">'
+            +    '<span class="badge">'+contentList[i].nbVote+'</span>'
+            +    contentList[i].nomContent
             +    '<div style="float:right; margin: 0 10px">'
             +    '<div class="btn-group" role="group" aria-label="..." style="margin: 0 10px">'
             +        '<div class="btn-group" role="group">'
             +            '<button type="button" class="btn btn-default btn-sm ';
-        if (listContent[i].active) {
+        if (contentList[i].active) {
             htmlString +=           'active"';
         } else {
-            htmlString +=           '" onclick="updateContentStatus(' + idWidget + ',' + listContent[i].idContent
+            htmlString +=           '" onclick="updateContentStatus(' + idWidget + ',' + contentList[i].idContent
                 + ',' + true + ')"';
         }
         htmlString +=           '>'
@@ -45,10 +51,10 @@ function refreshList(listContent) {
             +        '</div>'
             +        '<div class="btn-group" role="group">'
             +            '<button type="button" class="btn btn-default btn-sm ';
-        if (!listContent[i].active) {
+        if (!contentList[i].active) {
             htmlString +=           'active"';
         } else {
-            htmlString +=           '" onclick="updateContentStatus(' + idWidget + ',' + listContent[i].idContent
+            htmlString +=           '" onclick="updateContentStatus(' + idWidget + ',' + contentList[i].idContent
                 + ',' + false + ')"';
         }
         htmlString +=           '>'
@@ -57,7 +63,7 @@ function refreshList(listContent) {
             +        '</div>'
             +    '</div>'
             +    '<button type="button" class="btn btn-default btn-sm" onclick="deleteContent(1,'
-            +    listContent[i].idContent+', \''+listContent[i].link+'\''
+            +    contentList[i].idContent+', \''+contentList[i].link+'\''
             +    ')">'
             +        '<span class="glyphicon glyphicon-trash"></span>'
             +    '</button>'
