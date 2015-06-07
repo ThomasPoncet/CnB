@@ -2,30 +2,9 @@
  * Created by thomas on 04/06/15.
  */
 
-var socket = io.connect(document.domain+':8080');
-//TODO : useless ?
-var sessionId = '';
-
-socket.on('connect', function () {
-    sessionId = socket.io.engine.id;
-    console.log('Connected ' + sessionId);
-});
-
-socket.on('refreshContent', function(info){
-    if (info.context.idWidget == 1){ //TODO idWidget
-        refreshList(info.data.contentList, info.context.idWidget);
-    }
-});
-
-socket.on('refreshContentVotes', function(info){
-    if (info.context.idWidget == 1){ //TODO idWidget
-        refreshList(info.data.contentList, info.context.idWidget);
-    }
-});
 
 function refreshList(contentList, idWidget) {
     var htmlString = '';
-
     for (var i=0; i<contentList.length; i++){
         htmlString += '<li id=' + contentList[i].idContent + ' class="list-group-item">'
             +    '<span class="badge">'+contentList[i].nbVote+'</span>'
@@ -59,7 +38,7 @@ function refreshList(contentList, idWidget) {
             +    '</div>'
             +    '<button type="button" class="btn btn-default btn-sm" onclick="deleteContent(1,'
             +    contentList[i].idContent+', \''+contentList[i].link+'\''
-            +    ')">'
+        +    ')">'
             +        '<span class="glyphicon glyphicon-trash"></span>'
             +    '</button>'
             +    '</div>'

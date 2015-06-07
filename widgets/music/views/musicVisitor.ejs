@@ -1,7 +1,11 @@
+<!DOCTYPE html>
+
+<!--TODO : Put in header !-->
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/menu.js"></script>
+<script src="/js/widgetVisitor.js"></script>
+<script src="/widgets/music/controllers/visitor.js"></script>
 
-<!DOCTYPE html>
 
 <html>
 <head>
@@ -16,9 +20,15 @@
 
 <div id="widget-list" class="list-group"></div>
 
-<!-- List of contents widgetListContentVisitor-->
-<%- include('../../../views/widgetListContentVisitor', {context: context, data: data})%>
+<ul id="content-list" class="list-group">
 
+    <!-- Filled by function "refreshList" -->
 
+</ul>
+
+<script type="text/javascript">createList(<%-JSON.stringify(data.contentList)%>,
+            <%-JSON.stringify(data.listVotes)%>,
+            <%-JSON.stringify(context.idWidget)%>);
+</script>
 </body>
 </html>
