@@ -36,5 +36,8 @@ function refreshNotification(message, color, thumb, io) {
 };
 
 exports.run = function(req, res, connection) {
-    res.render("diff");
+    DAO.getActiveWidgetList(connection, function(list) {
+        res.render("diff", {listWidget: list});
+    })
+
 };

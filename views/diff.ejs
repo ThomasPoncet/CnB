@@ -1,6 +1,8 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/diffGlobal.js"></script>
-
+<script>
+    var listWidget = <%- JSON.stringify(listWidget) %>;
+</script>
 <!DOCTYPE html>
 
 <html>
@@ -21,5 +23,15 @@
 <h1>Diffuse</h1>
 
 <div id="notification" role="alert"></div>
+
+<%
+ // we include views of each active widget
+for (i=0; i< listWidget.length; i++) {
+    if(listWidget[i].nomWidget == 'music') { // TODO : only music works for the moment
+%>
+<%-     include('../widgets/'+listWidget[i].nomWidget+'/views/'+listWidget[i].nomWidget+'Diff')%>
+<%
+    }
+} %>
 </body>
 </html>
