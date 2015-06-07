@@ -5,9 +5,9 @@
 var express = require("express");
 var multer  = require('multer');
 var app = express();
-var server = require('http').Server(app);
+var http = require('http').Server(app);
 var bodyParser = require("body-parser");
-var io = require('socket.io')(server);
+var io = require('socket.io')(http);
 var mysql = require("mysql");
 var session = require('client-sessions');
 var basicAuth = require('basic-auth');
@@ -153,14 +153,20 @@ io.on('connection', function(socket) {
     visitor.refreshMenu(connection, socket);
 
     // When a visitor vote
-    socket.on('voteMusic', function (data) {
-        visitorMusic.getNameFromIdContent(data.data.idContent, connection, function (name) {
-            diff.refreshNotificationVoteContent(name, connection, socket);
-        });
+    //socket.on('voteMusic', function (data) {
+    //    visitorMusic.getNameFromIdContent(data.data.idContent, connection, function (name) {
+    //        diff.refreshNotificationVoteContent(name, connection, socket);
+    //    });
+    //
+    //    visitorMusic.actionVoteMusic(data.data.id, data.data.idContent, data.context.idWidget, connection, function () {
+    //        visitorMusic.refreshVoteMusic(connection, socket);
+    //    });
 
-        visitorMusic.actionVoteMusic(data.data.id, data.data.idContent, data.context.idWidget, connection, function () {
-            visitorMusic.refreshVoteMusic(connection, socket);
-        });
+    // When a visitor vote for a content
+    socket.on('voteContent', function (info) {
+        if (info.context.idWidget == 1){
+            visitorMusic.voteContent(connection, info, io);
+        }
     });
 
     socket.on('voteWidget', function (data) {
@@ -207,18 +213,20 @@ io.on('connection', function(socket) {
      */
     socket.on('updateContentStatus', function(info){
         if (info.context.idWidget == 1){
-            adminMusic.updateContentStatus(connection, info, socket);
+            adminMusic.updateContentStatus(connection, info, io);
         }
     });
 
     socket.on('deleteContent', function(info){
         if (info.context.idWidget == 1){
-            adminMusic.deleteContent(connection, info, socket);
+            adminMusic.deleteContent(connection, info, io);
         }
     });
+
+    // TODO : on disconnect, maybe deletes some infos
 });
 
-server.listen(app.get("port"), app.get("ipaddr"), function () {
+http.listen(app.get("port"), app.get("ipaddr"), function () {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
 });
 
