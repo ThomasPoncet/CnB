@@ -8,12 +8,28 @@ socket.on('diffNotification', function (data) {
     updateNotification(data.message, data.color, data.thumb);
 });
 
+var timeOut;
+var count = 0;
+
+function appear(element) {
+    op = 1;
+    element.style.display = 'inline';
+    element.style.opacity = op;
+    element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+}
+
 // make a fadeout on an element
-function fadeout(element) {
+function fadeout(element, currentCount) {
     var op = 1;  // initial opacity
-    var timer = setInterval(function () {
-        if (op <= 0.1){
+    timer = setInterval(function () {
+        if(currentCount != count) {
+            // stop fadeout if there is a new notification
             clearInterval(timer);
+            appear(element);
+            return;
+        }
+        else if (op <= 0.1){
+
             element.style.display = 'none';
         }
         element.style.opacity = op;
@@ -24,6 +40,9 @@ function fadeout(element) {
 // change notification in view
 // color = {green, blue}
 function updateNotification(message, color, thumb) {
+
+    count++;
+
     var className;
     var string = '';
     if(color == 'green')
@@ -46,4 +65,12 @@ function updateNotification(message, color, thumb) {
 
     notificationDiv.className = className;
     notificationDiv.innerHTML = string;
+
+    appear(notificationDiv);
+    clearTimeout(timeOut);
+
+    var currentCount = count;
+    timeOut = setTimeout(function() {
+        fadeout(notificationDiv, currentCount)
+    }, 5000);
 }
