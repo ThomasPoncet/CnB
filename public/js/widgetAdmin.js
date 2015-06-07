@@ -13,23 +13,18 @@ socket.on('connect', function () {
 
 socket.on('refreshContent', function(info){
     if (info.context.idWidget == 1){ //TODO idWidget
-        refreshList(info.data.contentList);
+        refreshList(info.data.contentList, info.context.idWidget);
     }
 });
 
 socket.on('refreshContentVotes', function(info){
     if (info.context.idWidget == 1){ //TODO idWidget
-        refreshList(info.data.contentList);
+        refreshList(info.data.contentList, info.context.idWidget);
     }
 });
 
-socket.on('voteMusicDone', function (data) {
-    refreshList(data.contentList);
-});
-
-function refreshList(contentList) {
+function refreshList(contentList, idWidget) {
     var htmlString = '';
-    var idWidget = 1; // TODO : idWidget
 
     for (var i=0; i<contentList.length; i++){
         htmlString += '<li id=' + contentList[i].idContent + ' class="list-group-item">'
