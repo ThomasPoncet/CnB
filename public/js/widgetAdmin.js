@@ -2,8 +2,11 @@
  * Created by thomas on 04/06/15.
  */
 
+var localSocket;
+
 function refreshList(contentList, idWidget, socket) {
     var htmlString = '';
+    localSocket = socket;
 
     for (var i=0; i<contentList.length; i++){
         htmlString += '<li id=' + contentList[i].idContent + ' class="list-group-item">'
@@ -17,7 +20,7 @@ function refreshList(contentList, idWidget, socket) {
             htmlString +=           'active"';
         } else {
             htmlString +=           '" onclick="updateContentStatus(' + idWidget + ',' + contentList[i].idContent
-                + ',' + true + ',' + socket + ')"';
+                + ',' + true + ')"';
         }
         htmlString +=           '>'
             +                '<span class="glyphicon glyphicon-ok"></span>'
@@ -29,7 +32,7 @@ function refreshList(contentList, idWidget, socket) {
             htmlString +=           'active"';
         } else {
             htmlString +=           '" onclick="updateContentStatus(' + idWidget + ',' + contentList[i].idContent
-                + ',' + false + ',' + socket + ')"';
+                + ',' + false + ')"';
         }
         htmlString +=           '>'
             +                '<span class="glyphicon glyphicon-remove"></span>'
@@ -37,7 +40,7 @@ function refreshList(contentList, idWidget, socket) {
             +        '</div>'
             +    '</div>'
             +    '<button type="button" class="btn btn-default btn-sm" onclick="deleteContent(1,'
-            +    contentList[i].idContent+', \''+contentList[i].link+'\'' + ',' + socket
+            +    contentList[i].idContent+', \''+contentList[i].link+'\''
         +    ')">'
             +        '<span class="glyphicon glyphicon-trash"></span>'
             +    '</button>'
@@ -47,13 +50,13 @@ function refreshList(contentList, idWidget, socket) {
     document.getElementById('content-list').innerHTML = htmlString;
 }
 
-function updateContentStatus(idWidget, idContent, active, socket){
-    socket.emit('updateContentStatus', {context: {idWidget: idWidget}, data: {idContent: idContent, active: active}});
+function updateContentStatus(idWidget, idContent, active){
+    localSocket.emit('updateContentStatus', {context: {idWidget: idWidget}, data: {idContent: idContent, active: active}});
 }
 
-function deleteContent(idWidget, idContent, link, socket) {
+function deleteContent(idWidget, idContent, link) {
     if (confirm("Are you sure you want to delete this content ?")) {
-        socket.emit('deleteContent', {context: {idWidget: idWidget}, data: {idContent: idContent, link: link}});
+        localSocket.emit('deleteContent', {context: {idWidget: idWidget}, data: {idContent: idContent, link: link}});
     }
 }
 

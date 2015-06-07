@@ -32,11 +32,14 @@
 
 </ul>
 
-<script type="text/javascript">createList(<%-JSON.stringify(data.contentList)%>)</script>
 
 <div class="container">
 			<button type="button" class="btn btn-default"
 					onclick="location.href='/adminZWSound'">Return</button>
 </div>
+
+<!--On load-->
+<script type="text/javascript">createList(<%-JSON.stringify(data.contentList)%>)</script>
+
 </body>
 </html>
