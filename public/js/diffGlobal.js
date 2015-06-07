@@ -4,8 +4,7 @@
 
 var socket = io.connect(document.domain+':8080');
 
-socket.on('notification', function (data) {
-    console.log('notification');
+socket.on('diffNotification', function (data) {
     updateNotification(data.message, data.color, data.thumb);
 });
 

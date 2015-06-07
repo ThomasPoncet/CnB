@@ -8,12 +8,6 @@
 
 var widgetVisitor = require('../../../controllers/widgetVisitor.js');
 
-exports.getNameFromIdContent = function(idContent, connection, callback) {
-    DAOWidget.getNameFromIdContent(idContent, connection, function(name) {
-        callback(name);
-    })
-};
-
 exports.run = function (req, res, connection) {
     // TODO idWidget
     widgetVisitor.run(connection, {idWidget: 1}, function(data){

@@ -152,31 +152,20 @@ io.on('connection', function(socket) {
 
     visitor.refreshMenu(connection, socket);
 
-    // When a visitor vote
-    //socket.on('voteMusic', function (data) {
-    //    visitorMusic.getNameFromIdContent(data.data.idContent, connection, function (name) {
-    //        diff.refreshNotificationVoteContent(name, connection, socket);
-    //    });
-    //
-    //    visitorMusic.actionVoteMusic(data.data.id, data.data.idContent, data.context.idWidget, connection, function () {
-    //        visitorMusic.refreshVoteMusic(connection, socket);
-    //    });
-
     // When a visitor vote for a content
     socket.on('voteContent', function (info) {
         if (info.context.idWidget == 1){
             visitorMusic.voteContent(connection, info, io);
         }
+        diff.refreshNotificationVoteContent(info, connection, io);
     });
 
-    socket.on('voteWidget', function (data) {
+    socket.on('voteWidget', function (info) {
 
-        visitorWidgets.actionVoteWidget(data.data.id, data.data.idWidget, data.context.idWidgetZone, connection, function () {
+        visitorWidgets.actionVoteWidget(info.data.id, info.data.idWidget, info.context.idWidgetZone, connection, function () {
             visitorWidgets.refreshListWidgets(connection, socket);
 
-            visitorWidgets.getNameFromIdWidget(data.data.idWidget, connection, function (name) {
-                diff.refreshNotificationVoteWidget(name, connection, socket);
-            });
+            diff.refreshNotificationVoteWidget(info, connection, io);
         });
     });
 
@@ -185,21 +174,18 @@ io.on('connection', function(socket) {
     });
 
     // When a visitor suggest a vote for a widget zone
-    socket.on('suggest', function (data) {
-
-        visitorWidgets.getNameFromIdWidgetZone(data.idZoneWidget, connection, function (name) {
-            diff.refreshNotificationSuggest(name, connection, socket);
-        });
+    socket.on('suggest', function (info) {
+        diff.refreshNotificationSuggest(info, connection, io);
 
         // When vote is finished, we activate/deactivate widgets
         setTimeout(function () {
-            visitorWidgets.updateWidgets(data.idZoneWidget, connection, socket, function () {
+            visitorWidgets.updateWidgets(info.idZoneWidget, connection, socket, function () {
 
                 visitorWidgets.refreshListWidgets(connection, socket);
             });
         }, 60000);
 
-        visitorWidgets.actionSuggest(data.idZoneWidget, connection, function () {
+        visitorWidgets.actionSuggest(info.idZoneWidget, connection, function () {
             visitorWidgets.refreshListWidgets(connection, socket);
         });
     });

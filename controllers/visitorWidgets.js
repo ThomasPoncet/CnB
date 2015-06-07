@@ -79,18 +79,6 @@ exports.actionVoteWidget = function(idSession, idWidget, idWidgetZone, connectio
     });
 };
 
-exports.getNameFromIdWidget = function(idWidget, connection, callback) {
-    DAOWidget.getNameFromIdWidget(idWidget, connection, function(name) {
-        callback(name);
-    })
-}
-
-exports.getNameFromIdWidgetZone = function(idZoneWidget, connection, callback) {
-    DAOWidget.getNameFromIdWidgetZone(idZoneWidget, connection, function(name) {
-        callback(name);
-    })
-}
-
 exports.updateWidgets = function(idZoneWidget, connection, socket, callback) {
 
     DAOWidget.resetTimer(idZoneWidget, connection, function() {
