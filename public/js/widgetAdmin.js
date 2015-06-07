@@ -2,28 +2,7 @@
  * Created by thomas on 04/06/15.
  */
 
-var socket = io.connect(document.domain+':8080');
-//TODO : useless ?
-var sessionId = '';
-
-socket.on('connect', function () {
-    sessionId = socket.io.engine.id;
-    console.log('Connected ' + sessionId);
-});
-
-socket.on('refreshContent', function(info){
-    if (info.context.idWidget == 1){ //TODO idWidget
-        refreshList(info.data.contentList, info.context.idWidget);
-    }
-});
-
-socket.on('refreshContentVotes', function(info){
-    if (info.context.idWidget == 1){ //TODO idWidget
-        refreshList(info.data.contentList, info.context.idWidget);
-    }
-});
-
-function refreshList(contentList, idWidget) {
+function refreshList(contentList, idWidget, socket) {
     var htmlString = '';
 
     for (var i=0; i<contentList.length; i++){
@@ -38,7 +17,7 @@ function refreshList(contentList, idWidget) {
             htmlString +=           'active"';
         } else {
             htmlString +=           '" onclick="updateContentStatus(' + idWidget + ',' + contentList[i].idContent
-                + ',' + true + ')"';
+                + ',' + true + ',' + socket + ')"';
         }
         htmlString +=           '>'
             +                '<span class="glyphicon glyphicon-ok"></span>'
@@ -50,7 +29,7 @@ function refreshList(contentList, idWidget) {
             htmlString +=           'active"';
         } else {
             htmlString +=           '" onclick="updateContentStatus(' + idWidget + ',' + contentList[i].idContent
-                + ',' + false + ')"';
+                + ',' + false + ',' + socket + ')"';
         }
         htmlString +=           '>'
             +                '<span class="glyphicon glyphicon-remove"></span>'
@@ -58,8 +37,8 @@ function refreshList(contentList, idWidget) {
             +        '</div>'
             +    '</div>'
             +    '<button type="button" class="btn btn-default btn-sm" onclick="deleteContent(1,'
-            +    contentList[i].idContent+', \''+contentList[i].link+'\''
-            +    ')">'
+            +    contentList[i].idContent+', \''+contentList[i].link+'\'' + ',' + socket
+        +    ')">'
             +        '<span class="glyphicon glyphicon-trash"></span>'
             +    '</button>'
             +    '</div>'
@@ -68,11 +47,11 @@ function refreshList(contentList, idWidget) {
     document.getElementById('content-list').innerHTML = htmlString;
 }
 
-function updateContentStatus(idWidget, idContent, active){
+function updateContentStatus(idWidget, idContent, active, socket){
     socket.emit('updateContentStatus', {context: {idWidget: idWidget}, data: {idContent: idContent, active: active}});
 }
 
-function deleteContent(idWidget, idContent, link) {
+function deleteContent(idWidget, idContent, link, socket) {
     if (confirm("Are you sure you want to delete this content ?")) {
         socket.emit('deleteContent', {context: {idWidget: idWidget}, data: {idContent: idContent, link: link}});
     }
