@@ -2,31 +2,6 @@
  * Created by thomas on 05/06/15.
  */
 
-// GENERAL !!!
-
-// sessionId originaly passed by script in ejs (var sessionId = ..)
-// if sessionId doesn't exist
-if(typeof sessionId == undefined)
-    var sessionId = '';
-
-var socket = io.connect(document.domain+':8080');
-socket.on('connect', function () {
-    sessionId = socket.io.engine.id;
-    console.log('Connected ' + sessionId);
-});
-
-
-socket.on('refreshContentVotes', function(info){
-    if(info.context.idWidget == 1){ //TODO idWidget
-        refreshListAndVotes(info.data.contentList, info.data.votesList, info.context.idWidget);
-    }
-});
-
-
-socket.on('refreshContent', function(info){
-    refreshList(info.data.contentList, votes, info.context.idWidget);
-});
-
 var votes = new Object();
 
 function refreshVotes(votesList) {
@@ -38,7 +13,6 @@ function refreshList(contentList, votesList, idWidget){
     for(var i=0; i<contentList.length; i++) {
         if (contentList[i].active) {
             string += '<a href="#" id=' + contentList[i].idContent + ' class="list-group-item';
-            console.log(contentList[i].idContent);
 
             if (votesList.hasOwnProperty(sessionId)) {
                 if (votesList[sessionId] == contentList[i].idContent)

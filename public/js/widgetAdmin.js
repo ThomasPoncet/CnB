@@ -2,12 +2,9 @@
  * Created by thomas on 04/06/15.
  */
 
-var localSocket;
 
-function refreshList(contentList, idWidget, socket) {
+function refreshList(contentList, idWidget) {
     var htmlString = '';
-    localSocket = socket;
-
     for (var i=0; i<contentList.length; i++){
         htmlString += '<li id=' + contentList[i].idContent + ' class="list-group-item">'
             +    '<span class="badge">'+contentList[i].nbVote+'</span>'
@@ -51,12 +48,12 @@ function refreshList(contentList, idWidget, socket) {
 }
 
 function updateContentStatus(idWidget, idContent, active){
-    localSocket.emit('updateContentStatus', {context: {idWidget: idWidget}, data: {idContent: idContent, active: active}});
+    socket.emit('updateContentStatus', {context: {idWidget: idWidget}, data: {idContent: idContent, active: active}});
 }
 
 function deleteContent(idWidget, idContent, link) {
     if (confirm("Are you sure you want to delete this content ?")) {
-        localSocket.emit('deleteContent', {context: {idWidget: idWidget}, data: {idContent: idContent, link: link}});
+        socket.emit('deleteContent', {context: {idWidget: idWidget}, data: {idContent: idContent, link: link}});
     }
 }
 
