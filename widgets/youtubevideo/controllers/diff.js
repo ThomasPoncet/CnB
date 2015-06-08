@@ -13,15 +13,7 @@ exports.run = function(req, res, connection){
 
 exports.nextContent = function(req, res, connection, io){
     widgetDiff.nextContent(connection, {context: {idWidget: 2}}, io, function(firstContent){
-        //var filePath = './uploads/'+firstContent.link;
-        //var stat = fs.statSync(filePath);
-        //res.writeHead(200, {
-        //    'Content-Type': 'audio/mpeg',
-        //    'Content-Length': stat.size
-        //});
-        //var readStream = fs.createReadStream(filePath);
-        //readStream.pipe(res);
-
-        console.log("TODO nextContent youtubevideo")
+        linkParsed = "https://www.youtube.com/embed/"+ firstContent.link +"?autoplay=1&autohide=1&iv_load_policy=3&enablejsapi=1";
+        res.redirect(linkParsed);
     });
 };

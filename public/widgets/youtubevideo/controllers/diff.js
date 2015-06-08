@@ -2,7 +2,6 @@
  * Created by Tanguy on 08/06/15.
  */
 
-
 // This code loads the IFrame Player API code asynchronously.
 var tag = document.createElement('script');
 
@@ -21,7 +20,7 @@ function onYouTubeIframeAPIReady() {
         playerVars: { 'autoplay': 1, 'autohide': 1, 'iv_load_policy': 3 },
         events: {
             'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange()
+            'onStateChange': onPlayerStateChange
         }
     });
 }
@@ -33,8 +32,9 @@ function onPlayerReady(event) {
 }
 
 function onPlayerStateChange(event) {
-    // At the end of the video
+    // When video is finished
     if (event.data == 0) {
-        console.log("finished");
+        document.getElementById('playerYoutubevideo').src="/widgets/youtubevideo/diff/stream/"+new Date().getTime();
     }
 }
+

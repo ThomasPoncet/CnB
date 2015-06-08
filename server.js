@@ -156,6 +156,10 @@ app.get('/widgets/youtubevideo/diff', function(req, res) {
     diffYoutubevideo.run(req, res, connection);
 });
 
+app.get('/widgets/youtubevideo/diff/stream/:timestamp', function (req, res) {
+    diffYoutubevideo.nextContent(req, res, connection, io);
+});
+
 
 app.use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');

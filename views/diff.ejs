@@ -25,11 +25,11 @@
 <%
  // we include views of each active widget
 for (i=0; i< listWidget.length; i++) {
-    if(listWidget[i].nomWidget == 'youtubevideo') { // TODO : only music works for the moment
+
 %>
 <%-     include('../widgets/'+listWidget[i].nomWidget+'/views/'+listWidget[i].nomWidget+'Diff')%>
 <%
-    }
+
 } %>
 </body>
 </html>
