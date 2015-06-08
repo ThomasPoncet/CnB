@@ -94,7 +94,7 @@ function updateListWidgets(listWidgets, listZoneWidgets, listVoteVisitorWidget) 
 
                 if (listVoteVisitorWidget.hasOwnProperty(sessionId)) {
                     for (var k = 0; k < listVoteVisitorWidget[sessionId].length; k++) {
-                        if (listVoteVisitorWidget[sessionId][k] == listWidget[j].idWidget) {
+                        if (listVoteVisitorWidget[sessionId][k] == listWidgets[j].idWidget) {
                             string += ' active';
                             break;
                         }

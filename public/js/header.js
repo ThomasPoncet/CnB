@@ -5,17 +5,17 @@
 var socket = io.connect(document.domain+':8080');
 
 socket.on('refreshMenu', function (data) {
-    refreshMenu(data.listActiveWidget);
+    refreshMenu(data.activeWidgetsList);
 });
 
 var localSelected = '';
 
-function initHeader(listActiveWidget, selected){
+function initHeader(selected, activeWidgetsList){
     localSelected = selected;
-    refreshMenu(listActiveWidget);
+    refreshMenu(activeWidgetsList);
 }
 
-function refreshMenu(listActiveWidget) {
+function refreshMenu(activeWidgetsList) {
     var htmlString = '';
     htmlString += '<ul class="nav nav-tabs">';
     // Tab Home
@@ -31,8 +31,8 @@ function refreshMenu(listActiveWidget) {
         htmlString += '<li role="presentation"><a href="/widgets">Widgets</a></li>';
     }
     // Others tabs
-    for(var i=0; i<listActiveWidget.length; i++) {
-        var name = listActiveWidget[i].nomWidget;
+    for(var i=0; i<activeWidgetsList.length; i++) {
+        var name = activeWidgetsList[i].nomWidget;
         htmlString += '<li role="presentation"';
         if(name == localSelected)
             htmlString += ' class="active" ';

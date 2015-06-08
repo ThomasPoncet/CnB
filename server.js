@@ -152,8 +152,6 @@ app.use(function(req, res, next){
 /* Socket.IO events */
 io.on('connection', function(socket) {
 
-    visitor.refreshMenu(connection, socket);
-
     // When a visitor vote for a content
     socket.on('voteContent', function (info) {
         if (info.context.idWidget == 1){

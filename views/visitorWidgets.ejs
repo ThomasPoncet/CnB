@@ -1,10 +1,10 @@
 
-<%-include('./header', {context: {selected: "widgets"}})%>
+<%-include('./header', {context: {selected: "widgets", activeWidgetsList: context.activeWidgetsList}})%>
 
 
 <!--TODO : pass sessionId to the javascript with an init function-->
 <script>
-    var sessionId = <%- JSON.stringify(sessionId) %>;
+    var sessionId = <%- JSON.stringify(data.sessionId) %>;
 </script>
 
 <script src="/widgets/music/controllers/visitor.js"></script>
@@ -16,9 +16,9 @@
 <div id="widgetList" class="list-group"></div>
 <div id="test"></div>
 
-<script type="text/javascript">updateListWidgets(<%- JSON.stringify(listWidget) %>,
-            <%- JSON.stringify(listZoneWidget) %>,
-            <%- JSON.stringify(listVoteVisitorWidget) %>);
+<script type="text/javascript">updateListWidgets(<%- JSON.stringify(data.listWidget) %>,
+            <%- JSON.stringify(data.listZoneWidget) %>,
+            <%- JSON.stringify(data.listVoteVisitorWidget) %>);
 </script>
 
 </body>
