@@ -1,4 +1,6 @@
-<video controls muted autoplay id="playerVideos">
+<video no-controls muted autoplay id="video-player" width="100%" height="100%">
     <source src="/widgets/videos/diff/stream/<%= new Date().getTime()%>" type="video/mp4">
     Your browser does not support the video element.
 </video>
+
+<script src="/widgets/videos/controllers/diff.js"></script>
