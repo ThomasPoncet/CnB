@@ -1,33 +1,25 @@
+
+<%-include('./header', {context: {selected: "widgets", activeWidgetsList: context.activeWidgetsList}})%>
+
+
+<!--TODO : pass sessionId to the javascript with an init function-->
 <script>
-    // Tip to pass variable to javascript
-    var sessionId = <%- JSON.stringify(sessionId) %>;
-    var listWidget = <%- JSON.stringify(listWidget) %>;
-    var listZoneWidget = <%- JSON.stringify(listZoneWidget) %>;
-    var listVoteVisitorWidget = <%- JSON.stringify(listVoteVisitorWidget) %>;
+    var sessionId = <%- JSON.stringify(data.sessionId) %>;
 </script>
 
-<script src="/socket.io/socket.io.js"></script>
 <script src="/widgets/music/controllers/visitor.js"></script>
-<script src="/js/menu.js"></script>
 <script src="/js/widgetsList.js"></script>
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <title>Choose ‘N’ Broadcast</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-</head>
-
-<body onload="updateListWidgets(listWidget, listZoneWidget, listVoteVisitorWidget)">
-<h1>Widgets list</h1>
-
-<!-- Menu -->
-<div id="widget-list" class="list-group"></div>
+<h2>Widgets list</h2>
 
 <div id="widgetList" class="list-group"></div>
 <div id="test"></div>
+
+<script type="text/javascript">updateListWidgets(<%- JSON.stringify(data.listWidget) %>,
+            <%- JSON.stringify(data.listZoneWidget) %>,
+            <%- JSON.stringify(data.listVoteVisitorWidget) %>);
+</script>
+
 </body>
 </html>
