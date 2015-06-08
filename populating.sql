@@ -27,7 +27,7 @@ INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
 VALUES (4, "nexttrams", 2, false);
 
 INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
-VALUES (5, "advertisements", 2, false);
+VALUES (5, "pictures", 2, true);
 
 INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
 VALUES (6, "meteo", 2, false);

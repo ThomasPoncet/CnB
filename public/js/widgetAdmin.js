@@ -37,7 +37,7 @@ function refreshList(contentList, idWidget) {
             +            '</button>'
             +        '</div>'
             +    '</div>'
-            +    '<button type="button" class="btn btn-default btn-sm" onclick="deleteContent(1,'
+            +    '<button type="button" class="btn btn-default btn-sm" onclick="deleteContent(' + idWidget + ','
             +    contentList[i].idContent+', \''+contentList[i].link+'\''
         +    ')">'
             +        '<span class="glyphicon glyphicon-trash"></span>'
