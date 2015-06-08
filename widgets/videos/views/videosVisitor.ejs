@@ -1,24 +1,10 @@
-<!DOCTYPE html>
 
-<!--TODO : Put in header !-->
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/menu.js"></script>
+<%-include('../../../views/header', {context: {selected: "videos", activeWidgetsList: context.activeWidgetsList}})%>
+
 <script src="/js/widgetVisitor.js"></script>
 <script src="/widgets/videos/controllers/visitor.js"></script>
 
-
-<html>
-<head>
-    <title>Choose ‘N’ Broadcast</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-</head>
-
-<body>
-<h1>Choose Videos</h1>
-
-<div id="widget-list" class="list-group"></div>
+<h2>Choose Videos</h2>
 
 <ul id="content-list" class="list-group">
 
