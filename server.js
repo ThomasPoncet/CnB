@@ -46,6 +46,7 @@ var adminMusic = require('./widgets/music/controllers/admin');
 var diffMusic = require('./widgets/music/controllers/diff');
 var visitorMusic = require('./widgets/music/controllers/visitor');
 
+var adminYoutubevideo = require('./widgets/youtubevideo/controllers/admin');
 var diffYoutubevideo = require('./widgets/youtubevideo/controllers/diff');
 var visitorYoutubevideo = require('./widgets/youtubevideo/controllers/visitor');
 
@@ -150,6 +151,14 @@ app.get('/widgets/music/diff/stream/:timestamp', function (req, res) {
 
 app.get('/widgets/youtubevideo/visitor', function(req, res) {
     visitorYoutubevideo.run(req, res, connection);
+});
+
+app.get('/widgets/youtubevideo/admin', auth, function (req, res) {
+    adminYoutubevideo.run(req, res, connection);
+});
+
+app.post('/widgets/youtubevideo/admin/addContent', auth, function (req, res) {
+    adminYoutubevideo.addContent(req, res, connection, io);
 });
 
 app.get('/widgets/youtubevideo/diff', function(req, res) {
