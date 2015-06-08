@@ -53,6 +53,10 @@ var visitorPictures = require('./widgets/pictures/controllers/visitor');
 var diffYoutubevideo = require('./widgets/youtubevideo/controllers/diff');
 var visitorYoutubevideo = require('./widgets/youtubevideo/controllers/visitor');
 
+var adminVideos = require('./widgets/videos/controllers/admin');
+var diffVideos = require('./widgets/videos/controllers/diff');
+var visitorVideos = require('./widgets/videos/controllers/visitor');
+
 var hash = require('./public/js/md5');
 
 var auth = function(req, res, next){
@@ -75,7 +79,7 @@ app.set("ipaddr", ipAddr);
 ////Server's port number
 app.set("port", 8080);
 
-var arrayViews = [__dirname + "/views", __dirname + "/widgets/music/views", __dirname + "/widgets/youtubevideo/views", __dirname + "/widgets/pictures/views", __dirname + "/zonesWidgets/views"];
+var arrayViews = [__dirname + "/views", __dirname + "/widgets/videos/views", __dirname + "/widgets/music/views", __dirname + "/widgets/youtubevideo/views", __dirname + "/widgets/pictures/views", __dirname + "/zonesWidgets/views"];
 
 //Specify the views folder
 //app.set("views", __dirname + "/views");
@@ -165,7 +169,7 @@ app.post('/widgets/pictures/admin/addContent', auth, function (req, res) {
 });
 
 app.get('/widgets/pictures/diff', function (req, res) {
-    diffMPictures.run(req, res, connection);
+    diffPictures.run(req, res, connection);
 });
 
 app.get('/widgets/pictures/diff/stream/:timestamp', function (req, res) {
@@ -182,6 +186,26 @@ app.get('/widgets/youtubevideo/diff', function(req, res) {
 
 app.get('/widgets/youtubevideo/diff/stream/:timestamp', function (req, res) {
     diffYoutubevideo.nextContent(req, res, connection, io);
+});
+
+app.get('/widgets/videos/visitor', function(req, res) {
+    visitorVideos.run(req, res, connection);
+});
+
+app.get('/widgets/videos/admin', auth, function (req, res) {
+    adminVideos.run(req, res, connection);
+});
+
+app.post('/widgets/videos/admin/addContent', auth, function (req, res) {
+    adminVideos.addContent(req, res, connection, io);
+});
+
+app.get('/widgets/videos/diff', function (req, res) {
+    diffVideos.run(req, res, connection);
+});
+
+app.get('/widgets/videos/diff/stream/:timestamp', function (req, res) {
+    diffVideos.nextContent(req, res, connection, io);
 });
 
 app.use(function(req, res, next){
@@ -203,6 +227,8 @@ io.on('connection', function(socket) {
             visitorPictures.voteContent(connection, info, io);
         } else if (info.context.idWidget == 2){
             visitorYoutubevideo.voteContent(connection, info, io);
+        } else if (info.context.idWidget == 3){
+            visitorVideos.voteContent(connection, info, io);
         }
         diff.refreshNotificationVoteContent(info, connection, io);
     });
@@ -251,6 +277,8 @@ io.on('connection', function(socket) {
             adminPictures.updateContentStatus(connection, info, io);
         } else if (info.context.idWidget == 2){
             adminYoutubevideo.updateContentStatus(connection, info, io);
+        } else if (info.context.idWidget == 3){
+            adminVideos.updateContentStatus(connection, info, io);
         }
     });
 
@@ -261,6 +289,8 @@ io.on('connection', function(socket) {
             adminPictures.deleteContent(connection, info, io);
         } else if (info.context.idWidget == 2){
             adminYoutubevideo.deleteContent(connection, info, io);
+        } else if (info.context.idWidget == 3){
+            adminVideos.deleteContent(connection, info, io);
         }
     });
 
