@@ -14,7 +14,7 @@ exports.nextContent = function(connection, info, io, callback){
 
     DAO.getFirstContent(connection, info, function(rows){
         // To delete this content from the playlist
-        if (rows[0] != undefined) {
+        //if (rows[0] != undefined) {
 
             DAO.deleteVote(connection, rows[0].idContent, function () {
                 DAO.updateContentStatus(connection, rows[0].idContent, false, function () {
@@ -23,8 +23,8 @@ exports.nextContent = function(connection, info, io, callback){
                     });
                 });
             });
-        } else {
-            callback(undefined);
-        }
+       // } else {
+       //     callback(undefined);
+       // }
     });
 };

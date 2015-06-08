@@ -1,0 +1,20 @@
+
+<%-include('../../../views/header', {context: {selected: "videos", activeWidgetsList: context.activeWidgetsList}})%>
+
+<script src="/js/widgetVisitor.js"></script>
+<script src="/widgets/videos/controllers/visitor.js"></script>
+
+<h2>Choose Videos</h2>
+
+<ul id="content-list" class="list-group">
+
+    <!-- Filled by function "refreshList" -->
+
+</ul>
+
+<script type="text/javascript">createList(<%-JSON.stringify(data.contentList)%>,
+            <%-JSON.stringify(data.listVotes)%>,
+            <%-JSON.stringify(context.sessionId)%>);
+</script>
+</body>
+</html>
