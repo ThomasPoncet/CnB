@@ -3,9 +3,6 @@
  * admin music client side
  */
 
-var socket = io.connect(document.domain+':8080');
-//TODO : useless ?
-//var sessionId = '';
 
 socket.on('refreshContent', function(info){
     if (info.context.idWidget == 1){ //TODO idWidget

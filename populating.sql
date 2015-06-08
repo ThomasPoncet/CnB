@@ -18,11 +18,10 @@ INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
 VALUES (1, "music", 1, true);
 
 INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
-VALUES (2, "announcements", 1, false);
-
+VALUES (2, "youtubevideo", 2, true);
 
 INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
-VALUES (3, "youtube", 2, true);
+VALUES (3, "announcement", 1, false);
 
 INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
 VALUES (4, "nexttrams", 2, false);
@@ -33,6 +32,14 @@ VALUES (5, "pictures", 2, true);
 INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
 VALUES (6, "meteo", 2, false);
 
+INSERT INTO content
+(idContent, nomContent, link, idWidget,active)
+VALUES(1,'GoPro: Tanner Hall Ski Diaries ','N2CWCJJilfk',2,true);
+
+INSERT INTO content
+(idContent, nomContent, link, idWidget,active)
+VALUES(2,'Psychedelic visuals','uqvgRz5So-I',2,true);
+
 INSERT INTO vote_content (idVisitor, idContent)
 VALUES ("1", 1);
 INSERT INTO vote_content (idVisitor, idContent)
@@ -42,8 +49,3 @@ VALUES ("3", 1);
 INSERT INTO vote_content (idVisitor, idContent)
 VALUES ("4", 2);
 
--- INSERT INTO widgetzone (idWidgetZone, nomWidgetZone)
--- VALUES (1, "Sound");
-
--- INSERT INTO widgetzone (idWidgetZone, nomWidgetZone)
--- VALUES (2, "Screen");

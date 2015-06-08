@@ -4,7 +4,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/menu.js"></script>
 <script src="/js/widgetVisitor.js"></script>
-<script src="/widgets/music/controllers/visitor.js"></script>
+<script src="/widgets/youtubevideo/controllers/visitor.js"></script>
 
 
 <html>
@@ -16,7 +16,7 @@
 </head>
 
 <body>
-<h1>Choose Music</h1>
+<h1>Choose Youtube video</h1>
 
 <div id="widget-list" class="list-group"></div>
 
@@ -28,7 +28,7 @@
 
 <script type="text/javascript">createList(<%-JSON.stringify(data.contentList)%>,
             <%-JSON.stringify(data.listVotes)%>,
-            <%-JSON.stringify(context.sessionId)%>);
+            <%-JSON.stringify(context.idWidget)%>);
 </script>
 </body>
 </html>
