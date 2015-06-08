@@ -8,11 +8,11 @@
 -- VALUES (3, "Pitt Poule - Tears", "lien3", 1, true);
 
 
-INSERT INTO widgetzone (idWidgetZone, nomWidgetZone)
-VALUES (1, "Sound");
+INSERT INTO widgetzone (idWidgetZone, nomWidgetZone, currentWidget)
+VALUES (1, "Sound", 1);
 
-INSERT INTO widgetzone (idWidgetZone, nomWidgetZone)
-VALUES (2, "Screen");
+INSERT INTO widgetzone (idWidgetZone, nomWidgetZone, currentWidget)
+VALUES (2, "Screen", 2);
 
 INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
 VALUES (1, "music", 1, true);

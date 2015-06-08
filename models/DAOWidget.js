@@ -4,14 +4,14 @@
 
 exports.getWidgetList = function(connection, callback) {
 
-    connection.query('SELECT w.idWidget, w.nomWidget, w.idWidgetZone, w.active, IFNULL(v.count,0) AS nbVote ' +
-        'FROM cnb.widget AS w ' +
-        'LEFT JOIN ( ' +
-        '    SELECT idWidget, COUNT(idVisitor) AS count ' +
-        'FROM cnb.vote_widget ' +
-        'GROUP BY idWidget ' +
-        ') AS v ' +
-        'ON w.idWidget = v.idWidget ORDER BY w.idWidget', function(err, rows, fields) {
+    connection.query('SELECT w.idWidget, w.nomWidget, w.idWidgetZone, w.active, IFNULL(v.count,0) AS nbVote, IFNULL(z.idWidgetZone!=0, false) AS selectioned ' +
+    'FROM cnb.widget w LEFT JOIN (  ' +
+    '   SELECT idWidget, COUNT(idVisitor) AS count ' +
+    '   FROM cnb.vote_widget GROUP BY idWidget) AS v ON w.idWidget = v.idWidget '+
+    'LEFT JOIN ( ' +
+    '   SELECT idWidgetZone, currentWidget ' +
+    '   FROM cnb.widgetzone) AS z ON w.idWidget = z.currentWidget ' +
+    'ORDER BY w.idWidget', function(err, rows, fields) {
 
         if (err)
             console.log('Error while performing Query. [0]');
@@ -50,8 +50,9 @@ exports.changeEndVote = function(idZoneWidget, connection, callback)
 
 exports.getActiveWidgetList = function(connection, callback) {
 
-    connection.query('SELECT idWidget, nomWidget, idWidgetZone, active FROM cnb.widget ' +
-        'WHERE active=true', function(err, rows, fields) {
+    connection.query('SELECT w.idWidget, w.nomWidget, w.idWidgetZone, w.active ' +
+    'FROM cnb.widget w, cnb.widgetzone z ' +
+    'WHERE w.idWidget = z.currentWidget AND w.active = true', function(err, rows, fields) {
 
         if (err)
             console.log('Error while performing Query. [1]');
@@ -354,7 +355,6 @@ exports.resetTimer = function(idZoneWidget, connection, callback) {
 
 exports.maxVoteWidget = function(idZoneWidget, connection, callback) {
 
-
     connection.query('SELECT w.idWidget, COUNT(*) AS nbVote ' +
                      'FROM cnb.widget w, cnb.vote_widget v ' +
                      'WHERE w.idWidget = v.idWidget AND w.idWidgetZone=' + idZoneWidget +
@@ -363,36 +363,24 @@ exports.maxVoteWidget = function(idZoneWidget, connection, callback) {
         if (err)
             console.log('Error while performing Query. maxVoteWidget [16]');
 
-        callback(rows[0].idWidget)
-    })
+        var max = 0;
+        if(rows != undefined)
+            max = rows[0].idWidget;
 
+        callback(max);
+    })
 
 };
 
 exports.changeActivatedWidget = function(idZoneWidget, idWidgetMax, connection, callback) {
-    connection.query('SELECT idWidget FROM cnb.widget ' +
-                     'WHERE idWidgetZone='+ idZoneWidget +' AND active=true', function(err, rows, fields) {
 
+    connection.query('UPDATE cnb.widgetzone SET currentWidget = ' + idWidgetMax +
+        ' WHERE idWidgetZone = ' + idZoneWidget, function(err, rows, fields) {
         if (err)
-            console.log('Error while performing Query. changeActivatedWidget [17-1]');
+            console.log('Error while performing Query. changeActivatedWidget [17]');
 
-        connection.query('UPDATE cnb.widget SET active=false ' +
-                         'WHERE idWidget=' + rows[0].idWidget, function(err, rows, fields) {
-            if (err)
-                console.log('Error while performing Query. changeActivatedWidget [17-2]');
-
-            connection.query('UPDATE cnb.widget SET active=true ' +
-                'WHERE idWidget=' + idWidgetMax, function(err, rows, fields) {
-                if (err)
-                    console.log('Error while performing Query. changeActivatedWidget [17-3]');
-
-                callback();
-
-            });
-
-        });
-
-    })
+            callback();
+    });
 };
 
 exports.resetVoteWidget = function(idZoneWidget, connection, callback) {
