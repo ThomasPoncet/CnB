@@ -5,7 +5,7 @@
 if(typeof sessionId == undefined)
     var sessionId = '';
 
-var socket = io.connect(document.domain+':8080');
+// socket is define in header
 
 socket.on('refreshListWidgets', function (data) {
     updateListWidgets(data.listWidget, data.listZoneWidget, data.listVoteVisitorWidget);
