@@ -2,6 +2,11 @@
  * Created by thomas on 05/06/15.
  */
 
+if(typeof sessionId == undefined)
+    var sessionId = '';
+
+//var sessionId = context.sessionId;
+var socket = io.connect(document.domain+':8080');
 var votes = new Object();
 
 function refreshVotes(votesList) {

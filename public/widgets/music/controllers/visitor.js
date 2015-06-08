@@ -3,11 +3,6 @@
  * visitor music client side
  */
 
-// if sessionId doesn't exist
-if(typeof sessionId == undefined)
-    var sessionId = '';
-
-var socket = io.connect(document.domain+':8080');
 
 socket.on('refreshContentVotes', function(info){
     if(info.context.idWidget == 1){ //TODO idWidget
@@ -21,6 +16,7 @@ socket.on('refreshContent', function(info){
     }
 });
 
-function createList(contentList, votesList){
+function createList(contentList, votesList, session){
+    sessionId = session;
     refreshList(contentList, votesList, 1); // TODO idWidget
 }
