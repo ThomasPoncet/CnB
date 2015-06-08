@@ -16,13 +16,15 @@ exports.run = function(req, res, connection){
 
 exports.nextContent = function(req, res, connection, io){
     widgetDiff.nextContent(connection, {context: {idWidget: 1}}, io, function(firstContent){
-        var filePath = './uploads/'+firstContent.link;
-        var stat = fs.statSync(filePath);
-        res.writeHead(200, {
-            'Content-Type': 'audio/mpeg',
-            'Content-Length': stat.size
-        });
-        var readStream = fs.createReadStream(filePath);
-        readStream.pipe(res);
+        if(firstContent != undefined) {
+            var filePath = './uploads/' + firstContent.link;
+            var stat = fs.statSync(filePath);
+            res.writeHead(200, {
+                'Content-Type': 'audio/mpeg',
+                'Content-Length': stat.size
+            });
+            var readStream = fs.createReadStream(filePath);
+            readStream.pipe(res);
+        }
     });
 };

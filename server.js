@@ -50,6 +50,7 @@ var adminPictures = require('./widgets/pictures/controllers/admin');
 var diffPictures = require('./widgets/pictures/controllers/diff');
 var visitorPictures = require('./widgets/pictures/controllers/visitor');
 
+var adminYoutubevideo = require('./widgets/youtubevideo/controllers/admin');
 var diffYoutubevideo = require('./widgets/youtubevideo/controllers/diff');
 var visitorYoutubevideo = require('./widgets/youtubevideo/controllers/visitor');
 
@@ -180,6 +181,14 @@ app.get('/widgets/youtubevideo/visitor', function(req, res) {
     visitorYoutubevideo.run(req, res, connection);
 });
 
+app.get('/widgets/youtubevideo/admin', auth, function (req, res) {
+    adminYoutubevideo.run(req, res, connection);
+});
+
+app.post('/widgets/youtubevideo/admin/addContent', auth, function (req, res) {
+    adminYoutubevideo.addContent(req, res, connection, io);
+});
+
 app.get('/widgets/youtubevideo/diff', function(req, res) {
     diffYoutubevideo.run(req, res, connection);
 });
@@ -215,8 +224,6 @@ app.use(function(req, res, next){
 
 /* Socket.IO events */
 io.on('connection', function(socket) {
-
-    visitor.refreshMenu(connection, socket);
 
     // When a visitor vote for a content
     socket.on('voteContent', function (info) {

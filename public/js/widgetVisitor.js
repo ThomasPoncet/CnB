@@ -5,8 +5,8 @@
 if(typeof sessionId == undefined)
     var sessionId = '';
 
-//var sessionId = context.sessionId;
-var socket = io.connect(document.domain+':8080');
+// socket is define in header
+
 var votes = new Object();
 
 function refreshVotes(votesList) {

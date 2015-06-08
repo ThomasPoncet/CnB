@@ -19,8 +19,8 @@ function onYouTubeIframeAPIReady() {
         videoId: 'JeAtre3Bxg8',
         playerVars: { 'autoplay': 1, 'autohide': 1, 'iv_load_policy': 3 },
         events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
+            'onReady': onPlayerReady
+            //'onStateChange': onPlayerStateChange
         }
     });
 }
@@ -31,10 +31,16 @@ function onPlayerReady(event) {
     player.mute();
 }
 
-function onPlayerStateChange(event) {
+//function onPlayerStateChange(event) {
+//    // When video is finished
+//    if (event.data == 0) {
+//        document.getElementById('playerYoutubevideo').src="/widgets/youtubevideo/diff/stream/"+new Date().getTime();
+//    }
+//}
+document.getElementById('playerYoutubevideo').addEventListener('onStateChange', function(event){
     // When video is finished
     if (event.data == 0) {
         document.getElementById('playerYoutubevideo').src="/widgets/youtubevideo/diff/stream/"+new Date().getTime();
     }
-}
+});
 

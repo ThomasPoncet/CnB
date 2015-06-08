@@ -20,5 +20,7 @@ exports.refreshMenu = function(connection, socket) {
 };
 
 exports.run = function(req, res, connection) {
-    res.render("visiteur");
+    DAOWidget.getActiveWidgetList(connection, function(activeWidgetsList){
+        res.render("visiteur", {context: {activeWidgetsList: activeWidgetsList}});
+    });
 };

@@ -4,7 +4,7 @@
 
 var DAOWidget = require('../models/DAOWidget.js');
 
-getWidgetList = function(connection, callback) {
+var getWidgetList = function(connection, callback) {
 
     DAOWidget.getWidgetList(connection, function(list) {
         callback(list)
@@ -96,10 +96,12 @@ exports.run = function(req, res, connection) {
     getWidgetList(connection, function(list) {
         getZoneWidgetList(connection, function(list2) {
             getVoteVisitorWidgetList(connection, function(list3) {
-                res.render("visitorWidgets", {
-                    listWidget: list, listZoneWidget: list2
-                    , sessionId: req.visitorSession.idSession
-                    , listVoteVisitorWidget: list3
+                DAOWidget.getActiveWidgetList(connection, function(activeWidgetsList){
+                    res.render("visitorWidgets", {context: {activeWidgetsList: activeWidgetsList},
+                        data: {listWidget: list, listZoneWidget: list2
+                        , sessionId: req.visitorSession.idSession
+                        , listVoteVisitorWidget: list3}
+                    });
                 });
             });
         });
