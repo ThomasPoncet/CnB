@@ -6,10 +6,12 @@ var DAOWidget = require('../models/DAOWidget.js');
 var widgetContent = require('./widgetContent.js');
 
 exports.run = function (connection, info, callback) {
-    // TODO : idWidget
     DAOWidget.getContentList(connection, {idWidget: info.idWidget}, function(contentList) {
         DAOWidget.getVoteVisitorList(connection, {idWidget: info.idWidget}, function(listVotes){
-            callback({contentList: contentList, listVotes: listVotes});
+            DAOWidget.getActiveWidgetList(connection, function(activeWidgetsList){
+                callback({context: {activeWidgetsList: activeWidgetsList},
+                            data: {contentList: contentList, listVotes: listVotes}});
+            });
         });
     });
 };

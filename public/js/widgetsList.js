@@ -5,7 +5,7 @@
 if(typeof sessionId == undefined)
     var sessionId = '';
 
-var socket = io.connect(document.domain+':8080');
+// socket is define in header
 
 socket.on('refreshListWidgets', function (data) {
     updateListWidgets(data.listWidget, data.listZoneWidget, data.listVoteVisitorWidget);
@@ -101,14 +101,15 @@ function updateListWidgets(listWidgets, listZoneWidgets, listVoteVisitorWidget) 
 
                     string += '<a href="javascript:return false;" id="widget' + listWidgets[j].idWidget + '" class="list-group-item';
 
-                    if (listVoteVisitorWidget.hasOwnProperty(sessionId)) {
-                        for (var k = 0; k < listVoteVisitorWidget[sessionId].length; k++) {
-                            if (listVoteVisitorWidget[sessionId][k] == listWidget[j].idWidget) {
-                                string += ' active';
-                                break;
-                            }
+
+                if (listVoteVisitorWidget.hasOwnProperty(sessionId)) {
+                    for (var k = 0; k < listVoteVisitorWidget[sessionId].length; k++) {
+                        if (listVoteVisitorWidget[sessionId][k] == listWidgets[j].idWidget) {
+                            string += ' active';
+                            break;
                         }
                     }
+                }
 
                     string += '" onclick="voteWidget(this.id,' + listWidgets[j].idWidget +
                         ', ' + listWidgets[j].idWidgetZone + ',' + suggested + ');">';

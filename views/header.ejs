@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/header.js"></script>
+
+<html>
+<head>
+    <title>Choose ‘N’ Broadcast</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<h1>Choose 'n' Broadcast</h1>
+
+<div id="menu" class="list-group"></div>
+
+<script type="text/javascript">initHeader(<%-JSON.stringify(context.selected)%>,
+                                            <%-JSON.stringify(context.activeWidgetsList)%>);</script>

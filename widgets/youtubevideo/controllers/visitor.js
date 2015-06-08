@@ -6,9 +6,10 @@ var widgetVisitor = require('../../../controllers/widgetVisitor.js');
 
 exports.run = function (req, res, connection) {
     // TODO idWidget
-    widgetVisitor.run(connection, {idWidget: 2}, function(data){
-        res.render("youtubevideoVisitor", {context: {sessionId: req.visitorSession.idSession, idWidget: 2},
-            data: data});
+    widgetVisitor.run(connection, {idWidget: 2}, function(info){
+        res.render("youtubevideoVisitor", {context: {sessionId: req.visitorSession.idSession, idWidget: 2,
+                                                        activeWidgetsList: info.context.activeWidgetsList},
+                                            data: info.data});
     });
 };
 
