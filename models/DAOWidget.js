@@ -125,7 +125,9 @@ exports.deleteVote = function(connection, idContent, callback) {
 };
 
 
-exports.getFirstContent = function(connection, callback) {
+exports.getFirstContent = function(connection, info, callback) {
+
+    var idWidget = info.context.idWidget;
 
     connection.query('SELECT c.idContent, c.nomContent, c.link, c.idWidget, c.active, IFNULL(v.count,0) AS nbVote ' +
         '    FROM cnb.content AS c ' +
@@ -135,7 +137,7 @@ exports.getFirstContent = function(connection, callback) {
         '    GROUP BY idContent ' +
         '    ) AS v ' +
         '    ON c.idContent = v.idContent ' +
-        '   WHERE active = true ' +
+        '   WHERE active = true AND idWidget='+ idWidget +
         '   ORDER BY nbVote desc' +
         '   LIMIT 1', function(err, rows, fields) {
         // TODO : If there is no content !

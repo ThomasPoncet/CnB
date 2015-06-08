@@ -11,7 +11,7 @@ exports.run = function(connection, info, callback) {
 };
 
 exports.nextContent = function(connection, info, io, callback){
-    DAO.getFirstContent(connection, function(rows){
+    DAO.getFirstContent(connection, info, function(rows){
         // To delete this content from the playlist
         DAO.deleteVote(connection, rows[0].idContent, function(){
             DAO.updateContentStatus(connection, rows[0].idContent, false, function(){

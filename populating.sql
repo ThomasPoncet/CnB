@@ -18,11 +18,11 @@ INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
 VALUES (1, "music", 1, true);
 
 INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
-VALUES (2, "announcements", 1, false);
+VALUES (2, "youtubevideo", 2, true);
 
 
 INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
-VALUES (3, "youtube", 2, true);
+VALUES (3, "announcement", 1, false);
 
 INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
 VALUES (4, "nexttrams", 2, false);

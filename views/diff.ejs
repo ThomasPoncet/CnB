@@ -20,14 +20,12 @@
 </head>
 
 <body>
-<h1>Diffuse</h1>
-
 <div id="notification" role="alert"></div>
 
 <%
  // we include views of each active widget
 for (i=0; i< listWidget.length; i++) {
-    if(listWidget[i].nomWidget == 'music') { // TODO : only music works for the moment
+    if(listWidget[i].nomWidget == 'youtubevideo') { // TODO : only music works for the moment
 %>
 <%-     include('../widgets/'+listWidget[i].nomWidget+'/views/'+listWidget[i].nomWidget+'Diff')%>
 <%

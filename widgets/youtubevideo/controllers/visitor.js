@@ -1,14 +1,14 @@
 /**
- * Created by Tanguy on 27/05/15.
+ * Created by Tanguy on 08/06/15.
  */
 
 var widgetVisitor = require('../../../controllers/widgetVisitor.js');
 
 exports.run = function (req, res, connection) {
     // TODO idWidget
-    widgetVisitor.run(connection, {idWidget: 1}, function(data){
-        res.render("musicVisitor", {context: {sessionId: req.visitorSession.idSession, idWidget: 1},
-                                    data: data});
+    widgetVisitor.run(connection, {idWidget: 2}, function(data){
+        res.render("youtubevideoVisitor", {context: {sessionId: req.visitorSession.idSession, idWidget: 2},
+            data: data});
     });
 };
 
