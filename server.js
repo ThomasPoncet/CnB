@@ -9,7 +9,8 @@ var http = require('http').Server(app);
 var bodyParser = require("body-parser");
 var io = require('socket.io')(http);
 var mysql = require("mysql");
-var session = require('client-sessions');
+var sessions = require('client-sessions');
+var uuid = require('uuid');
 var basicAuth = require('basic-auth');
 var adminAuth = {
     'admin': {password: '21232f297a57a5a743894a0e4a801fc3'}
@@ -87,21 +88,22 @@ app.use(multer({ dest: './uploads/'}));
 // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(session({
+app.use(sessions({
     cookieName: 'visitorSession',
     secret: 'T4MFNkeL0Wx014mtK8Cr', // random string for security
     duration: 5 * 60 * 1000,
     activeDuration: 5 * 60 * 1000
 }));
 
+app.use(function(req, res, next){
+    if (!req.visitorSession.idSession) {
+        req.visitorSession.idSession = uuid.v4();
+    }
+    next();
+});
+
 //Specify routes
 app.get('/', function(req, res) {
-
-    // if session doesn't exist
-    if (!req.visitorSession.idSession) {
-        req.visitorSession.idSession = visitor.makeId();
-    }
-
     visitor.run(req, res, connection);
 });
 

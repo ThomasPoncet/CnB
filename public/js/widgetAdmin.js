@@ -2,6 +2,7 @@
  * Created by thomas on 04/06/15.
  */
 
+var socket = io.connect(document.domain+':8080');
 
 function refreshList(contentList, idWidget) {
     var htmlString = '';
