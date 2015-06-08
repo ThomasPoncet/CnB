@@ -1,0 +1,42 @@
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/widgetAdmin.js"></script>
+<script src="/widgets/pictures/controllers/admin.js"></script>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Choose ‘N’ Broadcast</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Manage Pictures</h1>
+
+<form action="/widgets/pictures/admin/addContent" method="POST" enctype="multipart/form-data" onsubmit="return verif_input('InputFiles', 'Please add a file first !')">
+    <div class="form-group">
+        <label for="InputFile">Image file to add</label>
+        <input type="file" id="InputFiles" name="file" multiple="multiple">
+    </div>
+    <button type="submit" class="btn btn-default btn-lg">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Confirm
+    </button>
+</form>
+
+<ul id="content-list" class="list-group">
+
+    <!-- Filled by function "refreshList" -->
+
+</ul>
+
+
+<div class="container">
+			<button type="button" class="btn btn-default"
+					onclick="location.href='/adminZWScreen'">Return</button>
+</div>
+
+<!--On load-->
+<script type="text/javascript">createList(<%-JSON.stringify(data.contentList)%>)</script>
+
+</body>

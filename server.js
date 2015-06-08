@@ -45,6 +45,10 @@ var adminMusic = require('./widgets/music/controllers/admin');
 var diffMusic = require('./widgets/music/controllers/diff');
 var visitorMusic = require('./widgets/music/controllers/visitor');
 
+var adminPictures = require('./widgets/pictures/controllers/admin');
+var diffPictures = require('./widgets/pictures/controllers/diff');
+var visitorPictures = require('./widgets/pictures/controllers/visitor');
+
 var hash = require('./public/js/md5');
 
 var auth = function(req, res, next){
@@ -67,7 +71,7 @@ app.set("ipaddr", ipAddr);
 ////Server's port number
 app.set("port", 8080);
 
-var arrayViews = [__dirname + "/views", __dirname + "/widgets/music/views", __dirname + "/zonesWidgets/views"];
+var arrayViews = [__dirname + "/views", __dirname + "/widgets/music/views", __dirname + "/widgets/pictures/views", __dirname + "/zonesWidgets/views"];
 //Specify the views folder
 //app.set("views", __dirname + "/views");
 app.set("views", arrayViews);
@@ -142,6 +146,26 @@ app.get('/widgets/music/diff/stream/:timestamp', function (req, res) {
     diffMusic.nextContent(req, res, connection, io);
 });
 
+app.get('/widgets/pictures/visitor', function(req, res) {
+    visitorPictures.run(req, res, connection);
+});
+
+app.get('/widgets/pictures/admin', auth, function (req, res) {
+    adminPictures.run(req, res, connection);
+});
+
+app.post('/widgets/pictures/admin/addContent', auth, function (req, res) {
+    adminPictures.addContent(req, res, connection, io);
+});
+
+app.get('/widgets/pictures/diff', function (req, res) {
+    diffMPictures.run(req, res, connection);
+});
+
+app.get('/widgets/pictures/diff/stream/:timestamp', function (req, res) {
+    diffPictures.nextContent(req, res, connection, io);
+});
+
 app.use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');
     res.status(404).send('ERREUR 404 : PAGE INTROUVABLE !');
@@ -156,6 +180,9 @@ io.on('connection', function(socket) {
     socket.on('voteContent', function (info) {
         if (info.context.idWidget == 1){
             visitorMusic.voteContent(connection, info, io);
+        }
+        if (info.context.idWidget == 5){
+            visitorPictures.voteContent(connection, info, io);
         }
         diff.refreshNotificationVoteContent(info, connection, io);
     });
@@ -201,11 +228,17 @@ io.on('connection', function(socket) {
         if (info.context.idWidget == 1){
             adminMusic.updateContentStatus(connection, info, io);
         }
+        if (info.context.idWidget == 5){
+            adminPictures.updateContentStatus(connection, info, io);
+        }
     });
 
     socket.on('deleteContent', function(info){
         if (info.context.idWidget == 1){
             adminMusic.deleteContent(connection, info, io);
+        }
+        if (info.context.idWidget == 5){
+            adminPictures.deleteContent(connection, info, io);
         }
     });
 
