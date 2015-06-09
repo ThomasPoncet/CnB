@@ -300,9 +300,9 @@ io.on('connection', function(socket) {
             visitorWidgets.updateWidgets(info.idZoneWidget, connection, function () {
 
                 visitorWidgets.refreshListWidgets(connection, io);
+                diff.refreshWidgets(connection,io);
             });
         }, 60000);
-        // TODO : not logic !
         visitorWidgets.actionSuggest(info.idZoneWidget, connection, function () {
             visitorWidgets.refreshListWidgets(connection, io);
         });

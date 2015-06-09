@@ -42,11 +42,14 @@ exports.run = function(req, res, connection) {
             res.render("diff", {zoneWidgetList: zoneWidgetList, widgetList: widgetList});
         });
     });
-    //DAO.getActiveWidgetList(connection, function(list) {
-    //    res.render("diff", {listWidget: list});
-    //});
 };
 
 exports.renderWidget = function(req, res, connection){
     res.render(req.params.widgetName+'Diff');
+};
+
+exports.refreshWidgets = function(connection, io){
+    DAO.getWidgetList(connection, function(widgetList) {
+        io.emit("refreshWidgetsDiff", {widgetsList: widgetList});
+    });
 };

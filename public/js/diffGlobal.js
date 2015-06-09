@@ -31,8 +31,8 @@ socket.on('diffNotification', function (data) {
     updateNotification(data.message, data.color, data.thumb);
 });
 
-socket.on('refreshActiveWidgetsList', function (data) {
-    refreshWidgets(data.activeWidgetsList);
+socket.on('refreshWidgetsDiff', function (data) {
+    refreshWidgets(data.widgetsList);
 });
 
 var timeOut;
@@ -106,13 +106,17 @@ function updateNotification(message, color, thumb) {
 
 var currentSelectedWidgetList = [];
 
+function changeWidget(newWidget){
+    currentSelectedWidgetList[newWidget.idWidgetZone] = newWidget.idWidget;
+    document.getElementById('zonewidget-' + newWidget.idWidgetZone).innerHTML
+        = httpGet('/diff/' + newWidget.nomWidget);
+    loadJS('/widgets/' + newWidget.nomWidget + '/controllers/diff.js');
+}
+
 function initWidgets(widgetList){
     for (var i=0; i< widgetList.length; i++) {
         if (widgetList[i].selectioned) {
-            currentSelectedWidgetList[widgetList[i].idWidgetZone] = widgetList[i];
-            document.getElementById('zonewidget-' + widgetList[i].idWidgetZone).innerHTML
-                = httpGet('/diff/' + widgetList[i].nomWidget);
-            loadJS('/widgets/' + widgetList[i].nomWidget + '/controllers/diff.js');
+            changeWidget(widgetList[i]);
         }
     }
 }
@@ -120,11 +124,10 @@ function initWidgets(widgetList){
 function refreshWidgets(widgetList) {
     for (var i=0; i< widgetList.length; i++) {
         if (widgetList[i].selectioned){
-            if (currentSelectedWidgetList[widgetList[i].idWidgetZone] != widgetList[i]){
-                currentSelectedWidgetList[widgetList[i].idWidgetZone] = widgetList[i];
-                document.getElementById('zonewidget-'+widgetList[i].idWidgetZone).innerHTML
-                    = httpGet('/diff/'+widgetList[i].nomWidget);
-                loadJS('/widgets/'+widgetList[i].nomWidget+'/controllers/diff.js');
+            console.log(currentSelectedWidgetList[widgetList[i].idWidgetZone]);
+            console.log(widgetList[i].idWidget);
+            if (currentSelectedWidgetList[widgetList[i].idWidgetZone] != widgetList[i].idWidget){
+                changeWidget(widgetList[i]);
             }
         }
     }
