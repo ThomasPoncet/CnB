@@ -1,7 +1,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/diffGlobal.js"></script>
 <script>
-    var listWidget = <%- JSON.stringify(listWidget) %>;
+    var listWidget = <%- JSON.stringify(widgetList) %>;
 </script>
 <!DOCTYPE html>
 
@@ -22,14 +22,12 @@
 <body>
 <div id="notification" role="alert"></div>
 
-<%
- // we include views of each active widget
-for (i=0; i< listWidget.length; i++) {
 
-%>
-<%-     include('../widgets/'+listWidget[i].nomWidget+'/views/'+listWidget[i].nomWidget+'Diff')%>
-<%
+<% for (var i=0; i<zoneWidgetList.length; i++) { %>
+    <div id="zonewidget-<%=zoneWidgetList[i].idWidgetZone%>"></div>
+<%}%>
 
-} %>
+<script type="text/javascript">initWidgets(<%-JSON.stringify(widgetList)%>)</script>
+
 </body>
 </html>

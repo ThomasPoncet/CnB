@@ -247,6 +247,12 @@ app.get('/widgets/youtubeaudio/diff', function(req, res) {
 app.get('/widgets/youtubeaudio/diff/stream/:timestamp', function (req, res) {
     diffYoutubeaudio.nextContent(req, res, connection, io);
 });
+
+app.get('/diff/:widgetName', function(req, res) {
+    diff.renderWidget(req, res, connection);
+});
+
+
 app.use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');
     res.status(404).send('ERREUR 404 : PAGE INTROUVABLE !');
@@ -296,7 +302,7 @@ io.on('connection', function(socket) {
                 visitorWidgets.refreshListWidgets(connection, io);
             });
         }, 60000);
-
+        // TODO : not logic !
         visitorWidgets.actionSuggest(info.idZoneWidget, connection, function () {
             visitorWidgets.refreshListWidgets(connection, io);
         });

@@ -2,6 +2,7 @@
  * Created by Tanguy on 27/05/15.
  */
 
+
 var DAO = require('../models/DAOWidget.js');
 
 exports.refreshNotificationSuggest = function(info, connection, io) {
@@ -36,8 +37,16 @@ function refreshNotification(message, color, thumb, io) {
 };
 
 exports.run = function(req, res, connection) {
-    DAO.getActiveWidgetList(connection, function(list) {
-        res.render("diff", {listWidget: list});
-    })
+    DAO.getZoneWidgetList(connection, function(zoneWidgetList){
+        DAO.getWidgetList(connection, function(widgetList){
+            res.render("diff", {zoneWidgetList: zoneWidgetList, widgetList: widgetList});
+        });
+    });
+    //DAO.getActiveWidgetList(connection, function(list) {
+    //    res.render("diff", {listWidget: list});
+    //});
+};
 
+exports.renderWidget = function(req, res, connection){
+    res.render(req.params.widgetName+'Diff');
 };

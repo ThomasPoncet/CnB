@@ -63,12 +63,10 @@ exports.run = function(req, res, connection) {
     DAOWidget.getWidgetList(connection, function(widgetList) {
         DAOWidget.getZoneWidgetList(connection, function(zoneWidgetList) {
             DAOWidget.getVoteVisitorWidgetList(connection, function(votesWidgetList) {
-                DAOWidget.getActiveWidgetList(connection, function(activeWidgetsList){
-                    res.render("visitorWidgets", {context: {activeWidgetsList: activeWidgetsList},
-                        data: {listWidget: widgetList, listZoneWidget: zoneWidgetList
-                        , sessionId: req.visitorSession.idSession
-                        , listVoteVisitorWidget: votesWidgetList}
-                    });
+                res.render("visitorWidgets", {context: {activeWidgetsList: widgetList},
+                    data: {listWidget: widgetList, listZoneWidget: zoneWidgetList
+                    , sessionId: req.visitorSession.idSession
+                    , listVoteVisitorWidget: votesWidgetList}
                 });
             });
         });

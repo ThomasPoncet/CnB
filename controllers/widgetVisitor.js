@@ -8,7 +8,7 @@ var widgetContent = require('./widgetContent.js');
 exports.run = function (connection, info, callback) {
     DAOWidget.getContentList(connection, {idWidget: info.idWidget}, function(contentList) {
         DAOWidget.getVoteVisitorList(connection, {idWidget: info.idWidget}, function(listVotes){
-            DAOWidget.getActiveWidgetList(connection, function(activeWidgetsList){
+            DAOWidget.getWidgetList(connection, function(activeWidgetsList){
                 callback({context: {activeWidgetsList: activeWidgetsList},
                             data: {contentList: contentList, listVotes: listVotes}});
             });
