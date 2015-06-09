@@ -40,6 +40,14 @@ INSERT INTO content
 (idContent, nomContent, link, idWidget,active)
 VALUES(2,'Psychedelic visuals','uqvgRz5So-I',2,true);
 
+INSERT INTO content
+(idContent, nomContent, link, idWidget,active)
+VALUES(3,'Best of Deadmau5 (Continuous Mix | High Quality)','Mn69LJ0239E',4,true);
+
+INSERT INTO content
+(idContent, nomContent, link, idWidget,active)
+VALUES(4,'Symphony No. 9 ~ Beethoven','t3217H8JppI',4,true);
+
 INSERT INTO vote_content (idVisitor, idContent)
 VALUES ("1", 1);
 INSERT INTO vote_content (idVisitor, idContent)
