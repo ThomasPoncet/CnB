@@ -11,21 +11,16 @@ exports.run = function(connection, info, callback) {
 };
 
 exports.nextContent = function(connection, info, io, callback){
-
     // ReactivateContent if there isn't activate content
     DAO.reactivateContent(connection, info, function() {
-
         DAO.getFirstContent(connection, info, function(rows){
-                DAO.deleteVote(connection, rows[0].idContent, function () {
-                    DAO.updateContentStatus(connection, rows[0].idContent, false, function () {
-                        widgetContent.refreshContentVotes(connection, info, io, function () {
-                                callback(rows[0]);
-                        });
+            DAO.deleteVote(connection, rows[0].idContent, function () {
+                DAO.updateContentStatus(connection, rows[0].idContent, false, function () {
+                    widgetContent.refreshContentVotes(connection, info, io, function () {
+                            callback(rows[0]);
                     });
                 });
-
+            });
         });
     });
-
-
 };

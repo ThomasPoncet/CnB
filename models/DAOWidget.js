@@ -364,7 +364,7 @@ exports.maxVoteWidget = function(idZoneWidget, connection, callback) {
             console.log('Error while performing Query. maxVoteWidget [16-1]');
 
         // if there was at least one vote
-        if (rows.lenght > 0) {
+        if (rows.length > 0) {
             callback(rows[0].idWidget);
         }
         else {
