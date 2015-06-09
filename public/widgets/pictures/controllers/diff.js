@@ -8,6 +8,6 @@ function updatePicture() {
 
     if (next != undefined) {
         var slideShowImages = document.getElementById("slideShowImages");
-        slideShowImages.src = next;
+        slideShowImages.style.backgroundImage="url("+next+")";
     }
 }
