@@ -275,7 +275,7 @@ io.on('connection', function(socket) {
     socket.on('voteWidget', function (info) {
 
         visitorWidgets.actionVoteWidget(info.data.id, info.data.idWidget, info.context.idWidgetZone, connection, function () {
-            visitorWidgets.refreshListWidgets(connection, socket);
+            visitorWidgets.refreshListWidgets(connection, io);
 
             diff.refreshNotificationVoteWidget(info, connection, io);
         });
@@ -291,9 +291,9 @@ io.on('connection', function(socket) {
 
         // When vote is finished, we activate/deactivate widgets
         setTimeout(function () {
-            visitorWidgets.updateWidgets(info.idZoneWidget, connection, socket, function () {
+            visitorWidgets.updateWidgets(info.idZoneWidget, connection, function () {
 
-                visitorWidgets.refreshListWidgets(connection, socket);
+                visitorWidgets.refreshListWidgets(connection, io);
             });
         }, 60000);
 

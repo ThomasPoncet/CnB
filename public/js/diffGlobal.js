@@ -8,6 +8,10 @@ socket.on('diffNotification', function (data) {
     updateNotification(data.message, data.color, data.thumb);
 });
 
+socket.on('refreshActiveWidgetsList', function (data) {
+    window.location='/diff';
+});
+
 var timeOut;
 var count = 0;
 

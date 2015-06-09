@@ -4,18 +4,9 @@
 
 var DAOWidget = require('../models/DAOWidget.js');
 
-getActiveWidgetList = function(connection, callback) {
-
-    DAOWidget.getActiveWidgetList(connection, function(list) {
-        callback(list)
-    });
-
-};
-
-exports.refreshMenu = function(connection, socket) {
-    getActiveWidgetList(connection, function(list) {
-        socket.emit("refreshMenu", {listActiveWidget: list});
-        socket.broadcast.emit("refreshMenu", {listActiveWidget: list});
+exports.refreshMenu = function(connection, io) {
+    DAOWidget.getActiveWidgetList(connection, function(activeWidgetsList) {
+        io.emit("refreshMenu", {activeWidgetsList: activeWidgetsList});
     });
 };
 

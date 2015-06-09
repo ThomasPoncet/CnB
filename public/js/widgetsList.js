@@ -7,8 +7,8 @@ if(typeof sessionId == undefined)
 
 // socket is define in header
 
-socket.on('refreshListWidgets', function (data) {
-    updateListWidgets(data.listWidget, data.listZoneWidget, data.listVoteVisitorWidget);
+socket.on('refreshActiveWidgetsList', function (data) {
+    updateListWidgets(data.activeWidgetsList, data.listZoneWidget, data.listVoteVisitorWidget);
 });
 
 function suggest(id, idZoneWidget) {

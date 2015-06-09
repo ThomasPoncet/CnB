@@ -4,7 +4,7 @@
 
 var socket = io.connect(document.domain+':8080');
 
-socket.on('refreshMenu', function (data) {
+socket.on('refreshActiveWidgetsList', function (data) {
     refreshMenu(data.activeWidgetsList);
 });
 

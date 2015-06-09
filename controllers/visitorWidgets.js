@@ -4,44 +4,18 @@
 
 var DAOWidget = require('../models/DAOWidget.js');
 
-var getWidgetList = function(connection, callback) {
 
-    DAOWidget.getWidgetList(connection, function(list) {
-        callback(list)
-    });
-
-};
-
-getZoneWidgetList = function(connection, callback) {
-
-    DAOWidget.getZoneWidgetList(connection, function(list) {
-        callback(list)
-    });
-
-};
-
-exports.actionSuggest = function(idZoneWidget, connection, callback)
-{
+exports.actionSuggest = function(idZoneWidget, connection, callback) {
     DAOWidget.changeEndVote(idZoneWidget, connection, function() {
         callback();
     });
 };
 
-getVoteVisitorWidgetList = function(connection, callback) {
-
-    // TODO idWidget
-    DAOWidget.getVoteVisitorWidgetList(connection, function(list) {
-        callback(list)
-    });
-
-};
-
-exports.refreshListWidgets = function(connection, socket) {
-    getWidgetList(connection, function(list) {
-        getZoneWidgetList(connection, function(list2) {
-            getVoteVisitorWidgetList(connection, function(list3) {
-                socket.emit("refreshListWidgets", {listWidget: list, listZoneWidget: list2, listVoteVisitorWidget: list3});
-                socket.broadcast.emit("refreshListWidgets", {listWidget: list, listZoneWidget: list2, listVoteVisitorWidget: list3});
+exports.refreshListWidgets = function(connection, io) {
+    DAOWidget.getWidgetList(connection, function(widgetList) {
+        DAOWidget.getZoneWidgetList(connection, function(zoneWidgetList) {
+            DAOWidget.getVoteVisitorWidgetList(connection, function(votesWidgetList) {
+                io.emit("refreshActiveWidgetsList", {activeWidgetsList: widgetList, listZoneWidget: zoneWidgetList, listVoteVisitorWidget: votesWidgetList});
             });
         });
     });
@@ -50,17 +24,12 @@ exports.refreshListWidgets = function(connection, socket) {
 // very similar to actionVoteMusic
 exports.actionVoteWidget = function(idSession, idWidget, idWidgetZone, connection, callback) {
     DAOWidget.visitorExists(connection, idSession, function(result) {
-
         // visitor not registered -> we add him in database
-
         if(!result) {
             DAOWidget.addVisitor(connection, idSession);
         }
-
-
         // How much time visitor vote for this zone widget ?
         DAOWidget.nbVoteWidgetVisitor(idSession, idWidgetZone, connection, function(oldVote, nbVote) {
-
             // Visitor didn't vote yet -> we add vote
             if(nbVote == 0) {
                 DAOWidget.addVoteWidget(idSession, idWidget, connection, function() {
@@ -73,14 +42,12 @@ exports.actionVoteWidget = function(idSession, idWidget, idWidgetZone, connectio
                     callback();
                 });
             }
-
         });
 
     });
 };
 
-exports.updateWidgets = function(idZoneWidget, connection, socket, callback) {
-
+exports.updateWidgets = function(idZoneWidget, connection, callback) {
     DAOWidget.resetTimer(idZoneWidget, connection, function() {
         DAOWidget.maxVoteWidget(idZoneWidget, connection, function(idWidgetMax) {
             DAOWidget.changeActivatedWidget(idZoneWidget, idWidgetMax, connection, function() {
@@ -93,14 +60,14 @@ exports.updateWidgets = function(idZoneWidget, connection, socket, callback) {
 };
 
 exports.run = function(req, res, connection) {
-    getWidgetList(connection, function(list) {
-        getZoneWidgetList(connection, function(list2) {
-            getVoteVisitorWidgetList(connection, function(list3) {
+    DAOWidget.getWidgetList(connection, function(widgetList) {
+        DAOWidget.getZoneWidgetList(connection, function(zoneWidgetList) {
+            DAOWidget.getVoteVisitorWidgetList(connection, function(votesWidgetList) {
                 DAOWidget.getActiveWidgetList(connection, function(activeWidgetsList){
                     res.render("visitorWidgets", {context: {activeWidgetsList: activeWidgetsList},
-                        data: {listWidget: list, listZoneWidget: list2
+                        data: {listWidget: widgetList, listZoneWidget: zoneWidgetList
                         , sessionId: req.visitorSession.idSession
-                        , listVoteVisitorWidget: list3}
+                        , listVoteVisitorWidget: votesWidgetList}
                     });
                 });
             });
