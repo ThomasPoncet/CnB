@@ -32,12 +32,14 @@ function refreshMenu(activeWidgetsList) {
     }
     // Others tabs
     for(var i=0; i<activeWidgetsList.length; i++) {
-        var name = activeWidgetsList[i].nomWidget;
-        htmlString += '<li role="presentation"';
-        if(name == localSelected)
-            htmlString += ' class="active" ';
-        // First letter in upperCase
-        htmlString += '><a href="/widgets/' + name + '/visitor">' + name.charAt(0).toUpperCase() + name.substring(1).toLowerCase() + '</a></li>';
+        if(activeWidgetsList[i].selectioned){
+            var name = activeWidgetsList[i].nomWidget;
+            htmlString += '<li role="presentation"';
+            if(name == localSelected)
+                htmlString += ' class="active" ';
+            // First letter in upperCase
+            htmlString += '><a href="/widgets/' + name + '/visitor">' + name.charAt(0).toUpperCase() + name.substring(1).toLowerCase() + '</a></li>';
+        }
     }
     document.getElementById('menu').innerHTML = htmlString;
 }

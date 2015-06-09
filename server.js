@@ -298,7 +298,7 @@ io.on('connection', function(socket) {
         }, 60000);
 
         visitorWidgets.actionSuggest(info.idZoneWidget, connection, function () {
-            visitorWidgets.refreshListWidgets(connection, socket);
+            visitorWidgets.refreshListWidgets(connection, io);
         });
     });
 

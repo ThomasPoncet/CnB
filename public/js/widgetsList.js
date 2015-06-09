@@ -12,8 +12,6 @@ socket.on('refreshActiveWidgetsList', function (data) {
 });
 
 function suggest(id, idZoneWidget) {
-    console.log(idZoneWidget);
-
     var suggest_buttons = document.getElementById(id);
     suggest_buttons.innerHTML = '<button type="button" class="btn btn-primary disabled">Vote in progress</button>';
 
