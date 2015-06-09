@@ -361,16 +361,50 @@ exports.maxVoteWidget = function(idZoneWidget, connection, callback) {
                      ' GROUP BY w.idWidget ORDER BY nbVote DESC LIMIT 1', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. maxVoteWidget [16]');
+            console.log('Error while performing Query. maxVoteWidget [16-1]');
 
-        var max = 0;
-        if(rows != undefined)
-            max = rows[0].idWidget;
+        // if there was at least one vote
+        if (rows.lenght > 0) {
+            callback(rows[0].idWidget);
+        }
+        else {
+            connection.query('SELECT currentWidget FROM cnb.widgetzone ' +
+                'WHERE idWidgetZone=' + idZoneWidget, function(err, rows, fields) {
 
-        callback(max);
+                if (err)
+                    console.log('Error while performing Query. maxVoteWidget [16-2]');
+
+                callback(rows[0].currentWidget);
+            })
+
+        }
     })
 
 };
+
+//exports.maxVoteWidget = function(idZoneWidget, connection, callback) {
+//
+//    connection.query('SELECT w.idWidget, IFNULL(v.count,0) AS nbVote ' +
+//        'FROM cnb.widget w LEFT JOIN ( ' +
+//        '    SELECT idWidget, COUNT(idVisitor) AS count ' +
+//        'FROM cnb.vote_widget GROUP BY idWidget) AS v ON w.idWidget = v.idWidget ' +
+//        'LEFT JOIN ( ' +
+//        '    SELECT idWidgetZone, currentWidget ' +
+//        'FROM cnb.widgetzone) AS z ON w.idWidget = z.currentWidget ' +
+//        'WHERE w.idWidgetZone=1 ' +
+//        'ORDER BY nbVote DESC LIMIT 1', function(err, rows, fields) {
+//
+//        if (err)
+//            console.log('Error while performing Query. maxVoteWidget [16]');
+//
+//        var max = 0;
+//        if(rows != undefined)
+//            max = rows[0].idWidget;
+//
+//        callback(max);
+//    })
+//
+//};
 
 exports.changeActivatedWidget = function(idZoneWidget, idWidgetMax, connection, callback) {
 
