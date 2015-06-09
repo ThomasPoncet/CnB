@@ -361,16 +361,50 @@ exports.maxVoteWidget = function(idZoneWidget, connection, callback) {
                      ' GROUP BY w.idWidget ORDER BY nbVote DESC LIMIT 1', function(err, rows, fields) {
 
         if (err)
-            console.log('Error while performing Query. maxVoteWidget [16]');
+            console.log('Error while performing Query. maxVoteWidget [16-1]');
 
-        var max = 0;
-        if(rows != undefined)
-            max = rows[0].idWidget;
+        // if there was at least one vote
+        if (rows.lenght > 0) {
+            callback(rows[0].idWidget);
+        }
+        else {
+            connection.query('SELECT currentWidget FROM cnb.widgetzone ' +
+                'WHERE idWidgetZone=' + idZoneWidget, function(err, rows, fields) {
 
-        callback(max);
+                if (err)
+                    console.log('Error while performing Query. maxVoteWidget [16-2]');
+
+                callback(rows[0].currentWidget);
+            })
+
+        }
     })
 
 };
+
+//exports.maxVoteWidget = function(idZoneWidget, connection, callback) {
+//
+//    connection.query('SELECT w.idWidget, IFNULL(v.count,0) AS nbVote ' +
+//        'FROM cnb.widget w LEFT JOIN ( ' +
+//        '    SELECT idWidget, COUNT(idVisitor) AS count ' +
+//        'FROM cnb.vote_widget GROUP BY idWidget) AS v ON w.idWidget = v.idWidget ' +
+//        'LEFT JOIN ( ' +
+//        '    SELECT idWidgetZone, currentWidget ' +
+//        'FROM cnb.widgetzone) AS z ON w.idWidget = z.currentWidget ' +
+//        'WHERE w.idWidgetZone=1 ' +
+//        'ORDER BY nbVote DESC LIMIT 1', function(err, rows, fields) {
+//
+//        if (err)
+//            console.log('Error while performing Query. maxVoteWidget [16]');
+//
+//        var max = 0;
+//        if(rows != undefined)
+//            max = rows[0].idWidget;
+//
+//        callback(max);
+//    })
+//
+//};
 
 exports.changeActivatedWidget = function(idZoneWidget, idWidgetMax, connection, callback) {
 
@@ -432,4 +466,43 @@ exports.getNameFromIdWidgetZone = function(idZoneWidget, connection, callback) {
 
         callback(rows[0].nomWidgetZone);
     })
+}
+
+exports.reactivateContent = function(connection, info, callback) {
+
+        connection.query('SELECT COUNT(*) as nbActiveContent FROM cnb.content c ' +
+            'WHERE c.active=true AND c.idWidget=' + info.context.idWidget, function(err, rows, fields) {
+
+            if (err)
+                console.log('Error while performing Query. reactivateContent [22-1]');
+
+            if(rows[0].nbActiveContent == 0) {
+                connection.query('SELECT c.idContent FROM cnb.content c ' +
+                    ' WHERE c.idWidget=' + info.context.idWidget, function (err, listContent, fields) {
+
+                    if (err)
+                        console.log('Error while performing Query. reactivateContent [22-2]');
+
+                    for(var i=0; i<listContent.length; i++) {
+                        connection.query('UPDATE cnb.content SET active = true ' +
+                            'WHERE idContent ='+ listContent[i].idContent, function(err, rows, fields) {
+
+                            if (err)
+                                console.log('Error while performing Query. reactivateContent [22-for]');
+
+                        });
+
+                        if(i == listContent.length-1)
+                            callback();
+
+                    }
+
+                })
+
+            }
+            else {
+                callback();
+            }
+        })
+
 }
