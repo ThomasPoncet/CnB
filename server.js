@@ -54,6 +54,10 @@ var adminYoutubevideo = require('./widgets/youtubevideo/controllers/admin');
 var diffYoutubevideo = require('./widgets/youtubevideo/controllers/diff');
 var visitorYoutubevideo = require('./widgets/youtubevideo/controllers/visitor');
 
+var adminYoutubeaudio = require('./widgets/youtubeaudio/controllers/admin');
+var diffYoutubeaudio = require('./widgets/youtubeaudio/controllers/diff');
+var visitorYoutubeaudio = require('./widgets/youtubeaudio/controllers/visitor');
+
 var adminVideos = require('./widgets/videos/controllers/admin');
 var diffVideos = require('./widgets/videos/controllers/diff');
 var visitorVideos = require('./widgets/videos/controllers/visitor');
@@ -80,7 +84,14 @@ app.set("ipaddr", ipAddr);
 ////Server's port number
 app.set("port", 8080);
 
-var arrayViews = [__dirname + "/views", __dirname + "/widgets/videos/views", __dirname + "/widgets/music/views", __dirname + "/widgets/youtubevideo/views", __dirname + "/widgets/pictures/views", __dirname + "/zonesWidgets/views"];
+var arrayViews = [  __dirname + "/views",
+                    __dirname + "/widgets/videos/views",
+                    __dirname + "/widgets/music/views",
+                    __dirname + "/widgets/youtubevideo/views",
+                    __dirname + "/widgets/pictures/views",
+                    __dirname + "/widgets/youtubeaudio/views",
+                    __dirname + "/zonesWidgets/views"
+                    ];
 
 //Specify the views folder
 //app.set("views", __dirname + "/views");
@@ -217,6 +228,25 @@ app.get('/widgets/videos/diff/stream/:timestamp', function (req, res) {
     diffVideos.nextContent(req, res, connection, io);
 });
 
+app.get('/widgets/youtubeaudio/visitor', function(req, res) {
+    visitorYoutubeaudio.run(req, res, connection);
+});
+
+app.get('/widgets/youtubeaudio/admin', auth, function (req, res) {
+    adminYoutubeaudio.run(req, res, connection);
+});
+
+app.post('/widgets/youtubeaudio/admin/addContent', auth, function (req, res) {
+    adminYoutubeaudio.addContent(req, res, connection, io);
+});
+
+app.get('/widgets/youtubeaudio/diff', function(req, res) {
+    diffYoutubeaudio.run(req, res, connection);
+});
+
+app.get('/widgets/youtubeaudio/diff/stream/:timestamp', function (req, res) {
+    diffYoutubeaudio.nextContent(req, res, connection, io);
+});
 app.use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');
     res.status(404).send('ERREUR 404 : PAGE INTROUVABLE !');
@@ -236,6 +266,8 @@ io.on('connection', function(socket) {
             visitorYoutubevideo.voteContent(connection, info, io);
         } else if (info.context.idWidget == 3){
             visitorVideos.voteContent(connection, info, io);
+        } else if (info.context.idWidget == 4){
+            visitorYoutubeaudio.voteContent(connection, info, io);
         }
         diff.refreshNotificationVoteContent(info, connection, io);
     });
@@ -286,7 +318,9 @@ io.on('connection', function(socket) {
             adminYoutubevideo.updateContentStatus(connection, info, io);
         } else if (info.context.idWidget == 3){
             adminVideos.updateContentStatus(connection, info, io);
-        }
+        } else if (info.context.idWidget == 4){
+        adminYoutubeaudio.updateContentStatus(connection, info, io);
+    }
     });
 
     socket.on('deleteContent', function(info){
@@ -298,6 +332,8 @@ io.on('connection', function(socket) {
             adminYoutubevideo.deleteContent(connection, info, io);
         } else if (info.context.idWidget == 3){
             adminVideos.deleteContent(connection, info, io);
+        } else if (info.context.idWidget == 4){
+            adminYoutubeaudio.deleteContent(connection, info, io);
         }
     });
 

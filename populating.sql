@@ -24,7 +24,7 @@ INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
 VALUES (3, "videos", 2, true);
 
 INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
-VALUES (4, "announcement", 1, false);
+VALUES (4, "youtubeaudio", 1, true);
 
 INSERT INTO widget (idWidget, nomWidget, idWidgetZone, active)
 VALUES (5, "pictures", 2, false);
