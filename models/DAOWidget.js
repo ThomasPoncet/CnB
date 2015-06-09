@@ -433,3 +433,42 @@ exports.getNameFromIdWidgetZone = function(idZoneWidget, connection, callback) {
         callback(rows[0].nomWidgetZone);
     })
 }
+
+exports.reactivateContent = function(connection, info, callback) {
+
+        connection.query('SELECT COUNT(*) as nbActiveContent FROM cnb.content c ' +
+            'WHERE c.active=true AND c.idWidget=' + info.context.idWidget, function(err, rows, fields) {
+
+            if (err)
+                console.log('Error while performing Query. reactivateContent [22-1]');
+
+            if(rows[0].nbActiveContent == 0) {
+                connection.query('SELECT c.idContent FROM cnb.content c ' +
+                    ' WHERE c.idWidget=' + info.context.idWidget, function (err, listContent, fields) {
+
+                    if (err)
+                        console.log('Error while performing Query. reactivateContent [22-2]');
+
+                    for(var i=0; i<listContent.length; i++) {
+                        connection.query('UPDATE cnb.content SET active = true ' +
+                            'WHERE idContent ='+ listContent[i].idContent, function(err, rows, fields) {
+
+                            if (err)
+                                console.log('Error while performing Query. reactivateContent [22-for]');
+
+                        });
+
+                        if(i == listContent.length-1)
+                            callback();
+
+                    }
+
+                })
+
+            }
+            else {
+                callback();
+            }
+        })
+
+}
