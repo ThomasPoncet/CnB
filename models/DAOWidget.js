@@ -24,7 +24,7 @@ exports.getWidgetList = function(connection, callback) {
 
 exports.getZoneWidgetList = function(connection, callback) {
 
-    connection.query('SELECT idWidgetZone, nomWidgetZone, endVote FROM cnb.widgetzone', function(err, rows, fields) {
+    connection.query('SELECT idWidgetZone, nomWidgetZone, currentWidget, endVote FROM cnb.widgetzone', function(err, rows, fields) {
 
         if (err)
             console.log('Error while performing Query. [0]');

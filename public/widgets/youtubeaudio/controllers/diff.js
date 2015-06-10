@@ -23,6 +23,7 @@ function httpGet(theUrl)
 // after the API code downloads.
 var youtubeaudioPlayer;
 function onYouTubeIframeAPIReady() {
+    console.log("audio");
     youtubeaudioPlayer = new YT.Player('youtubeaudio-player', {
         height: '100%',
         width: '100%',
@@ -44,6 +45,7 @@ function onPlayerReady(event) {
 function onPlayerStateChange(event) {
     // When audio is finished
     if (event.data == 0) {
+        youtubeaudioPlayer.setVolume(100);
         youtubeaudioPlayer.loadVideoById(httpGet("/widgets/youtubeaudio/diff/stream/"+new Date().getTime()));
     }
 }

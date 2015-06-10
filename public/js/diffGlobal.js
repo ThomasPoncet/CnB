@@ -2,29 +2,6 @@
  * Created by Tanguy on 05/06/15.
  */
 
-// To get the html of diffused widgets
-function httpGet(theUrl)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false );
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
-}
-
-// To load js files from widget views
-function loadJS(file) {
-    // DOM: Create the script element
-    var jsElm = document.createElement("script");
-    // set the type attribute
-    jsElm.type = "application/javascript";
-    // make the script element load file
-    jsElm.src = file;
-    // finally insert the element to the body element in order to load the script
-    document.body.appendChild(jsElm);
-}
-
-
-
 var socket = io.connect(document.domain+':8080');
 
 socket.on('diffNotification', function (data) {
@@ -108,9 +85,8 @@ var currentSelectedWidgetList = [];
 
 function changeWidget(newWidget){
     currentSelectedWidgetList[newWidget.idWidgetZone] = newWidget.idWidget;
-    document.getElementById('zonewidget-' + newWidget.idWidgetZone).innerHTML
-        = httpGet('/diff/' + newWidget.nomWidget);
-    loadJS('/widgets/' + newWidget.nomWidget + '/controllers/diff.js');
+    document.getElementById('zonewidget-' + newWidget.idWidgetZone).src
+        ='/diff/' + newWidget.nomWidget;
 }
 
 function initWidgets(widgetList){
@@ -124,8 +100,6 @@ function initWidgets(widgetList){
 function refreshWidgets(widgetList) {
     for (var i=0; i< widgetList.length; i++) {
         if (widgetList[i].selectioned){
-            console.log(currentSelectedWidgetList[widgetList[i].idWidgetZone]);
-            console.log(widgetList[i].idWidget);
             if (currentSelectedWidgetList[widgetList[i].idWidgetZone] != widgetList[i].idWidget){
                 changeWidget(widgetList[i]);
             }

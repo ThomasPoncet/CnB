@@ -20,8 +20,9 @@ function httpGet(theUrl)
 
 // This function creates an <iframe> (and YouTube musicPlayer)
 // after the API code downloads.
-var youtubevideoPlayer;
+//var youtubevideoPlayer;
 function onYouTubeIframeAPIReady() {
+    console.log("video");
     youtubevideoPlayer = new YT.Player('youtubevideo-player', {
         height: '100%',
         width: '100%',
@@ -36,8 +37,8 @@ function onYouTubeIframeAPIReady() {
 
 // The API will call this function when the video musicPlayer is ready.
 function onPlayerReady(event) {
+    youtubevideoPlayer.setVolume(0);
     event.target.playVideo();
-    youtubevideoPlayer.mute();
 }
 
 function onPlayerStateChange(event) {
