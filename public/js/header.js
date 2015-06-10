@@ -26,9 +26,9 @@ function refreshMenu(activeWidgetsList) {
     }
     // Tab Widgets
     if(localSelected == 'widgets') {
-        htmlString += '<li role="presentation" class="active"><a href="/widgets">Widgets</a></li>';
+        htmlString += '<li role="presentation" class="active"><a href="/widgets">Multiboxs</a></li>';
     } else {
-        htmlString += '<li role="presentation"><a href="/widgets">Widgets</a></li>';
+        htmlString += '<li role="presentation"><a href="/widgets">Multiboxs</a></li>';
     }
     // Others tabs
     for(var i=0; i<activeWidgetsList.length; i++) {
