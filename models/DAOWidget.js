@@ -38,7 +38,7 @@ exports.getZoneWidgetList = function(connection, callback) {
 exports.changeEndVote = function(idZoneWidget, connection, callback)
 {
     // The vote finish into "actual time + 5 minutes"
-    connection.query('UPDATE cnb.widgetzone SET endVote = DATE_ADD(NOW(), INTERVAL 1 MINUTE) ' +
+    connection.query('UPDATE cnb.widgetzone SET endVote = DATE_ADD(NOW(), INTERVAL 20 SECOND) ' +
                      'WHERE idWidgetZone=' + idZoneWidget, function (err, rows, fields) {
 
         if (err)

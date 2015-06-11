@@ -302,7 +302,7 @@ io.on('connection', function(socket) {
                 visitorWidgets.refreshListWidgets(connection, io);
                 diff.refreshWidgets(connection,io);
             });
-        }, 60000);
+        }, 20000);
         visitorWidgets.actionSuggest(info.idZoneWidget, connection, function () {
             visitorWidgets.refreshListWidgets(connection, io);
         });
