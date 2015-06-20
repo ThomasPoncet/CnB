@@ -9,6 +9,7 @@ var http = require('http').Server(app);
 var bodyParser = require("body-parser");
 var io = require('socket.io')(http);
 var mysql = require("mysql");
+var spotifyWebApi = require('spotify-web-api-node');
 var sessions = require('client-sessions');
 var uuid = require('uuid');
 var basicAuth = require('basic-auth');
@@ -345,6 +346,20 @@ io.on('connection', function(socket) {
 
     // TODO : on disconnect, maybe deletes some infos
 });
+
+// Test on spotify API
+spotifyApi = new spotifyWebApi();
+
+spotifyApi.searchTracks('daft random get')
+    .then(function(data) {
+        console.log('Search by "daft random get"', data.body);
+        for (var i= 0; i<data.body.tracks.items.length; i++){
+            console.log("---------------------------");
+            console.log(data.body.tracks.items[i]);
+        }
+    }, function(err) {
+        console.error(err);
+    });
 
 http.listen(app.get("port"), app.get("ipaddr"), function () {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
