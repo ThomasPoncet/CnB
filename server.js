@@ -63,6 +63,10 @@ var adminVideos = require('./widgets/videos/controllers/admin');
 var diffVideos = require('./widgets/videos/controllers/diff');
 var visitorVideos = require('./widgets/videos/controllers/visitor');
 
+var adminSpotify = require('./widgets/spotify/controllers/admin');
+var diffSpotify = require('./widgets/spotify/controllers/diff');
+var visitorSpotify = require('./widgets/spotify/controllers/visitor');
+
 var hash = require('./public/js/md5');
 
 var auth = function(req, res, next){
@@ -91,6 +95,7 @@ var arrayViews = [  __dirname + "/views",
                     __dirname + "/widgets/youtubevideo/views",
                     __dirname + "/widgets/pictures/views",
                     __dirname + "/widgets/youtubeaudio/views",
+                    __dirname + "/widgets/spotify/views",
                     __dirname + "/zonesWidgets/views"
                     ];
 
@@ -249,6 +254,27 @@ app.get('/widgets/youtubeaudio/diff/stream/:timestamp', function (req, res) {
     diffYoutubeaudio.nextContent(req, res, connection, io);
 });
 
+app.get('/widgets/spotify/visitor', function(req, res) {
+    visitorSpotify.run(req, res, connection);
+});
+
+app.get('/widgets/spotify/admin', auth, function (req, res) {
+    adminSpotify.run(req, res, connection);
+});
+
+app.post('/widgets/spotify/admin/addContent', auth, function (req, res) {
+    adminSpotify.addContent(req, res, connection, io);
+});
+
+app.get('/widgets/spotify/diff', function(req, res) {
+    diffSpotify.run(req, res, connection);
+});
+
+app.get('/widgets/spotify/diff/stream/:timestamp', function (req, res) {
+    diffSpotify.nextContent(req, res, connection, io);
+});
+
+
 app.get('/diff/:widgetName', function(req, res) {
     diff.renderWidget(req, res, connection);
 });
@@ -275,6 +301,8 @@ io.on('connection', function(socket) {
             visitorVideos.voteContent(connection, info, io);
         } else if (info.context.idWidget == 4){
             visitorYoutubeaudio.voteContent(connection, info, io);
+        } else if (info.context.idWidget == 6){
+            visitorSpotify.voteContent(connection, info, io);
         }
         diff.refreshNotificationVoteContent(info, connection, io);
     });
@@ -327,7 +355,9 @@ io.on('connection', function(socket) {
             adminVideos.updateContentStatus(connection, info, io);
         } else if (info.context.idWidget == 4){
         adminYoutubeaudio.updateContentStatus(connection, info, io);
-    }
+        } else if (info.context.idWidget == 6){
+            adminSpotify.updateContentStatus(connection, info, io);
+        }
     });
 
     socket.on('deleteContent', function(info){
@@ -341,6 +371,8 @@ io.on('connection', function(socket) {
             adminVideos.deleteContent(connection, info, io);
         } else if (info.context.idWidget == 4){
             adminYoutubeaudio.deleteContent(connection, info, io);
+        } else if (info.context.idWidget == 6){
+            adminSpotify.deleteContent(connection, info, io);
         }
     });
 

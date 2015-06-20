@@ -1,0 +1,46 @@
+
+<!--TODO : Put in header !-->
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/widgetAdmin.js"></script>
+<script src="/widgets/youtubeaudio/controllers/admin.js"></script>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Choose ‘N’ Broadcast</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Manage Youtube audio</h1>
+
+<form action="/widgets/youtubeaudio/admin/addContent" method="POST" enctype="multipart/form-data">
+    <label for="InputFile">Name</label><br />
+    <input type="text" id="name" name="name"><br />
+    <label for="InputFile">Youtube link (Only ID)</label><br />
+    <i>https://www.youtube.com/watch?v= </i><input type="text" id="link" name="link"><br /><br />
+
+    <button type="submit" class="btn btn-default btn-lg">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Confirm
+    </button>
+</form>
+
+<ul id="content-list" class="list-group">
+
+    <!-- Filled by function "refreshList" -->
+
+</ul>
+
+
+<div class="container">
+    <button type="button" class="btn btn-default"
+            onclick="location.href='/adminZWSound'">Return</button>
+</div>
+
+<!--On load-->
+<script type="text/javascript">createList(<%-JSON.stringify(data.contentList)%>)</script>
+
+</body>
+</html>
