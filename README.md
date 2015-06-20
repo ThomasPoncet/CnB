@@ -13,11 +13,11 @@ views/
 controllers/
 
 public/
-├── assets/
-|   └── img/
 ├── css/
-└── js/
+├── js/
+└── widgets/ [contrôleur client]
 
 widgets/
-├── music/
-└── youtube/
+├── music/ [vue et contrôleur serveur]
+├── .../ [vue et contrôleur serveur]
+└── youtubevideo/ [vue et contrôleur serveur]
