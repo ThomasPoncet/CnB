@@ -5,9 +5,11 @@
 var express = require("express");
 var multer  = require('multer');
 var app = express();
-var http = require('http').Server(app);
+var http = require('http');
+var server = http.Server(app);
+var request = require('request');
 var bodyParser = require("body-parser");
-var io = require('socket.io')(http);
+var io = require('socket.io')(server);
 var mysql = require("mysql");
 var sessions = require('client-sessions');
 var uuid = require('uuid');
@@ -378,7 +380,14 @@ io.on('connection', function(socket) {
     // TODO : on disconnect, maybe deletes some infos
 });
 
+// Testing access to deezer API
+request('http://api.deezer.com/search?q=emzel&index=0&limit=2&output=json',
+        function(error, res, body) {
+            console.log("Got response: " + res.statusCode);
+            console.log(body);
+        });
 
-http.listen(app.get("port"), app.get("ipaddr"), function () {
+
+server.listen(app.get("port"), app.get("ipaddr"), function () {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
 });
