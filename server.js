@@ -280,6 +280,18 @@ app.get('/diff/:widgetName', function(req, res) {
     diff.renderWidget(req, res, connection);
 });
 
+// Proxy to access the internet throw the server
+app.get('/proxy', function(req, res) {
+    request(req.url, function(err, extRes, body){
+        res.send(body);
+    });
+});
+// Testing access to deezer API
+//request('http://api.deezer.com/search?q=emzel&index=0&limit=3&output=json',
+//    function(error, res, body) {
+//        console.log("Got response: " + res.statusCode);
+//        console.log(body);
+//    });
 
 app.use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');
@@ -338,7 +350,7 @@ io.on('connection', function(socket) {
         });
     });
 
-
+    // TODO : secure socket for admin actions
 
     /*
      When the status of a content of a widget
