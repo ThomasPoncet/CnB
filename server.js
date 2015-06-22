@@ -380,14 +380,6 @@ io.on('connection', function(socket) {
     // TODO : on disconnect, maybe deletes some infos
 });
 
-// Testing access to deezer API
-request('http://api.deezer.com/search?q=emzel&index=0&limit=2&output=json',
-        function(error, res, body) {
-            console.log("Got response: " + res.statusCode);
-            console.log(body);
-        });
-
-
 server.listen(app.get("port"), app.get("ipaddr"), function () {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
 });

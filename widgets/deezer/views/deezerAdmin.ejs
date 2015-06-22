@@ -2,7 +2,7 @@
 <!--TODO : Put in header !-->
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/widgetAdmin.js"></script>
-<script src="/widgets/youtubeaudio/controllers/admin.js"></script>
+<script src="/widgets/deezer/controllers/admin.js"></script>
 
 <!DOCTYPE html>
 
@@ -14,13 +14,13 @@
 </head>
 
 <body>
-<h1>Manage Youtube audio</h1>
+<h1>Manage Deezer</h1>
 
-<form action="/widgets/youtubeaudio/admin/addContent" method="POST" enctype="multipart/form-data">
+<form action="/widgets/deezer/admin/addContent" method="POST" enctype="multipart/form-data">
     <label for="InputFile">Name</label><br />
     <input type="text" id="name" name="name"><br />
-    <label for="InputFile">Youtube link (Only ID)</label><br />
-    <i>https://www.youtube.com/watch?v= </i><input type="text" id="link" name="link"><br /><br />
+    <label for="InputFile">Deezer track link (Only ID)</label><br />
+    <i>*** </i><input type="text" id="link" name="link"><br /><br />
 
     <button type="submit" class="btn btn-default btn-lg">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Confirm

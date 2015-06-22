@@ -7,8 +7,8 @@ var widgetVisitor = require('../../../controllers/widgetVisitor.js');
 
 exports.run = function (req, res, connection) {
     // TODO idWidget
-    widgetVisitor.run(connection, {idWidget: 4}, function(info){
-        res.render("youtubeaudioVisitor", {context: {sessionId: req.visitorSession.idSession, idWidget: 4,
+    widgetVisitor.run(connection, {idWidget: 6}, function(info){
+        res.render("deezerVisitor", {context: {sessionId: req.visitorSession.idSession, idWidget: 6,
                                                         activeWidgetsList: info.context.activeWidgetsList},
                                             data: info.data});
     });
