@@ -8,7 +8,7 @@ var widgetDiff = require('../../../controllers/widgetDiff.js');
 exports.run = function(req, res, connection){
     // TODO : idWidget
     widgetDiff.run(connection, {context: {idWidget: 6}}, function(data){
-        res.render("youtubeaudioDiff", {context: {idWidget: 6}, data: data});
+        res.render("deezerDiff", {context: {idWidget: 6}, data: data});
     });
 };
 
