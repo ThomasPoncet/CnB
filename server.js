@@ -9,7 +9,6 @@ var http = require('http').Server(app);
 var bodyParser = require("body-parser");
 var io = require('socket.io')(http);
 var mysql = require("mysql");
-var spotifyWebApi = require('spotify-web-api-node');
 var sessions = require('client-sessions');
 var uuid = require('uuid');
 var basicAuth = require('basic-auth');
@@ -63,9 +62,9 @@ var adminVideos = require('./widgets/videos/controllers/admin');
 var diffVideos = require('./widgets/videos/controllers/diff');
 var visitorVideos = require('./widgets/videos/controllers/visitor');
 
-var adminSpotify = require('./widgets/spotify/controllers/admin');
-var diffSpotify = require('./widgets/spotify/controllers/diff');
-var visitorSpotify = require('./widgets/spotify/controllers/visitor');
+var adminDeezer = require('./widgets/deezer/controllers/admin');
+var diffDeezer = require('./widgets/deezer/controllers/diff');
+var visitorDeezer = require('./widgets/deezer/controllers/visitor');
 
 var hash = require('./public/js/md5');
 
@@ -95,7 +94,7 @@ var arrayViews = [  __dirname + "/views",
                     __dirname + "/widgets/youtubevideo/views",
                     __dirname + "/widgets/pictures/views",
                     __dirname + "/widgets/youtubeaudio/views",
-                    __dirname + "/widgets/spotify/views",
+                    __dirname + "/widgets/deezer/views",
                     __dirname + "/zonesWidgets/views"
                     ];
 
@@ -254,24 +253,24 @@ app.get('/widgets/youtubeaudio/diff/stream/:timestamp', function (req, res) {
     diffYoutubeaudio.nextContent(req, res, connection, io);
 });
 
-app.get('/widgets/spotify/visitor', function(req, res) {
-    visitorSpotify.run(req, res, connection);
+app.get('/widgets/deezer/visitor', function(req, res) {
+    visitorDeezer.run(req, res, connection);
 });
 
-app.get('/widgets/spotify/admin', auth, function (req, res) {
-    adminSpotify.run(req, res, connection);
+app.get('/widgets/deezer/admin', auth, function (req, res) {
+    adminDeezer.run(req, res, connection);
 });
 
-app.post('/widgets/spotify/admin/addContent', auth, function (req, res) {
-    adminSpotify.addContent(req, res, connection, io);
+app.post('/widgets/deezer/admin/addContent', auth, function (req, res) {
+    adminDeezer.addContent(req, res, connection, io);
 });
 
-app.get('/widgets/spotify/diff', function(req, res) {
-    diffSpotify.run(req, res, connection);
+app.get('/widgets/deezer/diff', function(req, res) {
+    diffDeezer.run(req, res, connection);
 });
 
-app.get('/widgets/spotify/diff/stream/:timestamp', function (req, res) {
-    diffSpotify.nextContent(req, res, connection, io);
+app.get('/widgets/deezer/diff/stream/:timestamp', function (req, res) {
+    diffDeezer.nextContent(req, res, connection, io);
 });
 
 
@@ -302,7 +301,7 @@ io.on('connection', function(socket) {
         } else if (info.context.idWidget == 4){
             visitorYoutubeaudio.voteContent(connection, info, io);
         } else if (info.context.idWidget == 6){
-            visitorSpotify.voteContent(connection, info, io);
+            visitorDeezer.voteContent(connection, info, io);
         }
         diff.refreshNotificationVoteContent(info, connection, io);
     });
@@ -356,7 +355,7 @@ io.on('connection', function(socket) {
         } else if (info.context.idWidget == 4){
         adminYoutubeaudio.updateContentStatus(connection, info, io);
         } else if (info.context.idWidget == 6){
-            adminSpotify.updateContentStatus(connection, info, io);
+            adminDeezer.updateContentStatus(connection, info, io);
         }
     });
 
@@ -372,26 +371,13 @@ io.on('connection', function(socket) {
         } else if (info.context.idWidget == 4){
             adminYoutubeaudio.deleteContent(connection, info, io);
         } else if (info.context.idWidget == 6){
-            adminSpotify.deleteContent(connection, info, io);
+            adminDeezer.deleteContent(connection, info, io);
         }
     });
 
     // TODO : on disconnect, maybe deletes some infos
 });
 
-// Test on spotify API
-spotifyApi = new spotifyWebApi();
-
-spotifyApi.searchTracks('daft random get')
-    .then(function(data) {
-        console.log('Search by "daft random get"', data.body);
-        for (var i= 0; i<data.body.tracks.items.length; i++){
-            console.log("---------------------------");
-            console.log(data.body.tracks.items[i]);
-        }
-    }, function(err) {
-        console.error(err);
-    });
 
 http.listen(app.get("port"), app.get("ipaddr"), function () {
     console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
