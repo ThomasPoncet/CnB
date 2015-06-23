@@ -1,0 +1,49 @@
+<!--add Header--><!DOCTYPE html>
+
+<html>
+
+<!--<script src="/socket.io/socket.io.js"></script>-->
+<!--<script src="/js/header.js"></script>-->
+<script src="/js/jquery.min.js"></script>
+
+<html>
+<head>
+    <title>Choose ‘N’ Broadcast</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<h1>Choose 'n' Broadcast -deezeraddcontent</h1>
+
+<script src="/js/widgetVisitor.js"></script>
+<script src="/widgets/deezer/controllers/visitorContent.js"></script>
+
+<h2>Proposez une musique deezer</h2>
+
+<div id="search">
+    <input id="search-key-word">Rechercher</input>
+    <button id="search-submit" onclick="search()">Rechercher</button>
+</div>
+
+<div id="search-results">
+    <table id="search-results-table" class="table table-striped">
+        <tr>
+            <th>Titre</th>
+            <th>Artiste</th>
+            <th>Album</th>
+            <th>Année</th>
+            <th>Proposer</th>
+        </tr>
+    </table>
+</div>
+
+<ul id="content-list" class="list-group">
+
+    <!-- Filled by function "refreshList" -->
+
+</ul>
+
+</body>
+</html>

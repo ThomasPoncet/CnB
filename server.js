@@ -281,8 +281,8 @@ app.get('/diff/:widgetName', function(req, res) {
 });
 
 // Proxy to access the internet throw the server
-app.get('/proxy', function(req, res) {
-    request(req.url, function(err, extRes, body){
+app.post('/proxy', function(req, res) {
+    request(req.body.url, function(err, extRes, body){
         res.send(body);
     });
 });
@@ -292,6 +292,11 @@ app.get('/proxy', function(req, res) {
 //        console.log("Got response: " + res.statusCode);
 //        console.log(body);
 //    });
+
+app.get('/deezer/visitorContent', function(req, res) {
+    res.render('deezerVisitorContent');
+});
+
 
 app.use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');
