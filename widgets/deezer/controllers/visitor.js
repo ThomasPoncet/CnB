@@ -4,6 +4,7 @@
 
 
 var widgetVisitor = require('../../../controllers/widgetVisitor.js');
+var widgetAdmin = require('../../../controllers/widgetAdmin.js');
 
 exports.run = function (req, res, connection) {
     // TODO idWidget
@@ -16,4 +17,24 @@ exports.run = function (req, res, connection) {
 
 exports.voteContent = function(connection, info, io){
     widgetVisitor.voteContent(connection, info, io, function(){});
+};
+
+exports.addContent = function(req, res, connection, io){
+    var newContents = JSON.parse(req.body.newContents);
+    console.log("bla"+newContents);
+    var formatedNewContents = [];
+    for (var i = 0; i < newContents.length; i++){
+        formatedNewContents.push({
+            name: '{title:'+newContents[i].title+', artist:'+newContents[i].artist+
+                ', album:'+newContents[i].album+', year:'+newContents[i].year+'}',
+            link: newContents[i].link,
+            idWidget: 6,    // TODO : idWidget
+            active: true
+        });
+    }
+    console.log(formatedNewContents);
+    widgetAdmin.addContent(connection, {context: {idWidget: 6},
+        data: {newContentList: formatedNewContents}}, 0, io, function(){
+        //res.redirect('/widgets/deezer/admin');
+    });
 };

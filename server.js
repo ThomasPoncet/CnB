@@ -267,6 +267,11 @@ app.post('/widgets/deezer/admin/addContent', auth, function (req, res) {
     adminDeezer.addContent(req, res, connection, io);
 });
 
+app.post('/widgets/deezer/visitor/addContent', function (req, res) {
+    console.log("blabla"+req.body);
+    visitorDeezer.addContent(req, res, connection, io);
+});
+
 app.get('/widgets/deezer/diff', function(req, res) {
     diffDeezer.run(req, res, connection);
 });

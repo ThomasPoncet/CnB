@@ -30,8 +30,8 @@ function search(){
                 title: data[i].title,
                 artist: data[i].artist.name,
                 album: data[i].album.title,
-                year: data[i].album.release_date,
-                link: data[i].id
+                year: ''+data[i].album.release_date,
+                link: ''+data[i].id
             });
         }
         updateSearchResultsTab();
@@ -57,8 +57,27 @@ function updateSearchResultsTab(){
             '	<td>'+currentSearchResults[i].title+'</td>'+
             '	<td>'+currentSearchResults[i].artist+'</td>'+
             '	<td>'+currentSearchResults[i].album+'</td>'+
-            '	<td>'+currentSearchResults[i].year+'</td>'+
+            '	<td>'+currentSearchResults[i].year+'</td>' +
+            '   <td><input type="checkbox" id="result-checkbox-'+i+'"></input>'+
             '</tr>'
         );
     }
+}
+
+function addContent(){
+    var newContents = [];
+    for (var i = 0; i < currentSearchResults.length; i++){
+        if ($('#result-checkbox-'+i).is(":checked")){
+            newContents.push(currentSearchResults[i]);
+        }
+    }
+    console.log(newContents);
+    $.ajax({
+        url: '/widgets/deezer/visitor/addContent',
+        method: 'POST',
+        data: {
+            newContents: JSON.stringify(newContents)
+        },
+        dataType: 'text'
+    });
 }
