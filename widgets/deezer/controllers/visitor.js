@@ -21,18 +21,16 @@ exports.voteContent = function(connection, info, io){
 
 exports.addContent = function(req, res, connection, io){
     var newContents = JSON.parse(req.body.newContents);
-    console.log("bla"+newContents);
     var formatedNewContents = [];
     for (var i = 0; i < newContents.length; i++){
         formatedNewContents.push({
             name: '{title:'+newContents[i].title+', artist:'+newContents[i].artist+
-                ', album:'+newContents[i].album+', year:'+newContents[i].year+'}',
+                ', album:'+newContents[i].album+'}',
             link: newContents[i].link,
             idWidget: 6,    // TODO : idWidget
             active: true
         });
     }
-    console.log(formatedNewContents);
     widgetAdmin.addContent(connection, {context: {idWidget: 6},
         data: {newContentList: formatedNewContents}}, 0, io, function(){
         //res.redirect('/widgets/deezer/admin');

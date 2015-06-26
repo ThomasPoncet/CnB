@@ -30,7 +30,6 @@ function search(){
                 title: data[i].title,
                 artist: data[i].artist.name,
                 album: data[i].album.title,
-                year: ''+data[i].album.release_date,
                 link: ''+data[i].id
             });
         }
@@ -46,7 +45,6 @@ function updateSearchResultsTab(){
         '   <th>Titre</th>'+
         '   <th>Artiste</th>'+
         '   <th>Album</th>'+
-        '   <th>Année</th>'+
         '   <th>Proposer</th>'+
         '</tr>'
     );
@@ -57,7 +55,6 @@ function updateSearchResultsTab(){
             '	<td>'+currentSearchResults[i].title+'</td>'+
             '	<td>'+currentSearchResults[i].artist+'</td>'+
             '	<td>'+currentSearchResults[i].album+'</td>'+
-            '	<td>'+currentSearchResults[i].year+'</td>' +
             '   <td><input type="checkbox" id="result-checkbox-'+i+'"></input>'+
             '</tr>'
         );
