@@ -302,6 +302,10 @@ app.get('/deezer/visitorContent', function(req, res) {
     res.render('deezerVisitorContent');
 });
 
+app.get('/headerHP4', function(req, res) {
+    res.render('headerHp4');
+});
+
 
 app.use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');

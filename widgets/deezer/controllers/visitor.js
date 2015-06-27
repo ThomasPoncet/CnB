@@ -24,8 +24,9 @@ exports.addContent = function(req, res, connection, io){
     var formatedNewContents = [];
     for (var i = 0; i < newContents.length; i++){
         formatedNewContents.push({
-            name: '{title:'+newContents[i].title+', artist:'+newContents[i].artist+
-                ', album:'+newContents[i].album+'}',
+            //name: '{title:"'+newContents[i].title+'", artist:"'+newContents[i].artist+
+            //    '", album:"'+newContents[i].album+'"}',
+            name: JSON.stringify(newContents),
             link: newContents[i].link,
             idWidget: 6,    // TODO : idWidget
             active: true
